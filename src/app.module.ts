@@ -4,9 +4,16 @@ import { AppService } from './app.service';
 import { InsumosModule } from './modules/insumos/insumos.module';
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { FornecedoresModule } from './modules/fornecedores/fornecedores.module';
+import { ClientesModule } from './modules/clientes/clientes.module';
+import { OrcamentosModule } from './modules/orcamentos/orcamentos.module';
+import { PedidosModule } from './modules/pedidos/pedidos.module';
+import { ProdutosModule } from './modules/produtos/produtos.module';
+import { CotacaosModule } from './modules/cotacaos/cotacaos.module';
+import { ListaInsumosModule } from './modules/lista-insumos/lista-insumos.module';
+import { UsuariosModule } from './modules/usuarios/usuarios.module';
 
 @Module({
-  imports: [InsumosModule, CategoriasModule, FornecedoresModule],
+  imports: [InsumosModule, CategoriasModule, FornecedoresModule, ClientesModule, OrcamentosModule, PedidosModule, ProdutosModule, CotacaosModule, ListaInsumosModule, UsuariosModule],
   controllers: [AppController],
   providers: [AppService],
 })
