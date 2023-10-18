@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE `fornecedores` MODIFY `rua` VARCHAR(191) NULL,
+    MODIFY `numero` VARCHAR(191) NULL,
+    MODIFY `cep` VARCHAR(191) NULL,
+    MODIFY `bairro` VARCHAR(191) NULL,
+    MODIFY `cidade` VARCHAR(191) NULL,
+    MODIFY `estado` VARCHAR(191) NULL,
+    MODIFY `pais` VARCHAR(191) NULL,
+    MODIFY `Nome` VARCHAR(191) NULL;
