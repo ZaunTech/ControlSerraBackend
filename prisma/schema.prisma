@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// prisma repo generator
+generator repo {
+  provider = "prisma-repo"
+  output   = "../src/repository"
+  query    = true
+  warn     = true
+  info     = true
+  error    = true
+}
+
 model Categoria {
   id        Int      @id @default(autoincrement())
   tipo      String
@@ -30,4 +40,33 @@ model Insumo {
   updatedAt     DateTime   @updatedAt
 
   @@map("Insumos")
+}
+
+model Fornecedor{
+  id      Int @id @default(autoincrement())
+  email   String @unique
+  telefone String
+  contaTipo contaTipo
+  rua       String
+  numero    String
+  complemento String?
+  tipo        String
+  cep         String
+  bairro      String
+  cidade      String
+  estado      String
+  pais        String
+  Nome        String
+  cpf         String? @unique
+  rg          String? @unique
+  nomeFantasia String?
+  razaoSocial String? @unique
+  cnpj        String? @unique
+  
+  @@map("Fornecedores")
+}
+
+enum contaTipo {
+  Fisico
+  Juridico
 }
