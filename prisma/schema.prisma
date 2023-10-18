@@ -29,13 +29,14 @@ model Categoria {
   @@map("Categorias")
 }
 
-model Insumo {
+model Insumo{
   id            Int        @id @default(autoincrement())
   titulo        String
   descricao     String?
   unidadeMedida String?
   idCategoria   Int?
   categoria     Categoria? @relation(fields: [idCategoria], references: [id])
+  listaInsumo   ListaInsumo[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -101,8 +102,9 @@ model Orcamento{
   valorPago Float?
   status   status @default(Pendente)
   prazoEstimadoProducao Int?
+  observacoes String? @db.MediumText
   idCliente Int
-  cliente Cliente @relation(fields: [idCliente], references: [id])
+  cliente Cliente? @relation(fields: [idCliente], references: [id])
   pedidos Pedido[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
@@ -115,7 +117,9 @@ model Pedido{
   pagamento Float
   status status?
   idOrcamento Int
-  orcamento Orcamento @relation(fields: [idOrcamento], references: [id])
+  orcamento Orcamento? @relation(fields: [idOrcamento], references: [id])
+
+  @@map("Pedidos")
 }
 
 enum contaTipo {
