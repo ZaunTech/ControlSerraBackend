@@ -47,16 +47,15 @@ model Fornecedor{
   email   String @unique
   telefone String
   contaTipo contaTipo
-  rua       String
-  numero    String
+  rua       String?
+  numero    String?
   complemento String?
-  tipo        String
-  cep         String
-  bairro      String
-  cidade      String
-  estado      String
-  pais        String
-  Nome        String
+  cep         String?
+  bairro      String?
+  cidade      String?
+  estado      String?
+  pais        String?
+  Nome        String?
   cpf         String? @unique
   rg          String? @unique
   nomeFantasia String?
