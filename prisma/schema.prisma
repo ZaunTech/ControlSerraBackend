@@ -6,3 +6,28 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Categoria {
+  id        Int      @id @default(autoincrement())
+  tipo      String
+  titulo    String   @unique
+  descricao String?
+  insumos   Insumo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Categorias")
+}
+
+model Insumo {
+  id            Int        @id @default(autoincrement())
+  titulo        String
+  descricao     String?
+  unidadeMedida String?
+  idCategoria   Int?
+  categoria     Categoria? @relation(fields: [idCategoria], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("Insumos")
+}
