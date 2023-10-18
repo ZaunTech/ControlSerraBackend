@@ -106,6 +106,7 @@ model Orcamento{
   idCliente Int
   cliente Cliente? @relation(fields: [idCliente], references: [id])
   pedidos Pedido[]
+  usuarios Usuario[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -161,6 +162,22 @@ model ListaInsumo{
   @@map("ListaInsumos")
 }
 
+model Usuario{
+  id Int @id @default(autoincrement())
+  tipoUsuario tipoUsuario
+  Nome String
+  cpf     String @unique
+  email   String @unique
+  telefone String
+  senha String
+  idOrcamento Int?
+  orcamento Orcamento? @relation(fields: [idOrcamento], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("Usuarios")
+}
+
 enum contaTipo {
   Fisico
   Juridico
@@ -175,4 +192,10 @@ enum status {
   Iniciado
   Em_Processo @map("Em Processo")
   Concluido
+}
+
+enum tipoUsuario{
+  Serralheiro
+  Administrador
+  Vendedor
 }
