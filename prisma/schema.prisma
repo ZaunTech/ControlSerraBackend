@@ -122,6 +122,43 @@ model Pedido{
   @@map("Pedidos")
 }
 
+model Produto{
+  id Int @id @default(autoincrement())
+  titulo String
+  quantidade Int?
+  valorUnitario Float?
+  tipo produtoTipo
+  listaInsumos ListaInsumo[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("Produtos")
+}
+
+model Cotacao{
+  id Int @id @default(autoincrement())
+  data DateTime
+  valor Float?
+  listaInsumos ListaInsumo[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model ListaInsumo{
+  id Int @id @default(autoincrement())
+  quantidade Int?
+  idProduto Int?
+  idInsumo Int?
+  idCotacao Int?
+  produto Produto? @relation(fields: [idProduto], references: [id])
+  insumo Insumo? @relation(fields: [idInsumo], references: [id])
+  cotacao Cotacao? @relation(fields: [idCotacao],references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("ListaInsumos")
+}
+
 enum contaTipo {
   Fisico
   Juridico
