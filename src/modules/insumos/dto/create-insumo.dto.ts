@@ -1,4 +1,4 @@
-import { Categoria } from "src/categorias/entities/categoria.entity";
+import { Categoria } from "../../categorias/entities/categoria.entity";
 
 export class CreateInsumoDto {
     titulo: string;

@@ -1,4 +1,4 @@
-import { Insumo } from "src/insumos/entities/insumo.entity"
+import { Insumo } from '../../insumos/entities/insumo.entity';
 
 export class Categoria {
     id:        number
