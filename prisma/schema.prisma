@@ -7,16 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// prisma repo generator
-generator repo {
-  provider = "prisma-repo"
-  output   = "../src/repository"
-  query    = true
-  warn     = true
-  info     = true
-  error    = true
-}
-
 model Categoria {
   id        Int      @id @default(autoincrement())
   tipo      String
