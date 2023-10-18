@@ -61,11 +61,75 @@ model Fornecedor{
   nomeFantasia String?
   razaoSocial String? @unique
   cnpj        String? @unique
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   
   @@map("Fornecedores")
+}
+
+model Cliente{
+  id      Int @id @default(autoincrement())
+  email   String @unique
+  telefone String
+  contaTipo contaTipo
+  rua       String?
+  numero    String?
+  complemento String?
+  cep         String?
+  bairro      String?
+  cidade      String?
+  estado      String?
+  pais        String?
+  Nome        String?
+  cpf         String? @unique
+  rg          String? @unique
+  nomeFantasia String?
+  razaoSocial String? @unique
+  cnpj        String? @unique
+  orcamentos  Orcamento[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@map("Clientes")
+}
+model Orcamento{
+  id      Int @id @default(autoincrement())
+  validade DateTime?
+  dataOrcamento DateTime  @default(now())
+  totalMaoObra Float?
+  totalMateriais Float?
+  valorPago Float?
+  status   status @default(Pendente)
+  prazoEstimadoProducao Int?
+  idCliente Int
+  cliente Cliente @relation(fields: [idCliente], references: [id])
+  pedidos Pedido[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("Orcamentos")
+}
+
+model Pedido{
+  id Int @id @default(autoincrement())
+  pagamento Float
+  status status?
+  idOrcamento Int
+  orcamento Orcamento @relation(fields: [idOrcamento], references: [id])
 }
 
 enum contaTipo {
   Fisico
   Juridico
+}
+enum produtoTipo {
+  Base
+  Customizado
+}
+
+enum status {
+  Pendente
+  Iniciado
+  Em_Processo @map("Em Processo")
+  Concluido
 }
