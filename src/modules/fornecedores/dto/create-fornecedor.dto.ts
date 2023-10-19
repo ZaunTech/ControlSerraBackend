@@ -1,11 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateFornecedoresDto } from '../dto/create-fornecedores.dto';
-import { contaTipo } from '@prisma/client';
+import { contaTipo } from "@prisma/client"
 
-export class UpdateFornecedoresDto extends PartialType(CreateFornecedoresDto) {
-    email?: string
-    telefone?: string
-    contaTipo?: contaTipo
+export class CreateFornecedorDto{
+    email: string
+    telefone: string
+    contaTipo: contaTipo
     rua?:       string 
     numero?:    string
     complemento?: string
