@@ -1,6 +1,6 @@
 import { contaTipo } from "@prisma/client"
 
-export class Fornecedores {
+export class Fornecedor {
     id: number
     email: string
     telefone: string
