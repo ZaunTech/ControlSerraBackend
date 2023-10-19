@@ -1,3 +1,5 @@
+
+import { ListaInsumo } from "../../lista-insumos/entities/lista-insumo.entity";
 import { Categoria } from "../../categorias/entities/categoria.entity";
 
 export class Insumo {
@@ -7,6 +9,7 @@ export class Insumo {
   unidadeMedida?: string;
   idCategoria?: number;
   categoria?: Categoria; 
+  listaInsumos?: ListaInsumo;
   createdAt: Date;
   updatedAt: Date;
 }
