@@ -7,7 +7,7 @@ export class Produto {
     quantidade?: number;
     valorUnitario?: number;
     tipo: produtoTipo;
-    listaInsumos: ListaInsumo;
+    listaInsumos: ListaInsumo[];
     createdAt: Date;
     updatedAt: Date;
 }

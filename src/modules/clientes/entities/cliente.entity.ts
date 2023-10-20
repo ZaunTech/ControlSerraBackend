@@ -1,11 +1,18 @@
 import { contaTipo } from "@prisma/client"
+import { Orcamento } from "../../orcamentos/entities/orcamento.entity";
 
 export class Cliente {
     id: number;
     email: string;
     telefone: string;
     contaTipo: contaTipo;
-    rua?:       string ;
+    nome?:        string;
+    cpf?:         string;
+    rg?:          string;
+    nomeFantasia?: string;
+    razaoSocial?: string;
+    cnpj?:        string;
+    rua?:       string;
     numero?:    string;
     complemento?: string;
     cep?:         string;
@@ -13,12 +20,7 @@ export class Cliente {
     cidade?:      string;
     estado?:      string;
     pais?:        string;
-    Nome?:        string;
-    cpf?:         string;
-    rg?:          string;
-    nomeFantasia?: string;
-    razaoSocial?: string;
-    cnpj?:        string;
+    orcamentos?: Orcamento[];
     createdAt: Date;
     updatedAt: Date;
 }
