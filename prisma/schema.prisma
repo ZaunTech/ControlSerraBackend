@@ -97,8 +97,10 @@ model Orcamento{
   prazoEstimadoProducao Int?
   observacoes String? @db.MediumText
   idCliente Int
+  idPedido Int
   cliente Cliente? @relation(fields: [idCliente], references: [id])
-  pedidos Pedido[]
+  pedidos Pedido?
+  produtos Produto[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -108,8 +110,8 @@ model Orcamento{
 model Pedido{
   id Int @id @default(autoincrement())
   pagamento Float
-  status status?
-  idOrcamento Int
+  status status? @default(Pendente)
+  idOrcamento Int @unique
   orcamento Orcamento? @relation(fields: [idOrcamento], references: [id])
 
   @@map("Pedidos")
@@ -121,6 +123,8 @@ model Produto{
   quantidade Int?
   valorUnitario Float?
   tipo produtoTipo
+  orcamentoId   Int?
+  Orcamento     Orcamento?    @relation(fields: [orcamentoId], references: [id])
   listaInsumos ListaInsumo[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
