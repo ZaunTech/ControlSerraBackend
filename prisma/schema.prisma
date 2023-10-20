@@ -19,151 +19,158 @@ model Categoria {
   @@map("Categorias")
 }
 
-model Insumo{
-  id            Int        @id @default(autoincrement())
+model Insumo {
+  id            Int           @id @default(autoincrement())
   titulo        String
   descricao     String?
   unidadeMedida String?
   idCategoria   Int?
-  categoria     Categoria? @relation(fields: [idCategoria], references: [id])
+  categoria     Categoria?    @relation(fields: [idCategoria], references: [id])
+  cotacoes      Cotacao[]
   listaInsumo   ListaInsumo[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@map("Insumos")
 }
 
-model Fornecedor{
-  id      Int @id @default(autoincrement())
-  email   String @unique
-  telefone String
-  contaTipo contaTipo
-  rua       String?
-  numero    String?
-  complemento String?
-  cep         String?
-  bairro      String?
-  cidade      String?
-  estado      String?
-  pais        String?
-  Nome        String?
-  cpf         String? @unique
-  rg          String? @unique
+model Fornecedor {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  telefone     String
+  contaTipo    contaTipo
+  cotacoes     Cotacao[]
+  rua          String?
+  numero       String?
+  complemento  String?
+  cep          String?
+  bairro       String?
+  cidade       String?
+  estado       String?
+  pais         String?
+  Nome         String?
+  cpf          String?   @unique
+  rg           String?   @unique
   nomeFantasia String?
-  razaoSocial String? @unique
-  cnpj        String? @unique
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  
+  razaoSocial  String?   @unique
+  cnpj         String?   @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
   @@map("Fornecedores")
 }
 
-model Cliente{
-  id      Int @id @default(autoincrement())
-  email   String @unique
-  telefone String
-  contaTipo contaTipo
-  rua       String?
-  numero    String?
-  complemento String?
-  cep         String?
-  bairro      String?
-  cidade      String?
-  estado      String?
-  pais        String?
-  Nome        String?
-  cpf         String? @unique
-  rg          String? @unique
+model Cliente {
+  id           Int         @id @default(autoincrement())
+  email        String      @unique
+  telefone     String
+  contaTipo    contaTipo
+  rua          String?
+  numero       String?
+  complemento  String?
+  cep          String?
+  bairro       String?
+  cidade       String?
+  estado       String?
+  pais         String?
+  Nome         String?
+  cpf          String?     @unique
+  rg           String?     @unique
   nomeFantasia String?
-  razaoSocial String? @unique
-  cnpj        String? @unique
-  orcamentos  Orcamento[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  
+  razaoSocial  String?     @unique
+  cnpj         String?     @unique
+  orcamentos   Orcamento[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
   @@map("Clientes")
 }
-model Orcamento{
-  id      Int @id @default(autoincrement())
-  validade DateTime?
-  dataOrcamento DateTime  @default(now())
-  totalMaoObra Float?
-  totalMateriais Float?
-  valorPago Float?
-  status   status @default(Pendente)
+
+model Orcamento {
+  id                    Int       @id @default(autoincrement())
+  validade              DateTime?
+  dataOrcamento         DateTime  @default(now())
+  totalMaoObra          Float?
+  totalMateriais        Float?
+  valorPago             Float?
+  status                status    @default(Pendente)
   prazoEstimadoProducao Int?
-  observacoes String? @db.MediumText
-  idCliente Int
-  cliente Cliente? @relation(fields: [idCliente], references: [id])
-  pedidos Pedido[]
-  usuarios Usuario[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  observacoes           String?   @db.MediumText
+  idCliente             Int
+  cliente               Cliente?  @relation(fields: [idCliente], references: [id])
+  pedidos               Pedido[]
+  usuarios              Usuario[]
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   @@map("Orcamentos")
 }
 
-model Pedido{
-  id Int @id @default(autoincrement())
-  pagamento Float
-  status status?
+model Pedido {
+  id          Int        @id @default(autoincrement())
+  pagamento   Float
+  status      status?
   idOrcamento Int
-  orcamento Orcamento? @relation(fields: [idOrcamento], references: [id])
+  orcamento   Orcamento? @relation(fields: [idOrcamento], references: [id])
 
   @@map("Pedidos")
 }
 
-model Produto{
-  id Int @id @default(autoincrement())
-  titulo String
-  quantidade Int?
+model Produto {
+  id            Int           @id @default(autoincrement())
+  titulo        String
+  quantidade    Int?
   valorUnitario Float?
-  tipo produtoTipo
-  listaInsumos ListaInsumo[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  tipo          produtoTipo
+  listaInsumos  ListaInsumo[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@map("Produtos")
 }
 
-model Cotacao{
-  id Int @id @default(autoincrement())
-  data DateTime
-  valor Float?
-  listaInsumos ListaInsumo[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+model Cotacao {
+  id           Int           @id @default(autoincrement())
+  data         DateTime
+  valor        Float?
+  idFornecedor Int           @unique
+  idInsumo     Int           @unique
+  fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
+  insumo       Insumo        @relation(fields: [idInsumo], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  ListaInsumo  ListaInsumo[]
 
-  @@map("Cotacaos")
+  @@map("Cotacoes")
 }
 
-model ListaInsumo{
-  id Int @id @default(autoincrement())
+model ListaInsumo {
+  id         Int      @id @default(autoincrement())
   quantidade Int?
-  idProduto Int?
-  idInsumo Int?
-  idCotacao Int?
-  produto Produto? @relation(fields: [idProduto], references: [id])
-  insumo Insumo? @relation(fields: [idInsumo], references: [id])
-  cotacao Cotacao? @relation(fields: [idCotacao],references: [id])
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  idProduto  Int?
+  idInsumo   Int?
+  idCotacao  Int?
+  produto    Produto? @relation(fields: [idProduto], references: [id])
+  insumo     Insumo?  @relation(fields: [idInsumo], references: [id])
+  cotacao    Cotacao? @relation(fields: [idCotacao], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("ListaInsumos")
 }
 
-model Usuario{
-  id Int @id @default(autoincrement())
+model Usuario {
+  id          Int         @id @default(autoincrement())
   tipoUsuario tipoUsuario
-  Nome String
-  cpf     String @unique
-  email   String @unique
-  telefone String
-  senha String
+  Nome        String
+  cpf         String      @unique
+  email       String      @unique
+  telefone    String
+  senha       String
   idOrcamento Int?
-  orcamento Orcamento? @relation(fields: [idOrcamento], references: [id])
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  orcamento   Orcamento?  @relation(fields: [idOrcamento], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@map("Usuarios")
 }
@@ -172,6 +179,7 @@ enum contaTipo {
   Fisico
   Juridico
 }
+
 enum produtoTipo {
   Base
   Customizado
@@ -184,7 +192,7 @@ enum status {
   Concluido
 }
 
-enum tipoUsuario{
+enum tipoUsuario {
   Serralheiro
   Administrador
   Vendedor

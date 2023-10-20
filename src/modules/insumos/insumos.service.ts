@@ -34,12 +34,7 @@ export class InsumosService {
   async update(id: number, updateInsumoDto: UpdateInsumoDto) {
     return await this.prismaService.insumo.update({
       where: { id },
-      data: {
-        titulo: updateInsumoDto.titulo,
-        descricao: updateInsumoDto.descricao,
-        idCategoria: updateInsumoDto.idCategoria,
-        unidadeMedida: updateInsumoDto.unidadeMedida,
-      },
+      data: updateInsumoDto
     });
   }
 

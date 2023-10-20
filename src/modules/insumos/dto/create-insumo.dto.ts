@@ -1,5 +1,4 @@
 import { IsNotEmpty, Matches } from "class-validator";
-import { Categoria } from "../../categorias/entities/categoria.entity";
 
 export class CreateInsumoDto {
     @IsNotEmpty({ message: 'O insumo deve ter um titulo' })

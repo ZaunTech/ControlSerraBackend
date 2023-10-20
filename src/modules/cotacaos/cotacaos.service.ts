@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class CotacaosService {
-  create(createCotacaoDto: CreateCotacaoDto) {
-    return 'This action adds a new cotacao';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createCotacaoDto: CreateCotacaoDto) {
+    return await this.prismaService.cotacao.create({
+      data: createCotacaoDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all cotacaos`;
+  async findAll() {
+    return await this.prismaService.cotacao.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cotacao`;
+  async findOne(id: number) {
+    return await this.prismaService.cotacao.findFirst({
+      where: {
+        id,
+      }
+    });
   }
 
-  update(id: number, updateCotacaoDto: UpdateCotacaoDto) {
-    return `This action updates a #${id} cotacao`;
+  async update(id: number, updateCotacaoDto: UpdateCotacaoDto) {
+    return this.prismaService.cotacao.update({
+      where: { id },
+      data: updateCotacaoDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cotacao`;
+  async remove(id: number) {
+    return await this.prismaService.cotacao.delete({ where: { id } });
   }
 }
+
+/* CRIAR O ITEM COM A LISTA
+async create(createCotacaoDto: CreateCotacaoDto) {
+    return await this.prismaService.cotacao.create({
+      data: {
+        data: createCotacaoDto.data,
+        valor: createCotacaoDto.valor,
+        listaInsumos: {
+          create: createCotacaoDto.listaInsumo,
+        },
+      },
+    });
+
+    MOSTRAR TODOS OS SUBITEMS DE UM ITEM COM VETOR
+  async findOne(id: number) {
+  return await this.prismaService.cotacao.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      listaInsumos: true,
+    },
+  });
+}
+  }*/
