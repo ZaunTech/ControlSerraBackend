@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
@@ -6,6 +6,8 @@ import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 @Controller('lista-insumos')
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
+
+  @UsePipes(ValidationPipe)
 
   @Post()
   create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
