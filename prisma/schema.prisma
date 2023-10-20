@@ -96,8 +96,8 @@ model Orcamento{
   status   status @default(Pendente)
   prazoEstimadoProducao Int?
   observacoes String? @db.MediumText
-  idCliente Int
-  idPedido Int
+  idCliente Int?
+  idPedido Int?
   cliente Cliente? @relation(fields: [idCliente], references: [id])
   pedidos Pedido?
   produtos Produto[]
