@@ -4,6 +4,5 @@ export class CreateInsumoDto {
     titulo: string;
     descricao?: string;
     unidadeMedida?: string;
-    idCategoria?: number;
-    categoria?: Categoria; 
+    idCategoria: number
 }

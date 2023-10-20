@@ -7,5 +7,4 @@ export class UpdateInsumoDto extends PartialType(CreateInsumoDto) {
     descricao?: string;
     unidadeMedida?: string;
     idCategoria?: number;
-    categoria?: Categoria; 
 }
