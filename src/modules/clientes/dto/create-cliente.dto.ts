@@ -1,5 +1,4 @@
 import { contaTipo } from "@prisma/client";
-import { Orcamento } from "../../orcamentos/entities/orcamento.entity";
 
 export class CreateClienteDto {
     email: string;
@@ -19,5 +18,4 @@ export class CreateClienteDto {
     rua?:       string;
     numero?:    string;
     complemento?: string;
-    orcamentos?: Orcamento[];
 }
