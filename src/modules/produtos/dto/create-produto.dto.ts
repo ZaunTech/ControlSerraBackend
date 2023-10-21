@@ -1,10 +1,11 @@
 import { produtoTipo } from "@prisma/client";
-import { ListaInsumo } from "../../lista-insumos/entities/lista-insumo.entity";
+import { CreateListaInsumoDto } from "src/modules/lista-insumos/dto/create-lista-insumo.dto";
 
 export class CreateProdutoDto {
-    titulo: string;
-    quantidade?: number;
+    titulo:        string;
+    quantidade?:    number;
     valorUnitario?: number;
-    tipo: produtoTipo;
-    listaInsumos: ListaInsumo;
+    tipo:          produtoTipo
+    listaInsumos?:  CreateListaInsumoDto[]
+    orcamentoId:   number
 }

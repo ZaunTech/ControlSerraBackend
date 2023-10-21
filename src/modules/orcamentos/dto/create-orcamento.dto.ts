@@ -1,6 +1,5 @@
-import { Cliente } from 'src/modules/clientes/entities/cliente.entity';
-import { Produto } from 'src/modules/produtos/entities/produto.entity';
 import { status as Status } from '@prisma/client';
+import { CreateProdutoDto } from 'src/modules/produtos/dto/create-produto.dto';
 
 export class CreateOrcamentoDto {
   validade?: Date;
@@ -12,5 +11,5 @@ export class CreateOrcamentoDto {
   observacoes?: string;
   idCliente: number;
   idPedido?: number;
-  produtos?: Produto[];
+  produtos?: CreateProdutoDto[];
 }

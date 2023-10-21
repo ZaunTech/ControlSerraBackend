@@ -5,7 +5,6 @@ export class Categoria {
     tipo:      string
     titulo:    string
     descricao: string
-    insumos:   Insumo[]
     createdAt: Date
     updatedAt: Date
 }

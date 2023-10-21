@@ -4,9 +4,9 @@ import { Produto } from 'src/modules/produtos/entities/produto.entity';
 
 export class ListaInsumo {
   id: number;
-  quantidade?: number;
+  quantidade: number;
   idProduto?: number;
-  idInsumo?: number;
+  idInsumo: number;
   idCotacao?: number;
   produto?: Produto;
   insumo?: Insumo;

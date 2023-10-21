@@ -29,7 +29,6 @@ model Insumo {
   cotacoes      Cotacao[]
   listaInsumo   ListaInsumo[]
   insumoProdutoBase InsumoProdutoBase[]
-  cotacaos       Cotacao[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 

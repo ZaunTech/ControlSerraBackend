@@ -27,9 +27,6 @@ export class CategoriasService {
           titulo: createCategoriaDto.titulo,
           descricao: createCategoriaDto.descricao,
           tipo: createCategoriaDto.tipo,
-          insumos: {
-            create: createCategoriaDto.insumos,
-          },
         },
       });
     }
@@ -50,10 +47,7 @@ export class CategoriasService {
       data: {
         tipo: updateCategoriaDto.tipo,
         titulo: updateCategoriaDto.titulo,
-        descricao: updateCategoriaDto.descricao,
-        insumos: {
-          create: updateCategoriaDto.insumos,
-        },
+        descricao: updateCategoriaDto.descricao
       },
     });
   }
