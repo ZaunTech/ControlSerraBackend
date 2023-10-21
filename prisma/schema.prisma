@@ -97,7 +97,7 @@ model Orcamento {
   prazoEstimadoProducao Int?
   observacoes           String?   @db.MediumText
   idCliente             Int
-  idPedido              Int
+  idPedido              Int?
   pedido                Pedido?
   cliente               Cliente  @relation(fields: [idCliente], references: [id])
   createdAt             DateTime  @default(now())

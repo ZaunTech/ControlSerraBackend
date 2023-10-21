@@ -17,5 +17,5 @@ export class Orcamento {
   cliente: Cliente;
   createdAt: Date;
   updatedAt: Date;
-  produtos?: Produto[];
+  produtos: Produto[];
 }

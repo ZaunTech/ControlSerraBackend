@@ -6,10 +6,8 @@ import { PrismaService } from 'src/databases/prisma.service';
 @Injectable()
 export class OrcamentosService {
   constructor(private readonly prismaService: PrismaService) {}
-  async create() {
-    return `This action returns all orcamentos`;
-  }
-  /*async create(createOrcamentoDto: CreateOrcamentoDto) {
+
+  async create(createOrcamentoDto: CreateOrcamentoDto) {
     return await this.prismaService.orcamento.create({
       data: {
         validade?: createOrcamentoDto.validade,
@@ -21,10 +19,12 @@ export class OrcamentosService {
         observacoes?: createOrcamentoDto.observacoes,
         idCliente: createOrcamentoDto.idCliente,
         idPedido?: createOrcamentoDto.idPedido,
-        produtos?: createOrcamentoDto.produtos
+        produtos?: {
+          create: 
+        }
       }
     })
-  }*/
+  }
 
   async findAll() {
     return `This action returns all orcamentos`;
