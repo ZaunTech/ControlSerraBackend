@@ -19,13 +19,14 @@ model Categoria {
   @@map("Categorias")
 }
 
-model Insumo{
-  id            Int        @id @default(autoincrement())
+model Insumo {
+  id            Int           @id @default(autoincrement())
   titulo        String
   descricao     String?
   unidadeMedida String?
   idCategoria   Int?
-  categoria     Categoria? @relation(fields: [idCategoria], references: [id])
+  categoria     Categoria?    @relation(fields: [idCategoria], references: [id])
+  cotacoes      Cotacao[]
   listaInsumo   ListaInsumo[]
   insumoProdutoBase InsumoProdutoBase[]
   cotacaos       Cotacao[]
@@ -86,24 +87,24 @@ model Cliente{
   
   @@map("Clientes")
 }
-model Orcamento{
-  id      Int @id @default(autoincrement())
-  validade DateTime?
-  dataOrcamento DateTime  @default(now())
-  totalMaoObra Float?
-  totalMateriais Float?
-  valorPago Float?
-  status   status @default(Pendente)
-  prazoEstimadoProducao Int?
-  observacoes String? @db.MediumText
-  idCliente Int?
-  idPedido Int?
-  cliente Cliente? @relation(fields: [idCliente], references: [id])
-  pedidos Pedido?
-  produtos Produto[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
 
+model Orcamento {
+  id                    Int       @id @default(autoincrement())
+  validade              DateTime?
+  dataOrcamento         DateTime  @default(now())
+  totalMaoObra          Float?
+  totalMateriais        Float?
+  valorPago             Float?
+  status                status    @default(Pendente)
+  prazoEstimadoProducao Int?
+  observacoes           String?   @db.MediumText
+  idCliente             Int
+  idPedido              Int?
+  pedido                Pedido?
+  cliente               Cliente  @relation(fields: [idCliente], references: [id])
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  produtos              Produto[]
   @@map("Orcamentos")
 }
 
@@ -117,53 +118,53 @@ model Pedido{
   @@map("Pedidos")
 }
 
-model Produto{
-  id Int @id @default(autoincrement())
-  titulo String
-  quantidade Int?
+model Produto {
+  id            Int           @id @default(autoincrement())
+  titulo        String
+  quantidade    Int?
   valorUnitario Float?
-  tipo produtoTipo
-  orcamentoId   Int?
+  tipo          produtoTipo
+  listaInsumos  ListaInsumo[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   Orcamento     Orcamento?    @relation(fields: [orcamentoId], references: [id])
-  listaInsumos ListaInsumo[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  orcamentoId   Int?
 
   @@map("Produtos")
 }
 
-model Cotacao{
-  id Int @id @default(autoincrement())
-  data DateTime
-  valor Float?
-  idInsumo Int
-  idFornecedor Int
-  insumo Insumo? @relation(fields: [idInsumo], references: [id])
-  fornecedor Fornecedor? @relation(fields: [idFornecedor], references: [id]) 
-  listaInsumos ListaInsumo[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+model Cotacao {
+  id           Int           @id @default(autoincrement())
+  data         DateTime
+  valor        Float?
+  idFornecedor Int           @unique
+  idInsumo     Int           @unique
+  fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
+  insumo       Insumo        @relation(fields: [idInsumo], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  ListaInsumo  ListaInsumo[]
 
-  @@map("Cotacaos")
+  @@map("Cotacoes")
 }
 
-model ListaInsumo{
-  id Int @id @default(autoincrement())
+model ListaInsumo {
+  id         Int      @id @default(autoincrement())
   quantidade Int?
-  idProduto Int?
-  idInsumo Int?
-  idCotacao Int?
-  produto Produto? @relation(fields: [idProduto], references: [id])
-  insumo Insumo? @relation(fields: [idInsumo], references: [id])
-  cotacao Cotacao? @relation(fields: [idCotacao],references: [id])
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  idProduto  Int?
+  idInsumo   Int?
+  idCotacao  Int?
+  produto    Produto? @relation(fields: [idProduto], references: [id])
+  insumo     Insumo?  @relation(fields: [idInsumo], references: [id])
+  cotacao    Cotacao? @relation(fields: [idCotacao], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("Lista Insumos")
 }
 
-model Usuario{
-  id Int @id @default(autoincrement())
+model Usuario {
+  id          Int         @id @default(autoincrement())
   tipoUsuario tipoUsuario
   Nome String
   cpf     String @unique
@@ -206,6 +207,7 @@ enum contaTipo {
   Fisico
   Juridico
 }
+
 enum produtoTipo {
   Base
   Customizado

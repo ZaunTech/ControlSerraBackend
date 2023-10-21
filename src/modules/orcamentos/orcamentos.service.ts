@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class OrcamentosService {
-  create(createOrcamentoDto: CreateOrcamentoDto) {
-    return 'This action adds a new orcamento';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createOrcamentoDto: CreateOrcamentoDto) {
+    return await this.prismaService.orcamento.create({
+      data: {
+        validade?: createOrcamentoDto.validade,
+        totalMaoObra?: createOrcamentoDto.totalMaoObra,
+        totalMateriais?: createOrcamentoDto.totalMateriais,
+        valorPago?: createOrcamentoDto.valorPago,
+        status: createOrcamentoDto.status,
+        prazoEstimadoProducao: createOrcamentoDto.prazoEstimadoProducao,
+        observacoes?: createOrcamentoDto.observacoes,
+        idCliente: createOrcamentoDto.idCliente,
+        idPedido?: createOrcamentoDto.idPedido,
+        produtos?: {
+          create: 
+        }
+      }
+    })
   }
 
-  findAll() {
-    return `This action returns all orcamentos`;
+  async findAll() {
+    return await this.prismaService.orcamento.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} orcamento`;
+  async findOne(id: number) {
+    return await this.prismaService.orcamento.findFirst({ where: { id } })
   }
 
-  update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
-    return `This action updates a #${id} orcamento`;
+  async update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
+    return await this.prismaService.orcamento.update({
+      where: { id },
+      data: {
+        totalMaoObra?: updateOrcamentoDto.totalMaoObra,
+        totalMateriais?: updateOrcamentoDto.totalMateriais,
+        valorPago?: updateOrcamentoDto.valorPago,
+        status?: updateOrcamentoDto.status,
+        prazoEstimadoProducao?: updateOrcamentoDto.prazoEstimadoProducao,
+        observacoes?: updateOrcamentoDto.observacoes,
+        idCliente?: updateOrcamentoDto.idCliente,
+        idPedido?: updateOrcamentoDto.idPedido,
+        produtos?: updateOrcamentoDto.produtos,
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} orcamento`;
+  async remove(id: number) {
+    return await this.prismaService.orcamento.delete({ where: { id } })
   }
 }

@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class ListaInsumosService {
-  create(createListaInsumoDto: CreateListaInsumoDto) {
-    return 'This action adds a new listaInsumo';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createListaInsumoDto: CreateListaInsumoDto) {
+    return await this.prismaService.listaInsumo.create({
+      data: createListaInsumoDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all listaInsumos`;
+  async findAll() {
+    return await this.prismaService.listaInsumo.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} listaInsumo`;
+  async findOne(id: number) {
+    return await this.prismaService.listaInsumo.findFirst({ where: { id } });
   }
 
-  update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
-    return `This action updates a #${id} listaInsumo`;
+  async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
+    return await this.prismaService.listaInsumo.update({
+      where: { id },
+      data: {
+        quantidade: updateListaInsumoDto.quantidade,
+        idProduto: updateListaInsumoDto.idProduto,
+        idCotacao: updateListaInsumoDto.idCotacao,
+        idInsumo: updateListaInsumoDto.idInsumo,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} listaInsumo`;
+  async remove(id: number) {
+    return await this.prismaService.listaInsumo.delete({ where: { id } });
   }
 }

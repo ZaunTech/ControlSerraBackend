@@ -23,7 +23,14 @@ export class CategoriasService {
     const categoria = await this.findOneByTitle(createCategoriaDto.titulo);
     if (!categoria) {
       return await this.prismaService.categoria.create({
-        data: createCategoriaDto,
+        data: {
+          titulo: createCategoriaDto.titulo,
+          descricao: createCategoriaDto.descricao,
+          tipo: createCategoriaDto.tipo,
+          insumos: {
+            create: createCategoriaDto.insumos,
+          },
+        },
       });
     }
     return { data: { message: 'Titulo ja cadastrado' } };
@@ -44,6 +51,9 @@ export class CategoriasService {
         tipo: updateCategoriaDto.tipo,
         titulo: updateCategoriaDto.titulo,
         descricao: updateCategoriaDto.descricao,
+        insumos: {
+          create: updateCategoriaDto.insumos,
+        },
       },
     });
   }
