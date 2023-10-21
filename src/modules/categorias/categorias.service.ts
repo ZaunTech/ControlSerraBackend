@@ -44,10 +44,7 @@ export class CategoriasService {
       data: {
         tipo: updateCategoriaDto.tipo,
         titulo: updateCategoriaDto.titulo,
-        descricao: updateCategoriaDto.descricao,
-        insumos: {
-          create: updateCategoriaDto.insumos,
-        },
+        descricao: updateCategoriaDto.descricao
       },
     });
   }
