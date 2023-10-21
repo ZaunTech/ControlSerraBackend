@@ -11,9 +11,11 @@ import { ProdutosModule } from './modules/produtos/produtos.module';
 import { CotacaosModule } from './modules/cotacaos/cotacaos.module';
 import { ListaInsumosModule } from './modules/lista-insumos/lista-insumos.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
+import { ProdutosBaseModule } from './modules/produtos-base/produtos-base.module';
+import { InsumosProdutosBaseModule } from './modules/insumos-produtos-base/insumos-produtos-base.module';
 
 @Module({
-  imports: [InsumosModule, CategoriasModule, FornecedoresModule, ClientesModule, OrcamentosModule, PedidosModule, ProdutosModule, CotacaosModule, ListaInsumosModule, UsuariosModule],
+  imports: [InsumosModule, CategoriasModule, FornecedoresModule, ClientesModule, OrcamentosModule, PedidosModule, ProdutosModule, CotacaosModule, ListaInsumosModule, UsuariosModule, ProdutosBaseModule, InsumosProdutosBaseModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,26 +1,53 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class PedidosService {
-  create(createPedidoDto: CreatePedidoDto) {
-    return 'This action adds a new pedido';
+constructor(private readonly prismaService: PrismaService) {}
+
+ async findOneBypagamento(pagamento: number) {
+    return await this.prismaService.pedido.findFirst({
+      where: {pagamento},
+    });
   }
 
-  findAll() {
-    return `This action returns all pedidos`;
+  async findManyByPagamento(pagamento: number)
+  {
+    return await this.prismaService.pedido.findMany({
+      where: {pagamento},
+    });
+  }
+  async create(createPedidoDto: CreatePedidoDto) {
+    const pedido = await this.findOneBypagamento(createPedidoDto.pagamento);
+    if (!pedido) {
+      return await this.prismaService.pedido.create({
+        data: createPedidoDto,
+      })
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pedido`;
+  async findAll() {
+    return await this.prismaService.pedido.findMany();
   }
 
-  update(id: number, updatePedidoDto: UpdatePedidoDto) {
-    return `This action updates a #${id} pedido`;
+  async findOne(id: number) {
+    return await this.prismaService.pedido.findFirst({where: {id}});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pedido`;
+  async update(id: number, updatePedidoDto: UpdatePedidoDto) {
+    return await this.prismaService.pedido.update({
+      where: {id},
+      data: {
+        pagamento: updatePedidoDto.pagamento,
+        status: updatePedidoDto.status,
+        idOrcamento: updatePedidoDto.idOrcamento,
+      },
+    });
+  }
+
+  async remove(id: number) {
+    return await this.prismaService.pedido.delete({where: {id}});
   }
 }
