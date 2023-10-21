@@ -99,7 +99,7 @@ model Orcamento {
   idCliente             Int
   idPedido              Int
   pedido                Pedido?
-  cliente               Cliente?  @relation(fields: [idCliente], references: [id])
+  cliente               Cliente  @relation(fields: [idCliente], references: [id])
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   produtos              Produto[]

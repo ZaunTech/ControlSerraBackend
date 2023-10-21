@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class OrcamentosService {
-  create(createOrcamentoDto: CreateOrcamentoDto) {
-    return 'This action adds a new orcamento';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createOrcamentoDto: CreateOrcamentoDto) {
+    return await this.prismaService.orcamento.create({
+      data: {
+        validade?: createOrcamentoDto.validade,
+        totalMaoObra?: createOrcamentoDto.totalMaoObra,
+        totalMateriais?: createOrcamentoDto.totalMateriais,
+        valorPago?: createOrcamentoDto.valorPago,
+        status: createOrcamentoDto.status,
+        prazoEstimadoProducao: createOrcamentoDto.prazoEstimadoProducao,
+        observacoes?: createOrcamentoDto.observacoes,
+        idCliente: createOrcamentoDto.idCliente,
+        idPedido?: createOrcamentoDto.idPedido,
+        produtos?: {
+          create: createOrcamentoDto.produtos,
+        },
+      }
+    })
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all orcamentos`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} orcamento`;
   }
 
-  update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
+  async update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
     return `This action updates a #${id} orcamento`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} orcamento`;
   }
 }
