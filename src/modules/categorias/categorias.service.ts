@@ -13,6 +13,12 @@ export class CategoriasService {
     });
   }
 
+  async findManyByTitle(titulo: string) {
+    return await this.prismaService.categoria.findMany({
+      where: { titulo },
+    });
+  }
+
   async create(createCategoriaDto: CreateCategoriaDto) {
     const categoria = await this.findOneByTitle(createCategoriaDto.titulo);
     if (!categoria) {
