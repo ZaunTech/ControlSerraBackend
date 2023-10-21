@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma.service';
-import { ProdutosService } from '../produtos/produtos.service';
 
 @Injectable()
 export class OrcamentosService {
-  constructor(private readonly prismaService: PrismaService, private readonly produtosService: ProdutosService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
     const orcamento = await this.prismaService.orcamento.create({

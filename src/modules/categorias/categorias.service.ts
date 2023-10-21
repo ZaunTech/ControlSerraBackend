@@ -27,9 +27,6 @@ export class CategoriasService {
           titulo: createCategoriaDto.titulo,
           descricao: createCategoriaDto.descricao,
           tipo: createCategoriaDto.tipo,
-          insumos: {
-            create: createCategoriaDto.insumos,
-          },
         },
       });
     }

@@ -6,7 +6,6 @@ import { ListaInsumosService } from '../lista-insumos/lista-insumos.service';
 
 @Module({
   controllers: [ProdutosController],
-  providers: [ProdutosService, PrismaService, ListaInsumosService],
-  exports: [ProdutosService],
+  providers: [ProdutosService, PrismaService],
 })
 export class ProdutosModule {}
