@@ -12,6 +12,11 @@ export class PedidosController {
     return this.pedidosService.create(createPedidoDto);
   }
 
+  @Get(':busca')
+  findManyByTitle(@Param('busca') buscaParam: number) {
+    return this.pedidosService.findManyByPagamento(buscaParam);
+  }
+
   @Get()
   findAll() {
     return this.pedidosService.findAll();
