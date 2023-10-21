@@ -17,6 +17,18 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
+  @Get(':nome')
+  findAllByName(@Param('nome') nome: string)
+  {
+    return this.clientesService.findManyByName(nome);
+  }
+
+  @Get(':nomeFantasia')
+  findAllByNomeFantasia(@Param('nomeFantasia') nomeFantasia: string)
+  {
+    return this.clientesService.findManyByNomeFantasia(nomeFantasia);
+  }
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clientesService.findOne(+id);
