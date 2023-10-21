@@ -27,18 +27,30 @@ export class OrcamentosService {
   }
 
   async findAll() {
-    return `This action returns all orcamentos`;
+    return await this.prismaService.orcamento.findMany();
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} orcamento`;
+    return await this.prismaService.orcamento.findFirst({ where: { id } })
   }
 
   async update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
-    return `This action updates a #${id} orcamento`;
+    return await this.prismaService.orcamento.update({
+      where: { id },
+      data: {
+        totalMaoObra?: updateOrcamentoDto.totalMaoObra,
+        totalMateriais?: updateOrcamentoDto.totalMateriais,
+        valorPago?: updateOrcamentoDto.valorPago,
+        status?: updateOrcamentoDto.status,
+        prazoEstimadoProducao?: updateOrcamentoDto.prazoEstimadoProducao,
+        observacoes?: updateOrcamentoDto.observacoes,
+        idCliente?: updateOrcamentoDto.idCliente,
+        idPedido?: updateOrcamentoDto.idPedido,
+        produtos?: updateOrcamentoDto.produtos,
+    })
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} orcamento`;
+    return await this.prismaService.orcamento.delete({ where: { id } })
   }
 }
