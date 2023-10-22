@@ -5,7 +5,7 @@ export class CreateProdutoDto {
     titulo:        string;
     quantidade?:    number;
     valorUnitario?: number;
-    tipo:          produtoTipo;
-    listaInsumos?:  CreateListaInsumoDto[];
-    orcamentoId:   number;
+    tipo:          produtoTipo
+    listaInsumos?:  CreateListaInsumoDto[]
+    orcamentoId:   number
 }
