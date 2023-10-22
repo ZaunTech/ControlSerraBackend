@@ -17,8 +17,7 @@ export class OrcamentosService {
         status: createOrcamentoDto.status,
         prazoEstimadoProducao: createOrcamentoDto.prazoEstimadoProducao,
         observacoes: createOrcamentoDto.observacoes,
-        idCliente: createOrcamentoDto.idCliente,
-        idPedido: createOrcamentoDto.idPedido,
+        idCliente: createOrcamentoDto.idCliente
       }
     })
   }
@@ -46,7 +45,6 @@ export class OrcamentosService {
         prazoEstimadoProducao: updateOrcamentoDto.prazoEstimadoProducao,
         observacoes: updateOrcamentoDto.observacoes,
         idCliente: updateOrcamentoDto.idCliente,
-        idPedido: updateOrcamentoDto.idPedido,
       }
   })
 

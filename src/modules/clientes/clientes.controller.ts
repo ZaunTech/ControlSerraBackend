@@ -22,11 +22,12 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
+  /*
   @Get(':busca')
   findAllByCliente(@Param('busca') busca: string)
   {
     return this.clientesService.findManyByCliente(busca);
-  }
+  }*/
 
   
   @Get(':id')

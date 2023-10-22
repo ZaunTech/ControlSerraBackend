@@ -13,16 +13,17 @@ export class ClientesService {
     });
   }
 
-  async findManyByCliente(busca:string){
+  /*async findManyByCliente(busca:string){
     const 
     return await this.prismaService.cliente.findMany({
     })
-  }
+  }*/
 
   async countAllCliente(){
     return await this.prismaService.cliente.count({
     });
   }
+
   async create(createClienteDto: CreateClienteDto) {
     const cliente = await this.findOneByCliente(createClienteDto.nome,createClienteDto.email,createClienteDto.telefone);
     if (!cliente) {
