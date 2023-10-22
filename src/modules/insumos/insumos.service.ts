@@ -9,8 +9,8 @@ export class InsumosService {
 
   async findOneByTitle(titulo: string) {
     return await this.prismaService.insumo.findFirst({
-      where: { titulo }
-    })
+      where: { titulo },
+    });
   }
 
   async create(createInsumoDto: CreateInsumoDto) {
@@ -20,7 +20,7 @@ export class InsumosService {
         data: createInsumoDto,
       });
     }
-    return { data: { message: 'Titulo ja cadastrado'}}
+    return { data: { message: 'Titulo ja cadastrado' } };
   }
 
   async findAll() {
@@ -28,17 +28,23 @@ export class InsumosService {
   }
 
   async findOne(id: number) {
-    return await this.prismaService.insumo.findFirst({ where: { id } });
+    return await this.prismaService.insumo.findFirst({
+      where: { id },
+    });
+  }
+
+  async countAll() {
+    return await this.prismaService.insumo.count();
   }
 
   async update(id: number, updateInsumoDto: UpdateInsumoDto) {
     return await this.prismaService.insumo.update({
       where: { id },
-      data: updateInsumoDto
+      data: updateInsumoDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.insumo.delete({where: { id } });
+    return await this.prismaService.insumo.delete({ where: { id } });
   }
 }

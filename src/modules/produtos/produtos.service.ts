@@ -20,16 +20,19 @@ export class ProdutosService {
   async create(createProdutoDto: CreateProdutoDto) {
     const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
     if (!produtoExiste) {
-      const produto = await this.prismaService.produto.create({
+      return await this.prismaService.produto.create({
         data: {
           titulo: createProdutoDto.titulo,
           valorUnitario: createProdutoDto.valorUnitario,
           quantidade: createProdutoDto.quantidade,
-          tipo: createProdutoDto.tipo,
-          orcamentoId: createProdutoDto.orcamentoId,
+          orcamentoId: createProdutoDto.orcamentoId
         },
       });
     }
+  }
+
+  async countAll() {
+    return await this.prismaService.produto.count();
   }
 
   async findAll() {
@@ -46,11 +49,7 @@ export class ProdutosService {
       data: {
         titulo: updateProdutoDto.titulo,
         valorUnitario: updateProdutoDto.valorUnitario,
-        quantidade: updateProdutoDto.quantidade,
-        tipo: updateProdutoDto.tipo,
-        listaInsumos: {
-          create: updateProdutoDto.listaInsumos,
-        },
+        quantidade: updateProdutoDto.quantidade
       },
     });
   }

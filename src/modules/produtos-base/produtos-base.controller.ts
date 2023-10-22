@@ -7,6 +7,11 @@ import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 export class ProdutosBaseController {
   constructor(private readonly produtosBaseService: ProdutosBaseService) {}
 
+  @Get('count')
+  countAll() {
+    return this.produtosBaseService.countAll();
+  }
+
   @Post()
   create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
     return this.produtosBaseService.create(createProdutosBaseDto);

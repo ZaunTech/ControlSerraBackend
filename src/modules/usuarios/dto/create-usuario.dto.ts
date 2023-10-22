@@ -1,5 +1,4 @@
 import { tipoUsuario } from "@prisma/client";
-import { Orcamento } from "../../orcamentos/entities/orcamento.entity";
 
 export class CreateUsuarioDto {
     tipoUsuario: tipoUsuario;
@@ -8,6 +7,4 @@ export class CreateUsuarioDto {
     email: string;
     telefone: string;
     senha: string;
-    idOrcamento?: number;
-    orcamento?: Orcamento
 }
