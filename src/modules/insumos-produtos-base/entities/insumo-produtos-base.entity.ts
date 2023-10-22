@@ -4,7 +4,7 @@ import { Insumo } from "src/modules/insumos/entities/insumo.entity";
 
 export class InsumoProdutosBase {
     id: number;
-    quantidade: number;
+    quantidade?: number;
     idProdutoBase: number;
     idInsumo: number;
     produtoBase: ProdutoBase;

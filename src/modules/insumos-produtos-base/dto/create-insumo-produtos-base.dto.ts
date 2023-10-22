@@ -1,5 +1,5 @@
 export class CreateInsumosProdutosBaseDto {
-  quantidade: number;
+  quantidade?: number;
   idProdutoBase: number;
   idInsumo: number;
   createdAt: Date;

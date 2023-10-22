@@ -1,5 +1,4 @@
 import { status as Status } from '@prisma/client';
-import { CreateProdutoDto } from 'src/modules/produtos/dto/create-produto.dto';
 
 export class CreateOrcamentoDto {
   validade?: Date;

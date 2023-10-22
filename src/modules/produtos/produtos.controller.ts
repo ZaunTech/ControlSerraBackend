@@ -17,6 +17,12 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto);
   }
 
+  @Get(':busca')
+  findManyByTitle(@Param('titulo') buscaparam: string)
+  {
+    return this.produtosService.findManyByTitle(buscaparam);
+  }
+
   @Get()
   findAll() {
     return this.produtosService.findAll();

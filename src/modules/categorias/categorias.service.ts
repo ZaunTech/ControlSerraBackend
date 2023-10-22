@@ -13,6 +13,11 @@ export class CategoriasService {
     });
   }
 
+  async countAllCategorias(){
+    return await this.prismaService.categoria.count({
+    });
+  }
+
   async findManyByTitle(titulo: string) {
     return await this.prismaService.categoria.findMany({
       where: { titulo },

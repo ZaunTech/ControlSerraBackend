@@ -6,7 +6,11 @@ import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 @Controller('cotacoes')
 export class CotacaosController {
   constructor(private readonly cotacaosService: CotacaosService) {}
-
+  
+  @Get('count')
+  countAll(){
+    return this.cotacaosService.countAllCotacaos();
+  }
   @Post()
   create(@Body() createCotacaoDto: CreateCotacaoDto) {
     return this.cotacaosService.create(createCotacaoDto);

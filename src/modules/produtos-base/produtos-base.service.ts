@@ -28,6 +28,7 @@ export class ProdutosBaseService {
 
   async countAll(){
     return await this.prismaService.produtoBase.count();
+
   }
 
   async findAll() {

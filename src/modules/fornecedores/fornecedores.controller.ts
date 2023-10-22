@@ -7,6 +7,11 @@ import { UpdateFornecedorDto } from './dto/update-fornecedor.dto';
 export class FornecedoresController {
   constructor(private readonly fornecedoresService: FornecedoresService) {}
 
+  @Get('count')
+  countAll(){
+    return this.fornecedoresService.countAllFornecedor();
+  }
+
   @Post()
   create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
     return this.fornecedoresService.create(CreateFornecedoresDto);
@@ -16,6 +21,8 @@ export class FornecedoresController {
   findAll() {
     return this.fornecedoresService.findAll();
   }
+
+  
 
   @Get(':id')
   findOne(@Param('id') id: string) {
