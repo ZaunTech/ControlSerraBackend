@@ -7,6 +7,10 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class CotacaosService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async countAllCotacaos() {
+    return await this.prismaService.cotacao.count({
+    });
+  }
   async create(createCotacaoDto: CreateCotacaoDto) {
     return await this.prismaService.cotacao.create({
       data: createCotacaoDto,

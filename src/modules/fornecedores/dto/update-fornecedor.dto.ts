@@ -1,7 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateFornecedorDto } from './create-fornecedor.dto';
 import { contaTipo } from '@prisma/client';
-import { Cotacao } from '../../cotacaos/entities/cotacao.entity';
 
 export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
     email?: string;
@@ -21,5 +20,4 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
     nomeFantasia?: string
     razaoSocial?: string
     cnpj?:        string
-    cotacaos?:    Cotacao[];
 }

@@ -8,6 +8,5 @@ export class UpdateProdutoDto extends PartialType(CreateProdutoDto) {
     quantidade?:    number;
     valorUnitario?: number;
     tipo:          produtoTipo
-    listaInsumos?:  ListaInsumo[]
     orcamentoId: number;
 }

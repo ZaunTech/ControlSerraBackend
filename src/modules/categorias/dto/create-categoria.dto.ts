@@ -10,5 +10,4 @@ export class CreateCategoriaDto {
   tipo: string;
   @Matches(/^[a-zA-Z -]*$/, { message: 'A descrição só pode ter letras' })
   descricao?: string;
-  insumos?: Insumo[];
 }

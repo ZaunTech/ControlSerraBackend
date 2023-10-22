@@ -6,6 +6,5 @@ export class CreateProdutoDto {
     quantidade?:    number;
     valorUnitario?: number;
     tipo:          produtoTipo
-    listaInsumos?:  CreateListaInsumoDto[]
     orcamentoId:   number
 }

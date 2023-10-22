@@ -12,7 +12,11 @@ export class ProdutosService {
       where: { titulo },
     });
   }
-
+  async findManyByTitle(titulo:string){
+    return await this.prismaService.produto.findMany({
+      where: {titulo},
+    })
+  }
   async create(createProdutoDto: CreateProdutoDto) {
     const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
     if (!produtoExiste) {

@@ -7,26 +7,24 @@ import { PrismaService } from '../../databases/prisma.service';
 export class ClientesService {
   constructor(private readonly prismaService: PrismaService) {}
   
-  async findOneByCliente(cpf: string,cnpj:string) {
+  async findOneByCliente(nome: string,email: string,telefone:string) {
     return await this.prismaService.cliente.findFirst({
-      where: { cpf,cnpj },
+      where: { nome,email,telefone },
     });
   }
 
-  async findManyByName(nome: string){
+  async findManyByCliente(busca:string){
+    const 
     return await this.prismaService.cliente.findMany({
-      where: {nome}
     })
   }
 
-  async findManyByNomeFantasia(nomeFantasia:string)
-  {
-    return await this.prismaService.cliente.findMany({
-      where: {nomeFantasia}
-    })
+  async countAllCliente(){
+    return await this.prismaService.cliente.count({
+    });
   }
   async create(createClienteDto: CreateClienteDto) {
-    const cliente = await this.findOneByCliente(createClienteDto.cpf,createClienteDto.cnpj);
+    const cliente = await this.findOneByCliente(createClienteDto.nome,createClienteDto.email,createClienteDto.telefone);
     if (!cliente) {
       return await this.prismaService.cliente.create({
         data: createClienteDto,
