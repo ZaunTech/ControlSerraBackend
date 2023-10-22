@@ -1,11 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
+import { PrismaService } from 'src/databases/prisma.service';
+import { contaTipo, produtoTipo } from '@prisma/client';
+import { CreateInsumosProdutosBaseDto } from '../insumos-produtos-base/dto/create-insumo-produtos-base.dto';
+
+
 
 @Injectable()
 export class ProdutosBaseService {
-  create(createProdutosBaseDto: CreateProdutosBaseDto) {
-    return 'This action adds a new produtosBase';
+  constructor(private readonly prismaService:PrismaService){
+  
+  }
+  
+
+  async create(createProdutosBaseDto: CreateProdutosBaseDto) {
+  const produtoBase =  await this.prismaService.produtoBase.create({
+      data: {
+        titulo: createProdutosBaseDto.titulo,
+        valorUnitario: createProdutosBaseDto.valorUnitario,
+      },
+    });
+
+    return produtoBase.id;
   }
 
   findAll() {

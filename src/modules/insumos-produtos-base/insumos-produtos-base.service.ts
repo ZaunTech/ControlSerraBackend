@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class InsumosProdutosBaseService {
-  create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    return 'This action adds a new insumosProdutosBase';
+  constructor(private readonly prismaService: PrismaService) {}
+  
+ async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
+    return await this.prismaService.insumoProdutoBase.create({
+      data: {
+        quantidade :  createInsumosProdutosBaseDto.quantidade,
+        idProdutoBase: createInsumosProdutosBaseDto.idProdutoBase,
+        idInsumo : createInsumosProdutosBaseDto.idInsumo,
+        createdAt:   createInsumosProdutosBaseDto.createdAt ,
+        updatedAt:    createInsumosProdutosBaseDto.updatedAt  ,
+       }
+    });
   }
 
   findAll() {
