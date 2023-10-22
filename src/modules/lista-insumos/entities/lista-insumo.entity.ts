@@ -5,11 +5,11 @@ import { Produto } from 'src/modules/produtos/entities/produto.entity';
 export class ListaInsumo {
   id: number;
   quantidade: number;
-  idProduto?: number;
+  idProduto: number;
   idInsumo: number;
   idCotacao?: number;
-  produto?: Produto;
-  insumo?: Insumo;
+  produto: Produto;
+  insumo: Insumo;
   cotacao?: Cotacao;
   createdAt: Date;
   updatedAt: Date;

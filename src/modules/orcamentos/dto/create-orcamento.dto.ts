@@ -10,6 +10,4 @@ export class CreateOrcamentoDto {
   prazoEstimadoProducao: number;
   observacoes?: string;
   idCliente: number;
-  idPedido?: number;
-  produtos?: CreateProdutoDto[];
 }

@@ -7,6 +7,11 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
+  @Get('count')
+  countAll(){
+    return this.produtosService.countAll;
+  }
+
   @Post()
   create(@Body() createProdutoDto: CreateProdutoDto) {
     return this.produtosService.create(createProdutoDto);

@@ -13,7 +13,7 @@ export class Insumo {
   categoria?: Categoria; 
   listaInsumos?: ListaInsumo[];
   insumoProdutoBase?: InsumoProdutosBase[];
-  cotacaos?: Cotacao[];
+  cotacoes?: Cotacao[];
   createdAt: Date;
   updatedAt: Date;
 }

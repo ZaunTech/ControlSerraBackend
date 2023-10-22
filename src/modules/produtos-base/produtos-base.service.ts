@@ -1,26 +1,55 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class ProdutosBaseService {
-  create(createProdutosBaseDto: CreateProdutosBaseDto) {
-    return 'This action adds a new produtosBase';
+  constructor(private readonly prismaService: PrismaService){}
+
+  async findOneByTitle(titulo: string) {
+    return await this.prismaService.produtoBase.findFirst({
+      where: { titulo },
+    });
+  }
+  
+  async create(createProdutosBaseDto: CreateProdutosBaseDto) {
+    const produtoBaseExiste = await this.findOneByTitle(createProdutosBaseDto.titulo);
+    if (!produtoBaseExiste) {
+      return await this.prismaService.produtoBase.create({
+        data: {
+          titulo: createProdutosBaseDto.titulo,
+          valorUnitario: createProdutosBaseDto.valorUnitario,
+          observacoes: createProdutosBaseDto.observacoes
+        }
+      })
+    }
   }
 
-  findAll() {
-    return `This action returns all produtosBase`;
+  async countAll(){
+    return await this.prismaService.produtoBase.count();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} produtosBase`;
+  async findAll() {
+    return await this.prismaService.produtoBase.findMany();
   }
 
-  update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
-    return `This action updates a #${id} produtosBase`;
+  async findOne(id: number) {
+    return await this.prismaService.produtoBase.findFirst({ where: { id } })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} produtosBase`;
+  async update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
+    return await this.prismaService.produtoBase.update({
+      where: { id },
+      data: {
+        titulo: updateProdutosBaseDto.titulo,
+        valorUnitario: updateProdutosBaseDto.valorUnitario,
+        observacoes: updateProdutosBaseDto.observacoes
+      }
+    })
+  }
+
+  async remove(id: number) {
+    return await this.prismaService.produtoBase.delete({ where: { id } })
   }
 }
