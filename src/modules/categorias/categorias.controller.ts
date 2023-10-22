@@ -8,6 +8,10 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
+  @Get('count')
+  countAll(){
+    return this.categoriasService.countAllCategorias();
+  }
   @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createCategoriaDto: CreateCategoriaDto) {

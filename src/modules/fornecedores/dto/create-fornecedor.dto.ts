@@ -1,5 +1,4 @@
 import { contaTipo } from "@prisma/client"
-import { Cotacao } from "../../cotacaos/entities/cotacao.entity"
 
 export class CreateFornecedorDto{
     email: string;
@@ -19,5 +18,4 @@ export class CreateFornecedorDto{
     nomeFantasia?: string
     razaoSocial?: string
     cnpj?:        string
-    cotacaos?:    Cotacao[];
 }

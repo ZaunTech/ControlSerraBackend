@@ -1,8 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateOrcamentoDto } from './create-orcamento.dto';
-import { Produto } from 'src/modules/produtos/entities/produto.entity';
 import { status } from '@prisma/client';
-import { UpdateProdutoDto } from 'src/modules/produtos/dto/update-produto.dto';
 
 export class UpdateOrcamentoDto extends PartialType(CreateOrcamentoDto) {
   validade?: Date;
@@ -14,5 +12,4 @@ export class UpdateOrcamentoDto extends PartialType(CreateOrcamentoDto) {
   observacoes?: string;
   idCliente?: number;
   idPedido?: number;
-  produtos?: UpdateProdutoDto[];
 }

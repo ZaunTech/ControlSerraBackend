@@ -7,6 +7,11 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
+  @Get('count')
+  countAll(){
+    return this.clientesService.countAllCliente();
+  }
+
   @Post()
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clientesService.create(createClienteDto);
@@ -17,17 +22,12 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
-  @Get(':nome')
-  findAllByName(@Param('nome') nome: string)
+  @Get(':busca')
+  findAllByCliente(@Param('busca') busca: string)
   {
-    return this.clientesService.findManyByName(nome);
+    return this.clientesService.findManyByCliente(busca);
   }
 
-  @Get(':nomeFantasia')
-  findAllByNomeFantasia(@Param('nomeFantasia') nomeFantasia: string)
-  {
-    return this.clientesService.findManyByNomeFantasia(nomeFantasia);
-  }
   
   @Get(':id')
   findOne(@Param('id') id: string) {
