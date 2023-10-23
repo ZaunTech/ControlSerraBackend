@@ -20,5 +20,5 @@ export class CreatePedidoDto {
       'O id do orçamento serve para descrever a qual orçamento este pedido pertence',
     example: '1',
   })
-  idOrcamento?: number;
+  idOrcamento: number;
 }

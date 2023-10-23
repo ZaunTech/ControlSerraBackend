@@ -9,6 +9,11 @@ import { ApiTags } from '@nestjs/swagger';
 export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
+  @Get('count')
+  countAll() {
+    return this.insumosProdutosBaseService.countAll();
+  }
+
   @Post()
   create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
