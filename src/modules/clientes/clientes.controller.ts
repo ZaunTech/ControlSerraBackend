@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
@@ -22,10 +22,10 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
-  @Get(':busca')
-  findAllByCliente(@Param('busca') busca: string)
-  {
-    return this.clientesService.findManyByCliente(busca);
+  
+  @Get('buscar/:termo')
+  async buscarCliente(@Param('termo') termo: string) {
+    return this.clientesService.findManyCliente(termo);
   }
 
   

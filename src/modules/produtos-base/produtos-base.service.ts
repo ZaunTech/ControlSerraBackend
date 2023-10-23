@@ -2,35 +2,55 @@ import { Injectable } from '@nestjs/common';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { PrismaService } from 'src/databases/prisma.service';
-import { contaTipo, produtoTipo } from '@prisma/client';
-import { CreateInsumosProdutosBaseDto } from '../insumos-produtos-base/dto/create-insumo-produtos-base.dto';
+
 @Injectable()
 export class ProdutosBaseService {
-  constructor(private readonly prismaService:PrismaService){}
+  constructor(private readonly prismaService: PrismaService){}
 
+  async findOneByTitle(titulo: string) {
+    return await this.prismaService.produtoBase.findFirst({
+      where: { titulo },
+    });
+  }
+  
   async create(createProdutosBaseDto: CreateProdutosBaseDto) {
-    const produtoBase =  await this.prismaService.produtoBase.create({
+    const produtoBaseExiste = await this.findOneByTitle(createProdutosBaseDto.titulo);
+    if (!produtoBaseExiste) {
+      return await this.prismaService.produtoBase.create({
         data: {
           titulo: createProdutosBaseDto.titulo,
           valorUnitario: createProdutosBaseDto.valorUnitario,
-        },
-      });
-      return produtoBase.id;
+          observacoes: createProdutosBaseDto.observacoes
+        }
+      })
+    }
   }
 
-  findAll() {
-    return `This action returns all produtosBase`;
+  async countAll(){
+    return await this.prismaService.produtoBase.count();
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} produtosBase`;
+  async findAll() {
+    return await this.prismaService.produtoBase.findMany();
   }
 
-  update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
-    return `This action updates a #${id} produtosBase`;
+  async findOne(id: number) {
+    return await this.prismaService.produtoBase.findFirst({ where: { id } })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} produtosBase`;
+  async update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
+    return await this.prismaService.produtoBase.update({
+      where: { id },
+      data: {
+        titulo: updateProdutosBaseDto.titulo,
+        valorUnitario: updateProdutosBaseDto.valorUnitario,
+        observacoes: updateProdutosBaseDto.observacoes
+      }
+    })
+  }
+
+  async remove(id: number) {
+    return await this.prismaService.produtoBase.delete({ where: { id } })
   }
 }

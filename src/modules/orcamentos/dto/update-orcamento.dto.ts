@@ -11,5 +11,4 @@ export class UpdateOrcamentoDto extends PartialType(CreateOrcamentoDto) {
   prazoEstimadoProducao?: number;
   observacoes?: string;
   idCliente?: number;
-  idPedido?: number;
 }

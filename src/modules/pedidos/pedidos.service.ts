@@ -23,7 +23,11 @@ constructor(private readonly prismaService: PrismaService) {}
     const pedido = await this.findOneBypagamento(createPedidoDto.pagamento);
     if (!pedido) {
       return await this.prismaService.pedido.create({
-        data: createPedidoDto,
+        data: {
+          pagamento: createPedidoDto.pagamento,
+          status: createPedidoDto.status,
+          idOrcamento: createPedidoDto.idOrcamento
+        }
       })
     }
   }
