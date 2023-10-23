@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { Produto } from '@prisma/client';
 
 @Injectable()
 export class OrcamentosService {
@@ -21,6 +22,9 @@ export class OrcamentosService {
       }
     })
   }
+
+  async createProdutoForOrcamento(){}
+  
 
   async findAll() {
     const orcamentos = await this.prismaService.orcamento.findMany();

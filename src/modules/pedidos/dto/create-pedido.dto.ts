@@ -5,5 +5,4 @@ export class CreatePedidoDto {
     pagamento: number;
     status: status;
     idOrcamento?: number;
-    orcamentos?: Orcamento; 
 }
