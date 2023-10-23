@@ -17,11 +17,7 @@ export class ProdutosBaseService {
     const produtoBaseExiste = await this.findOneByTitle(createProdutosBaseDto.titulo);
     if (!produtoBaseExiste) {
       return await this.prismaService.produtoBase.create({
-        data: {
-          titulo: createProdutosBaseDto.titulo,
-          valorUnitario: createProdutosBaseDto.valorUnitario,
-          observacoes: createProdutosBaseDto.observacoes
-        }
+        data: createProdutosBaseDto,
       })
     }
   }
@@ -42,11 +38,7 @@ export class ProdutosBaseService {
   async update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
     return await this.prismaService.produtoBase.update({
       where: { id },
-      data: {
-        titulo: updateProdutosBaseDto.titulo,
-        valorUnitario: updateProdutosBaseDto.valorUnitario,
-        observacoes: updateProdutosBaseDto.observacoes
-      }
+      data: updateProdutosBaseDto,
     })
   }
 

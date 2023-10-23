@@ -9,14 +9,7 @@ export class UsuariosService {
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     return await this.prismaService.usuario.create({
-      data: {
-        tipoUsuario: createUsuarioDto.tipoUsuario,
-        nome: createUsuarioDto.nome,
-        cpf: createUsuarioDto.cpf,
-        email: createUsuarioDto.email,
-        telefone: createUsuarioDto.telefone,
-        senha: createUsuarioDto.senha
-      }
+      data: createUsuarioDto,
     });
   }
 
@@ -35,14 +28,7 @@ export class UsuariosService {
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
     return await this.prismaService.usuario.update({
       where: { id },
-      data: {
-        tipoUsuario: updateUsuarioDto.tipoUsuario,
-        nome: updateUsuarioDto.nome,
-        cpf: updateUsuarioDto.cpf,
-        email: updateUsuarioDto.email,
-        telefone: updateUsuarioDto.telefone,
-        senha: updateUsuarioDto.senha
-      }
+      data: updateUsuarioDto,
     })
   }
 

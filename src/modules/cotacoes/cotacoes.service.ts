@@ -40,28 +40,3 @@ export class CotacoesService {
     return await this.prismaService.cotacao.delete({ where: { id } });
   }
 }
-
-/* CRIAR O ITEM COM A LISTA
-async create(createCotacaoDto: CreateCotacaoDto) {
-    return await this.prismaService.cotacao.create({
-      data: {
-        data: createCotacaoDto.data,
-        valor: createCotacaoDto.valor,
-        listaInsumos: {
-          create: createCotacaoDto.listaInsumo,
-        },
-      },
-    });
-
-    MOSTRAR TODOS OS SUBITEMS DE UM ITEM COM VETOR
-  async findOne(id: number) {
-  return await this.prismaService.cotacao.findFirst({
-    where: {
-      id,
-    },
-    include: {
-      listaInsumos: true,
-    },
-  });
-}
-  }*/

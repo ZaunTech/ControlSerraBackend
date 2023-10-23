@@ -42,25 +42,7 @@ export class FornecedoresService {
   async update(id: number, updateFornecedoresDto: UpdateFornecedorDto) {
     return await this.prismaService.fornecedor.update({
       where: {id},
-      data: {
-        email: updateFornecedoresDto.email,
-        telefone: updateFornecedoresDto.telefone,
-        contaTipo: updateFornecedoresDto.contaTipo,
-        pais:        updateFornecedoresDto.pais,
-        cep:         updateFornecedoresDto.cep,
-        estado:      updateFornecedoresDto.estado,
-        cidade:      updateFornecedoresDto.cidade,
-        bairro:      updateFornecedoresDto.bairro,
-        rua:       updateFornecedoresDto.rua,
-        numero:    updateFornecedoresDto.numero,
-        complemento: updateFornecedoresDto.complemento,
-        nome:        updateFornecedoresDto.nome,
-        cpf:         updateFornecedoresDto.cpf,
-        rg:          updateFornecedoresDto.rg,
-        nomeFantasia: updateFornecedoresDto.nomeFantasia,
-        razaoSocial: updateFornecedoresDto.razaoSocial,
-        cnpj:        updateFornecedoresDto.cnpj,
-      }
+      data: updateFornecedoresDto,
     })
   }
 

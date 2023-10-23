@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseP
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('lista-insumos')
 @Controller('lista-insumos')
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}

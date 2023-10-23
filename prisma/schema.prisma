@@ -93,7 +93,6 @@ model Orcamento {
   dataOrcamento         DateTime  @default(now())
   totalMaoObra          Float?
   totalMateriais        Float?
-  valorPago             Float?
   status                status    @default(Pendente)
   prazoEstimadoProducao Int?
   observacoes           String?   @db.MediumText
@@ -180,7 +179,6 @@ model Usuario {
 model ProdutoBase {
   id                  Int                 @id @default(autoincrement())
   titulo              String
-  valorUnitario       Float?
   observacoes         String?
   insumosProdutosBase InsumoProdutoBase[]
   createdAt           DateTime            @default(now())

@@ -12,21 +12,16 @@ export class ProdutosService {
       where: { titulo },
     });
   }
-  async findManyByTitle(titulo:string){
+  async findManyByTitle(titulo: string) {
     return await this.prismaService.produto.findMany({
-      where: {titulo},
-    })
+      where: { titulo },
+    });
   }
   async create(createProdutoDto: CreateProdutoDto) {
     const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
     if (!produtoExiste) {
       return await this.prismaService.produto.create({
-        data: {
-          titulo: createProdutoDto.titulo,
-          valorUnitario: createProdutoDto.valorUnitario,
-          quantidade: createProdutoDto.quantidade,
-          orcamentoId: createProdutoDto.orcamentoId
-        },
+        data: createProdutoDto,
       });
     }
   }
@@ -46,11 +41,7 @@ export class ProdutosService {
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
     return await this.prismaService.produto.update({
       where: { id },
-      data: {
-        titulo: updateProdutoDto.titulo,
-        valorUnitario: updateProdutoDto.valorUnitario,
-        quantidade: updateProdutoDto.quantidade
-      },
+      data: updateProdutoDto,
     });
   }
 

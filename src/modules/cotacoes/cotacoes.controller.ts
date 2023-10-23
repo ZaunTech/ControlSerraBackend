@@ -1,16 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cotacoes')
 @Controller('cotacoes')
 export class CotacoesController {
   constructor(private readonly cotacoesService: CotacoesService) {}
