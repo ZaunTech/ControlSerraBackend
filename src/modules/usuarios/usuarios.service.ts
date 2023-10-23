@@ -6,23 +6,47 @@ import { PrismaService } from '../../databases/prisma.service';
 @Injectable()
 export class UsuariosService {
   constructor(private readonly prismaService: PrismaService) {}
-  create(createUsuarioDto: CreateUsuarioDto) {
-    return 'This action adds a new usuario';
+
+  async create(createUsuarioDto: CreateUsuarioDto) {
+    return await this.prismaService.usuario.create({
+      data: {
+        tipoUsuario: createUsuarioDto.tipoUsuario,
+        nome: createUsuarioDto.nome,
+        cpf: createUsuarioDto.cpf,
+        email: createUsuarioDto.email,
+        telefone: createUsuarioDto.telefone,
+        senha: createUsuarioDto.senha
+      }
+    });
   }
 
-  findAll() {
-    return `This action returns all usuarios`;
+  async countAll() {
+    return await this.prismaService.usuario.count();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  async findAll() {
+    return await this.prismaService.usuario.findMany();
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  async findOne(id: number) {
+    return await this.prismaService.usuario.findFirst({ where: { id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+    return await this.prismaService.usuario.update({
+      where: { id },
+      data: {
+        tipoUsuario: updateUsuarioDto.tipoUsuario,
+        nome: updateUsuarioDto.nome,
+        cpf: updateUsuarioDto.cpf,
+        email: updateUsuarioDto.email,
+        telefone: updateUsuarioDto.telefone,
+        senha: updateUsuarioDto.senha
+      }
+    })
+  }
+
+  async remove(id: number) {
+    return await this.prismaService.usuario.delete({ where: { id } });
   }
 }

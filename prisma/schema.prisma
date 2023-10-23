@@ -127,8 +127,8 @@ model Produto {
   listaInsumos  ListaInsumo[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  Orcamento     Orcamento?    @relation(fields: [orcamentoId], references: [id])
-  orcamentoId   Int?
+  Orcamento     Orcamento    @relation(fields: [orcamentoId], references: [id])
+  orcamentoId   Int
 
   @@map("Produtos")
 }
@@ -166,7 +166,7 @@ model ListaInsumo {
 model Usuario {
   id          Int         @id @default(autoincrement())
   tipoUsuario tipoUsuario
-  Nome        String
+  nome        String
   cpf         String      @unique
   email       String      @unique
   telefone    String
@@ -203,8 +203,8 @@ model InsumoProdutoBase {
 }
 
 enum contaTipo {
-  Fisico
-  Juridico
+  Fisica
+  Juridica
 }
 
 enum produtoTipo {

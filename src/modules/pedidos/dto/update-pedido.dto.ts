@@ -7,5 +7,4 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
     pagamento?: number;
     status?: status;
     idOrcamento?: number;
-    orcamentos?: Orcamento;
 }

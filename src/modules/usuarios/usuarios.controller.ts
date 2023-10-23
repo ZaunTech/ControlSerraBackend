@@ -7,6 +7,11 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
+  @Get('count')
+  countAll() {
+    return this.usuariosService.countAll();
+  }
+
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
