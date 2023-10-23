@@ -5,8 +5,19 @@ import { PrismaService } from '../../databases/prisma.service';
 
 @Injectable()
 export class UsuariosService {
+
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findByEmail(email: string) {
+    return await this.prismaService.usuario.findFirst({
+      where: {email},
+    });
+  }
+  async findBySenha(senha: string){
+    return await this.prismaService.usuario.findFirst({
+      where: {senha},
+    })
+  }
   async create(createUsuarioDto: CreateUsuarioDto) {
     return await this.prismaService.usuario.create({
       data: {
