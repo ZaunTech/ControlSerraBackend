@@ -9,13 +9,7 @@ export class InsumosProdutosBaseService {
  
   async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return await this.prismaService.insumoProdutoBase.create({
-      data: {
-        quantidade :  createInsumosProdutosBaseDto.quantidade,
-        idProdutoBase: createInsumosProdutosBaseDto.idProdutoBase,
-        idInsumo : createInsumosProdutosBaseDto.idInsumo,
-        createdAt:   createInsumosProdutosBaseDto.createdAt ,
-        updatedAt:    createInsumosProdutosBaseDto.updatedAt  ,
-       }
+      data: createInsumosProdutosBaseDto,
     });
   }
 

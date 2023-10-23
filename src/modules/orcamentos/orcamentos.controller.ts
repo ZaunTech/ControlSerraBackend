@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('orcamentos')
 @Controller('orcamentos')
 export class OrcamentosController {
   constructor(private readonly orcamentosService: OrcamentosService) {}
