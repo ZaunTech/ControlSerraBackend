@@ -5,7 +5,7 @@ export class CreateInsumosProdutosBaseDto {
     description: 'A quantidade serve para descrever quantas unidades deste insumo serão necessárias para produzir o produto',
     example: '5',
   })
-  quantidade?: number;
+  quantidade: number;
   
   @ApiProperty({
     description: 'O id do produto base serve para descrever a qual produto base que um determinado insumo pertence',
