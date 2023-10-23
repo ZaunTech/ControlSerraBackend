@@ -1,5 +1,4 @@
 import { contaTipo } from "@prisma/client"
-import { Orcamento } from "../../orcamentos/entities/orcamento.entity";
 
 export class Cliente {
     id: number;
@@ -20,7 +19,6 @@ export class Cliente {
     rua?:       string;
     numero?:    string;
     complemento?: string;
-    orcamentos?: Orcamento[];
     createdAt: Date;
     updatedAt: Date;
 }

@@ -4,7 +4,7 @@ import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
-export class CotacaosService {
+export class CotacoesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async countAllCotacaos() {
