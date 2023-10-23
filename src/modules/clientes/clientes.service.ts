@@ -17,9 +17,9 @@ export class ClientesService {
     return await this.prismaService.cliente.findMany({
       where: {
         OR: [
-          {nome: {contains: termo,},},
-          {email: {contains: termo,},},
-          {telefone: {contains: termo,},},
+          {nome: {contains: termo}},
+          {email: {contains: termo}},
+          {telefone: {contains: termo}},
         ],
       },
     });
