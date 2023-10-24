@@ -135,7 +135,7 @@ CREATE TABLE `Produtos` (
 CREATE TABLE `Cotacoes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `data` DATETIME(3) NOT NULL,
-    `valor` DOUBLE NULL,
+    `valor` DOUBLE NOT NULL,
     `idFornecedor` INTEGER NOT NULL,
     `idInsumo` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -180,7 +180,6 @@ CREATE TABLE `Usuarios` (
 CREATE TABLE `Produtos Base` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `titulo` VARCHAR(191) NOT NULL,
-    `valorUnitario` DOUBLE NULL,
     `observacoes` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,

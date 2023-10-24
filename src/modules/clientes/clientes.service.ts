@@ -54,25 +54,7 @@ export class ClientesService {
   async update(id: number, updateClienteDto: UpdateClienteDto) {
     return await this.prismaService.cliente.update({
       where: { id },
-      data: {
-        email: updateClienteDto.email,
-        telefone: updateClienteDto.telefone,
-        contaTipo: updateClienteDto.contaTipo,
-        nome: updateClienteDto.nome,
-        cpf: updateClienteDto.cpf,
-        rg: updateClienteDto.rg,
-        nomeFantasia: updateClienteDto.nomeFantasia,
-        razaoSocial: updateClienteDto.razaoSocial,
-        cnpj: updateClienteDto.cnpj,
-        pais: updateClienteDto.pais,
-        cep: updateClienteDto.cep,
-        estado: updateClienteDto.estado,
-        cidade: updateClienteDto.cidade,
-        bairro: updateClienteDto.bairro,
-        rua: updateClienteDto.rua,
-        numero: updateClienteDto.numero,
-        complemento: updateClienteDto.complemento,
-      },
+      data: updateClienteDto,
     });
   }
 

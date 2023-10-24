@@ -1,38 +1,40 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CotacaosService } from './cotacaos.service';
+import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cotacoes')
 @Controller('cotacoes')
-export class CotacaosController {
-  constructor(private readonly cotacaosService: CotacaosService) {}
-  
+export class CotacoesController {
+  constructor(private readonly cotacoesService: CotacoesService) {}
+
   @Get('count')
-  countAll(){
-    return this.cotacaosService.countAllCotacaos();
+  countAll() {
+    return this.cotacoesService.countAllCotacaos();
   }
   @Post()
   create(@Body() createCotacaoDto: CreateCotacaoDto) {
-    return this.cotacaosService.create(createCotacaoDto);
+    return this.cotacoesService.create(createCotacaoDto);
   }
 
   @Get()
   findAll() {
-    return this.cotacaosService.findAll();
+    return this.cotacoesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.cotacaosService.findOne(+id);
+    return this.cotacoesService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
-    return this.cotacaosService.update(+id, updateCotacaoDto);
+    return this.cotacoesService.update(+id, updateCotacaoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.cotacaosService.remove(+id);
+    return this.cotacoesService.remove(+id);
   }
 }

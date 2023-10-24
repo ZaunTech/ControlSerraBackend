@@ -10,16 +10,7 @@ export class OrcamentosService {
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
     const orcamento = await this.prismaService.orcamento.create({
-      data: {
-        validade: createOrcamentoDto.validade,
-        totalMaoObra: createOrcamentoDto.totalMaoObra,
-        totalMateriais: createOrcamentoDto.totalMateriais,
-        valorPago: createOrcamentoDto.valorPago,
-        status: createOrcamentoDto.status,
-        prazoEstimadoProducao: createOrcamentoDto.prazoEstimadoProducao,
-        observacoes: createOrcamentoDto.observacoes,
-        idCliente: createOrcamentoDto.idCliente
-      }
+      data: createOrcamentoDto,
     })
   }
 
@@ -41,15 +32,7 @@ export class OrcamentosService {
   async update(id: number, updateOrcamentoDto: UpdateOrcamentoDto) {
     const orcamento = await this.prismaService.orcamento.update({
       where: { id },
-      data: {
-        totalMaoObra: updateOrcamentoDto.totalMaoObra,
-        totalMateriais: updateOrcamentoDto.totalMateriais,
-        valorPago: updateOrcamentoDto.valorPago,
-        status: updateOrcamentoDto.status,
-        prazoEstimadoProducao: updateOrcamentoDto.prazoEstimadoProducao,
-        observacoes: updateOrcamentoDto.observacoes,
-        idCliente: updateOrcamentoDto.idCliente,
-      }
+      data: updateOrcamentoDto,
   })
 
   if(orcamento){

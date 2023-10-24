@@ -23,11 +23,7 @@ constructor(private readonly prismaService: PrismaService) {}
     const pedido = await this.findOneBypagamento(createPedidoDto.pagamento);
     if (!pedido) {
       return await this.prismaService.pedido.create({
-        data: {
-          pagamento: createPedidoDto.pagamento,
-          status: createPedidoDto.status,
-          idOrcamento: createPedidoDto.idOrcamento
-        }
+        data: createPedidoDto,
       })
     }
   }
@@ -43,11 +39,7 @@ constructor(private readonly prismaService: PrismaService) {}
   async update(id: number, updatePedidoDto: UpdatePedidoDto) {
     return await this.prismaService.pedido.update({
       where: {id},
-      data: {
-        pagamento: updatePedidoDto.pagamento,
-        status: updatePedidoDto.status,
-        idOrcamento: updatePedidoDto.idOrcamento,
-      },
+      data: updatePedidoDto,
     });
   }
 

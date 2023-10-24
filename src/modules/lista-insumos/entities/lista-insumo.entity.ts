@@ -1,4 +1,4 @@
-import { Cotacao } from 'src/modules/cotacaos/entities/cotacao.entity';
+import { Cotacao } from 'src/modules/cotacoes/entities/cotacao.entity';
 import { Insumo } from 'src/modules/insumos/entities/insumo.entity';
 import { Produto } from 'src/modules/produtos/entities/produto.entity';
 
