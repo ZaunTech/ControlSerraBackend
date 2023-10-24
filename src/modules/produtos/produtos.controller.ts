@@ -11,7 +11,7 @@ export class ProdutosController {
 
   @Get('count')
   countAll(){
-    return this.produtosService.countAll;
+    return this.produtosService.countAll();
   }
 
   @Post()
