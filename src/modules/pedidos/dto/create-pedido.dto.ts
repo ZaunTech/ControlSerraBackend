@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { status } from '@prisma/client';
+import { IsNotEmpty } from 'class-validator';
 export class CreatePedidoDto {
   @ApiProperty({
     description:
       'O pagamento serve para descrever o quanto o cliente pagará no total para o orçamento',
     example: '2400',
   })
+  @IsNotEmpty({message:""})
   pagamento: number;
   
   @ApiProperty({

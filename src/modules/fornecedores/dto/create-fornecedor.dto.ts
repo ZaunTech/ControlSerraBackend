@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { contaTipo } from '@prisma/client';
-import { IsEnum, IsString, Matches, MaxLength, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Matches, MaxLength, ValidateIf } from 'class-validator';
 
 export class CreateFornecedorDto {
   @ApiProperty({
     description: 'O email serve pare descrever o email do fornecedor',
     example: 'email@gmail.com',
   })
+  @IsNotEmpty({message:""})
   @IsString()
   @Matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,{
     message: "Insira um endereco de email valido"
@@ -17,6 +18,7 @@ export class CreateFornecedorDto {
     description: 'O telefone serve para descrever o numero de telefone do fornecedor',
     example: '1734112736',
   })
+  @IsNotEmpty({message:""})
   @IsString()
   telefone: string;
   
@@ -25,6 +27,7 @@ export class CreateFornecedorDto {
     example: 'Fisica',
     enum: contaTipo
   })
+  @IsNotEmpty({message:""})
   @IsEnum(contaTipo)
   contaTipo: contaTipo;
   
