@@ -19,6 +19,12 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto);
   }
 
+  @Get('prodOrc/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.produtosService.findProdutoOrc(+id);
+  }
+
   @Get(':busca')
   findManyByTitle(@Param('titulo') buscaparam: string)
   {

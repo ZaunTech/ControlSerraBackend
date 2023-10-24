@@ -12,11 +12,13 @@ export class ProdutosService {
       where: { titulo },
     });
   }
+
   async findManyByTitle(titulo: string) {
     return await this.prismaService.produto.findMany({
       where: { titulo },
     });
   }
+
   async create(createProdutoDto: CreateProdutoDto) {
     const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
     if (!produtoExiste) {
@@ -24,6 +26,16 @@ export class ProdutosService {
         data: createProdutoDto,
       });
     }
+  }
+
+  async findProdutoOrc(id: number) {
+    return await this.prismaService.produto.findMany({
+      where: {
+        OR: [
+          {orcamentoId: {equals: id}}
+        ],
+      },
+    });
   }
 
   async countAll() {

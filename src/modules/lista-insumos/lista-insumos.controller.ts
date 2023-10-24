@@ -22,6 +22,12 @@ export class ListaInsumosController {
     return this.listaInsumosService.findAll();
   }
 
+  @Get('insumoProd/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.listaInsumosService.findInsumoProd(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.listaInsumosService.findOne(+id);

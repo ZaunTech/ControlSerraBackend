@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -23,6 +24,7 @@ model Insumo {
   id                Int                 @id @default(autoincrement())
   titulo            String
   descricao         String?
+  dimensoes         String
   unidadeMedida     String?
   idCategoria       Int?
   categoria         Categoria?          @relation(fields: [idCategoria], references: [id])
@@ -126,7 +128,7 @@ model Produto {
   listaInsumos  ListaInsumo[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  Orcamento     Orcamento    @relation(fields: [orcamentoId], references: [id])
+  Orcamento     Orcamento     @relation(fields: [orcamentoId], references: [id])
   orcamentoId   Int
 
   @@map("Produtos")
@@ -136,6 +138,7 @@ model Cotacao {
   id           Int           @id @default(autoincrement())
   data         DateTime
   valor        Float
+  dimensoes    String
   idFornecedor Int           @unique
   idInsumo     Int           @unique
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
@@ -150,6 +153,7 @@ model Cotacao {
 model ListaInsumo {
   id         Int      @id @default(autoincrement())
   quantidade Int      @default(1)
+  dimensoes  String
   idProduto  Int
   idInsumo   Int
   idCotacao  Int?
@@ -170,6 +174,7 @@ model Usuario {
   email       String      @unique
   telefone    String
   senha       String
+  token       String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
@@ -190,6 +195,7 @@ model ProdutoBase {
 model InsumoProdutoBase {
   id            Int          @id @default(autoincrement())
   quantidade    Float        @default(1)
+  dimensoes     String
   idProdutoBase Int
   idInsumo      Int
   produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])

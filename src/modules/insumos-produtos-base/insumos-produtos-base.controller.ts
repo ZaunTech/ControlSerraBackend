@@ -14,6 +14,12 @@ export class InsumosProdutosBaseController {
     return this.insumosProdutosBaseService.countAll();
   }
 
+  @Get('insumoProd/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.insumosProdutosBaseService.findInsumoProdBase(+id);
+  }
+
   @Post()
   create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);

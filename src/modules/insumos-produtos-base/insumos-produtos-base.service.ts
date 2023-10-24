@@ -17,6 +17,16 @@ export class InsumosProdutosBaseService {
     return await this.prismaService.insumoProdutoBase.count();
   }
 
+  async findInsumoProdBase(id: number) {
+    return await this.prismaService.insumoProdutoBase.findMany({
+      where: {
+        OR: [
+          {idProdutoBase: {equals: id}}
+        ],
+      },
+    });
+  }
+
   async findAll() {
     return await this.prismaService.insumoProdutoBase.findMany();
   }
