@@ -162,7 +162,7 @@ model ListaInsumo {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  @@map("Lista Insumos")
+  @@map("ListaInsumos")
 }
 
 model Usuario {
@@ -188,7 +188,7 @@ model ProdutoBase {
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
 
-  @@map("Produtos Base")
+  @@map("ProdutosBase")
 }
 
 model InsumoProdutoBase {
@@ -202,7 +202,7 @@ model InsumoProdutoBase {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
-  @@map("Insumos Produtos Base")
+  @@map("InsumosProdutosBase")
 }
 
 enum contaTipo {
