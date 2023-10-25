@@ -14,6 +14,8 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { ProdutosBaseModule } from './modules/produtos-base/produtos-base.module';
 import { InsumosProdutosBaseModule } from './modules/insumos-produtos-base/insumos-produtos-base.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -32,6 +34,10 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+  {
+    provide: APP_GUARD,
+    useClass: JwtAuthGuard,
+  }],
 })
 export class AppModule {}
