@@ -137,8 +137,8 @@ model Cotacao {
   data         DateTime
   valor        Float
   dimensoes    String
-  idFornecedor Int           @unique
-  idInsumo     Int           @unique
+  idFornecedor Int          
+  idInsumo     Int           
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
   insumo       Insumo        @relation(fields: [idInsumo], references: [id])
   createdAt    DateTime      @default(now())
