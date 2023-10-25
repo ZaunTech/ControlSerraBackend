@@ -2,10 +2,23 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('insumos-produtos-base')
 @Controller('insumos-produtos-base')
 export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
+
+  @Get('count')
+  countAll() {
+    return this.insumosProdutosBaseService.countAll();
+  }
+
+  @Get('insumoProd/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.insumosProdutosBaseService.findInsumoProdBase(+id);
+  }
 
   @Post()
   create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {

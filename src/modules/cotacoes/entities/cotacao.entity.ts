@@ -1,10 +1,9 @@
-import { ListaInsumo } from 'src/modules/lista-insumos/entities/lista-insumo.entity';
-
 export class Cotacao {
   id: number;
   data: Date;
-  valor?: number;
+  valor: number;
   idFornecedor: number;
+  dimensoes: string;
   idInsumo: number;
   createdAt: Date;
   updatedAt: Date;

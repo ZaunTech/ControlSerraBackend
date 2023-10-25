@@ -1,5 +1,4 @@
 import { contaTipo } from '@prisma/client';
-import { Cotacao } from 'src/modules/cotacaos/entities/cotacao.entity';
 
 export class Fornecedor {
   id: number;
@@ -20,7 +19,6 @@ export class Fornecedor {
   nomeFantasia?: string;
   razaoSocial?: string;
   cnpj?: string;
-  cotacaos?: Cotacao[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -9,29 +9,40 @@ export class InsumosProdutosBaseService {
  
   async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return await this.prismaService.insumoProdutoBase.create({
-      data: {
-        quantidade :  createInsumosProdutosBaseDto.quantidade,
-        idProdutoBase: createInsumosProdutosBaseDto.idProdutoBase,
-        idInsumo : createInsumosProdutosBaseDto.idInsumo,
-        createdAt:   createInsumosProdutosBaseDto.createdAt ,
-        updatedAt:    createInsumosProdutosBaseDto.updatedAt  ,
-       }
+      data: createInsumosProdutosBaseDto,
     });
   }
 
-  findAll() {
-    return `This action returns all insumosProdutosBase`;
+  async countAll(){
+    return await this.prismaService.insumoProdutoBase.count();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} insumosProdutosBase`;
+  async findInsumoProdBase(id: number) {
+    return await this.prismaService.insumoProdutoBase.findMany({
+      where: {
+        OR: [
+          {idProdutoBase: {equals: id}}
+        ],
+      },
+    });
   }
 
-  update(id: number, updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
-    return `This action updates a #${id} insumosProdutosBase`;
+  async findAll() {
+    return await this.prismaService.insumoProdutoBase.findMany();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} insumosProdutosBase`;
+  async findOne(id: number) {
+    return await this.prismaService.insumoProdutoBase.findFirst({ where: { id } });
+  }
+
+  async update(id: number, updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
+    return await this.prismaService.insumoProdutoBase.update({
+      where: { id },
+      data: updateInsumosProdutosBaseDto,
+    })
+  }
+
+  async remove(id: number) {
+    return await this.prismaService.insumoProdutoBase.delete({ where: { id } })
   }
 }

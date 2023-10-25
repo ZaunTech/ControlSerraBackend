@@ -2,19 +2,27 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('produtos')
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
   @Get('count')
   countAll(){
-    return this.produtosService.countAll;
+    return this.produtosService.countAll();
   }
 
   @Post()
   create(@Body() createProdutoDto: CreateProdutoDto) {
     return this.produtosService.create(createProdutoDto);
+  }
+
+  @Get('prodOrc/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.produtosService.findProdutoOrc(+id);
   }
 
   @Get(':busca')
