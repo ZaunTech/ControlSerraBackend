@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Matches } from 'class-validator';
+import { IsNotEmpty, IsOptional, Matches } from 'class-validator';
 
 export class CreateCategoriaDto {
   @ApiProperty({
@@ -23,5 +23,6 @@ export class CreateCategoriaDto {
     example: 'Grupo de materiais de aço, ferro e aluminio',
   })
   @Matches(/^[a-zA-Z -]*$/, { message: 'A descrição só pode ter letras' })
+  @IsOptional()
   descricao?: string;
 }

@@ -1,13 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { contaTipo } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString, Matches, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, Matches, ValidateIf } from 'class-validator';
 
 export class CreateClienteDto {
   @ApiProperty({
     description: 'O email serve para descrever o email do cliente',
     example: 'email@gmail.com',
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:" O email não pode estar vazio. Insire um email valido"})
   @IsString()
   @Matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,{
     message: "Insira um endereco de email valido"
@@ -18,7 +18,7 @@ export class CreateClienteDto {
     description: 'O telefone serve para descrever o numero de telefone do cliente',
     example: '1734112736',
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:"O telefone não pode estar vazio. Insire um telefone valido"})
   @IsString()
   telefone: string;
 
@@ -26,7 +26,7 @@ export class CreateClienteDto {
     description: 'O tipo serve para diferenciar entre pessoa fisica e juridica',
     example: 'Fisica',
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:"Selecione apenas entre Fisico e Juridico"})
   @IsEnum(contaTipo)
   contaTipo: contaTipo;
 
@@ -36,6 +36,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   @IsString()
+  @IsOptional()
   nome?: string;
 
   @ApiProperty({
@@ -44,6 +45,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   @IsString()
+  @IsOptional()
   cpf?: string;
 
   @ApiProperty({
@@ -52,6 +54,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   @IsString()
+  @IsOptional()
   rg?: string;
 
   @ApiProperty({
@@ -60,6 +63,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   @IsString()
+  @IsOptional()
   nomeFantasia?: string;
 
   @ApiProperty({
@@ -68,6 +72,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   @IsString()
+  @IsOptional()
   razaoSocial?: string;
 
   @ApiProperty({
@@ -76,6 +81,7 @@ export class CreateClienteDto {
   })
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   @IsString()
+  @IsOptional()
   cnpj?: string;
 
   @ApiProperty({
@@ -83,6 +89,7 @@ export class CreateClienteDto {
     example: 'Brasil',
   })
   @IsString()
+  @IsOptional()
   pais?: string;
 
   @ApiProperty({
@@ -93,6 +100,7 @@ export class CreateClienteDto {
   @Matches(/^([\d]{2})\.?([\d]{3})\-?([\d]{3})/,{
     message: "Insira um CEP valido"
   })
+  @IsOptional()
   cep?: string;
 
   @ApiProperty({
@@ -100,6 +108,7 @@ export class CreateClienteDto {
     example: 'SP',
   })
   @IsString()
+  @IsOptional()
   estado?: string;
 
   @ApiProperty({
@@ -107,6 +116,7 @@ export class CreateClienteDto {
     example: 'Sorocaba',
   })
   @IsString()
+  @IsOptional()
   cidade?: string;
 
   @ApiProperty({
@@ -114,6 +124,7 @@ export class CreateClienteDto {
     example: 'Vila Barão',
   })
   @IsString()
+  @IsOptional()
   bairro?: string;
 
   @ApiProperty({
@@ -121,6 +132,7 @@ export class CreateClienteDto {
     example: 'Rua Manuel Lourenço Rodrigues',
   })
   @IsString()
+  @IsOptional()
   rua?: string;
 
   @ApiProperty({
@@ -128,6 +140,7 @@ export class CreateClienteDto {
     example: '44',
   })
   @IsString()
+  @IsOptional()
   numero?: string;
 
   @ApiProperty({
@@ -135,5 +148,6 @@ export class CreateClienteDto {
     example: 'apt. 42',
   })
   @IsString()
+  @IsOptional()
   complemento?: string;
 }

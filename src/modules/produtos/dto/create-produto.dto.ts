@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateProdutoDto {
   @ApiProperty({
@@ -6,6 +7,8 @@ export class CreateProdutoDto {
       'O titulo serve para identificar o produto',
     example: 'Portão',
   })
+  @IsNotEmpty({message: 'O produto precisa ter um titulo'})
+  @IsString()
   titulo: string;
   
   @ApiProperty({
@@ -13,6 +16,8 @@ export class CreateProdutoDto {
       'A quantidade serve para descrever quantas unidades deste produto serão necessárias para o orçamento',
     example: '3',
   })
+  @IsNotEmpty({message: 'O produto precisa de uma quantidade'})
+  @IsNumber()
   quantidade: number;
   
   @ApiProperty({
@@ -20,6 +25,8 @@ export class CreateProdutoDto {
       'O valor unitario serve para descrever o valor do produto como uma unica unidade',
     example: '340',
   })
+  @IsOptional()
+  @IsNumber()
   valorUnitario?: number;
   
   @ApiProperty({
@@ -27,6 +34,8 @@ export class CreateProdutoDto {
       'As observações servem para descrever caracteristicas relevantes sobre o produto',
     example: '2" x 6 m',
   })
+  @IsOptional()
+  @IsString()
   observacoes?: string;
   
   @ApiProperty({
@@ -34,5 +43,7 @@ export class CreateProdutoDto {
       'O id do orçamento serve para indentificar qual o orçamento a quem este produto pertence',
     example: '1',
   })
+  @IsNotEmpty({message:'O pedido precisa ter um orcamento que ele faz parte'})
+  @IsNumber()
   orcamentoId: number;
 }

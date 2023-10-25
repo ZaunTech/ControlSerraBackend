@@ -1,13 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { contaTipo } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString, Matches, MaxLength, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, ValidateIf } from 'class-validator';
 
 export class CreateFornecedorDto {
   @ApiProperty({
     description: 'O email serve pare descrever o email do fornecedor',
     example: 'email@gmail.com',
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:'O email não pode estar vazio. Insire um email valido'})
   @IsString()
   @Matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,{
     message: "Insira um endereco de email valido"
@@ -18,7 +18,7 @@ export class CreateFornecedorDto {
     description: 'O telefone serve para descrever o numero de telefone do fornecedor',
     example: '1734112736',
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:"O telefone não pode estar vazio. Insire um telefone valido"})
   @IsString()
   telefone: string;
   
@@ -27,7 +27,7 @@ export class CreateFornecedorDto {
     example: 'Fisica',
     enum: contaTipo
   })
-  @IsNotEmpty({message:""})
+  @IsNotEmpty({message:"Selecione apenas entre Fisico e Juridico"})
   @IsEnum(contaTipo)
   contaTipo: contaTipo;
   
@@ -36,6 +36,7 @@ export class CreateFornecedorDto {
     example: 'Brasil',
   })
   @IsString()
+  @IsOptional()
   pais?: string;
   
   @ApiProperty({
@@ -46,6 +47,7 @@ export class CreateFornecedorDto {
   @Matches(/^([\d]{2})\.?([\d]{3})\-?([\d]{3})/,{
     message: "Insira um CEP valido"
   })
+  @IsOptional()
   cep?: string;
   
   @ApiProperty({
@@ -53,6 +55,7 @@ export class CreateFornecedorDto {
     example: 'SP',
   })
   @IsString()
+  @IsOptional()
   estado?: string;
   
   @ApiProperty({
@@ -60,6 +63,7 @@ export class CreateFornecedorDto {
     example: 'Sorocaba',
   })
   @IsString()
+  @IsOptional()
   cidade?: string;
   
   @ApiProperty({
@@ -67,6 +71,7 @@ export class CreateFornecedorDto {
     example: 'Vila Barão',
   })
   @IsString()
+  @IsOptional()
   bairro?: string;
   
   @ApiProperty({
@@ -74,6 +79,7 @@ export class CreateFornecedorDto {
     example: 'Rua Manuel Lourenço Rodrigues',
   })
   @IsString()
+  @IsOptional()
   rua?: string;
   
   @ApiProperty({
@@ -81,6 +87,7 @@ export class CreateFornecedorDto {
     example: '44',
   })
   @IsString()
+  @IsOptional()
   numero?: string;
   
   @ApiProperty({
@@ -88,6 +95,7 @@ export class CreateFornecedorDto {
     example: 'apt. 42',
   })
   @IsString()
+  @IsOptional()
   complemento?: string;
   
   @ApiProperty({
@@ -95,6 +103,7 @@ export class CreateFornecedorDto {
     example: 'João Pedro',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   nome?: string;
   
@@ -103,6 +112,7 @@ export class CreateFornecedorDto {
     example: '02370334029',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   cpf?: string;
   
@@ -111,6 +121,7 @@ export class CreateFornecedorDto {
     example: '114421225',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   rg?: string;
   
@@ -119,6 +130,7 @@ export class CreateFornecedorDto {
     example: 'ZawnTech',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   nomeFantasia?: string;
   
@@ -127,6 +139,7 @@ export class CreateFornecedorDto {
     example: 'Industria mecanica modelo Ltda.',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   razaoSocial?: string;
   
@@ -135,6 +148,7 @@ export class CreateFornecedorDto {
     example: '31895255000193',
   })
   @IsString()
+  @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Juridica)
   cnpj?: string;
 }
