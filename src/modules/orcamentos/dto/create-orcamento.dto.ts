@@ -43,8 +43,9 @@ export class CreateOrcamentoDto {
       'O prazo estimado de produção serve para descrever uma estimativa de quanto tempo será necessário para concluir o orçamento, descrito em dias',
     example: '90',
   })
-  @IsNotEmpty({message:'O Orcamento precisa ter um valor estimado'})
-  prazoEstimadoProducao: number;
+  @IsOptional()
+  @IsNumber()
+  prazoEstimadoProducao?: number;
 
   @ApiProperty({
     description:

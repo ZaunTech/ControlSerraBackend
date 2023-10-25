@@ -56,7 +56,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     description:
       'A senha serve para o usuário realizar o acesso dentro da aplicação',
-    example: '1234',
+      example: 'acgf_HH-17_28',
   })
   @IsNotEmpty({message:"Senha vazia. Insira uma senha de 8 a 20 caracteres, com o uso de letras maiusculas e minusculas, numeros e caracteres especiais(@#$%_-)."})
   @IsString()
