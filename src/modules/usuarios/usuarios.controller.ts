@@ -29,7 +29,7 @@ export class UsuariosController {
   async findOne(@Param('id') id: string) {
     return await this.usuariosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return await this.usuariosService.update(+id, updateUsuarioDto);

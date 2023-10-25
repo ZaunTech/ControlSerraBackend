@@ -29,7 +29,7 @@ export class InsumosController {
   async findOne(@Param('id') id: string) {
     return await this.insumosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateInsumoDto: UpdateInsumoDto) {
     return await this.insumosService.update(+id, updateInsumoDto);

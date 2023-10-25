@@ -29,7 +29,7 @@ export class ProdutosBaseController {
   async findOne(@Param('id') id: string) {
     return await this.produtosBaseService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProdutosBaseDto: UpdateProdutosBaseDto) {
     return await this.produtosBaseService.update(+id, updateProdutosBaseDto);

@@ -25,7 +25,7 @@ export class ListaInsumosController {
   async findOne(@Param('id') id: string) {
     return await this.listaInsumosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateListaInsumoDto: UpdateListaInsumoDto) {
     return await this.listaInsumosService.update(+id, updateListaInsumoDto);

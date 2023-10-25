@@ -35,7 +35,7 @@ export class ProdutosController {
   async findOne(@Param('id') id: string) {
     return await this.produtosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
     return await this.produtosService.update(+id, updateProdutoDto);

@@ -24,7 +24,7 @@ export class OrcamentosController {
   async findOne(@Param('id') id: string) {
     return await this.orcamentosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateOrcamentoDto: UpdateOrcamentoDto) {
     return await this.orcamentosService.update(+id, updateOrcamentoDto);

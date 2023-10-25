@@ -29,7 +29,7 @@ export class PedidosController {
   async findOne(@Param('id') id: string) {
     return await this.pedidosService.findOne(+id);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
     return await this.pedidosService.update(+id, updatePedidoDto);

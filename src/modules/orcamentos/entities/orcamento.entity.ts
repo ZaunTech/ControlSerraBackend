@@ -9,7 +9,7 @@ export class Orcamento {
   totalMaoObra?: number;
   totalMateriais?: number;
   status: status;
-  prazoEstimadoProducao: number;
+  prazoEstimadoProducao?: number;
   observacoes?: string;
   idCliente: number;
   idPedido?: number;
