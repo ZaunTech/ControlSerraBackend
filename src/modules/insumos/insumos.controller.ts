@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { InsumosService } from './insumos.service';
 import { CreateInsumoDto } from './dto/create-insumo.dto';
 import { UpdateInsumoDto } from './dto/update-insumo.dto';
@@ -26,8 +36,8 @@ export class InsumosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosService.findOne(+id);
   }
 
   @Patch(':id')

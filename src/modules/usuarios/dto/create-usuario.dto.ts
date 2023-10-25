@@ -41,4 +41,6 @@ export class CreateUsuarioDto {
     example: '1234',
   })
   senha: string;
+
+  token: string;
 }

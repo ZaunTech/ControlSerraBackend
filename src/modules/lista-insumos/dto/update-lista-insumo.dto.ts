@@ -31,4 +31,6 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
     example: '5',
   })
   idCotacao?: number;
+
+  dimensoes: string;
 }
