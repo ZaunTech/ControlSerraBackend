@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -10,38 +10,39 @@ export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
   @Get('count')
-  countAll(){
-    return this.produtosService.countAll();
+  async countAll(){
+    return await this.produtosService.countAll();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtosService.create(createProdutoDto);
+  async create(@Body() createProdutoDto: CreateProdutoDto) {
+    return await this.produtosService.create(createProdutoDto);
   }
 
   @Get(':busca')
-  findManyByTitle(@Param('titulo') buscaparam: string)
+  async findManyByTitle(@Param('titulo') buscaparam: string)
   {
-    return this.produtosService.findManyByTitle(buscaparam);
+    return await this.produtosService.findManyByTitle(buscaparam);
   }
 
   @Get()
-  findAll() {
-    return this.produtosService.findAll();
+  async findAll() {
+    return await this.produtosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.produtosService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtosService.update(+id, updateProdutoDto);
+  async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
+    return await this.produtosService.update(+id, updateProdutoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.produtosService.remove(+id);
   }
 }

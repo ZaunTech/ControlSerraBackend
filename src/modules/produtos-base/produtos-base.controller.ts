@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
@@ -10,32 +10,33 @@ export class ProdutosBaseController {
   constructor(private readonly produtosBaseService: ProdutosBaseService) {}
 
   @Get('count')
-  countAll() {
-    return this.produtosBaseService.countAll();
+  async countAll() {
+    return await this.produtosBaseService.countAll();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
-    return this.produtosBaseService.create(createProdutosBaseDto);
+  async create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
+    return await this.produtosBaseService.create(createProdutosBaseDto);
   }
 
   @Get()
-  findAll() {
-    return this.produtosBaseService.findAll();
+  async findAll() {
+    return await this.produtosBaseService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosBaseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.produtosBaseService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutosBaseDto: UpdateProdutosBaseDto) {
-    return this.produtosBaseService.update(+id, updateProdutosBaseDto);
+  async update(@Param('id') id: string, @Body() updateProdutosBaseDto: UpdateProdutosBaseDto) {
+    return await this.produtosBaseService.update(+id, updateProdutosBaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosBaseService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.produtosBaseService.remove(+id);
   }
 }

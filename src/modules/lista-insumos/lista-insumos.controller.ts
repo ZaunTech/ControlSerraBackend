@@ -11,29 +11,28 @@ export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
 
   @UsePipes(ValidationPipe)
-
   @Post()
-  create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
-    return this.listaInsumosService.create(createListaInsumoDto);
+  async create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
+    return await this.listaInsumosService.create(createListaInsumoDto);
   }
 
   @Get()
-  findAll() {
-    return this.listaInsumosService.findAll();
+  async findAll() {
+    return await this.listaInsumosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listaInsumosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.listaInsumosService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateListaInsumoDto: UpdateListaInsumoDto) {
-    return this.listaInsumosService.update(+id, updateListaInsumoDto);
+  async update(@Param('id') id: string, @Body() updateListaInsumoDto: UpdateListaInsumoDto) {
+    return await this.listaInsumosService.update(+id, updateListaInsumoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.listaInsumosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.listaInsumosService.remove(+id);
   }
 }

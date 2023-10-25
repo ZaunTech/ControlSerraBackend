@@ -10,33 +10,33 @@ export class InsumosController {
   constructor(private readonly insumosService: InsumosService) {}
 
   @Get('count')
-  countAll() {
-    return this.insumosService.countAll();
+  async countAll() {
+    return await this.insumosService.countAll();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createInsumoDto: CreateInsumoDto) {
-    return this.insumosService.create(createInsumoDto);
+   async create(@Body() createInsumoDto: CreateInsumoDto) {
+    return await this.insumosService.create(createInsumoDto);
   }
 
   @Get()
-  findAll() {
-    return this.insumosService.findAll();
+  async findAll() {
+    return await this.insumosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInsumoDto: UpdateInsumoDto) {
-    return this.insumosService.update(+id, updateInsumoDto);
+  async update(@Param('id') id: string, @Body() updateInsumoDto: UpdateInsumoDto) {
+    return await this.insumosService.update(+id, updateInsumoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.insumosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.insumosService.remove(+id);
   }
 }

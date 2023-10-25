@@ -11,40 +11,38 @@ export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
   @Get('count')
-  countAll(){
-    return this.categoriasService.countAllCategorias();
+  async countAll(){
+    return await this.categoriasService.countAllCategorias();
   }
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createCategoriaDto: CreateCategoriaDto) {
-    return this.categoriasService.create(createCategoriaDto);
+  async create(@Body() createCategoriaDto: CreateCategoriaDto) {
+    return await this.categoriasService.create(createCategoriaDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.categoriasService.findAll();
   }
 
   @Get(':busca')
-  findManyByTitle(@Param('busca') buscaParam: string) {
-    return this.categoriasService.findManyByTitle(buscaParam);
+  async findManyByTitle(@Param('busca') buscaParam: string) {
+    return await this.categoriasService.findManyByTitle(buscaParam);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriasService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.categoriasService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCategoriaDto: UpdateCategoriaDto,
-  ) {
-    return this.categoriasService.update(+id, updateCategoriaDto);
+  async update(@Param('id') id: string,@Body() updateCategoriaDto: UpdateCategoriaDto,) {
+    return await this.categoriasService.update(+id, updateCategoriaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriasService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.categoriasService.remove(+id);
   }
 }

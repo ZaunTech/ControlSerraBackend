@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
@@ -10,32 +10,33 @@ export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
   @Get('count')
-  countAll() {
-    return this.insumosProdutosBaseService.countAll();
+  async countAll() {
+    return await this.insumosProdutosBaseService.countAll();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
+  async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
 
   @Get()
-  findAll() {
-    return this.insumosProdutosBaseService.findAll();
+  async findAll() {
+    return await this.insumosProdutosBaseService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
+  async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.remove(+id);
   }
 }

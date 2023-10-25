@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
@@ -10,31 +10,33 @@ export class CotacoesController {
   constructor(private readonly cotacoesService: CotacoesService) {}
 
   @Get('count')
-  countAll() {
-    return this.cotacoesService.countAllCotacaos();
+  async countAll() {
+    return await this.cotacoesService.countAllCotacaos();
   }
+  @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createCotacaoDto: CreateCotacaoDto) {
-    return this.cotacoesService.create(createCotacaoDto);
+  async create(@Body() createCotacaoDto: CreateCotacaoDto) {
+    return await this.cotacoesService.create(createCotacaoDto);
   }
 
   @Get()
-  findAll() {
-    return this.cotacoesService.findAll();
+  async findAll() {
+    return await this.cotacoesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cotacoesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.cotacoesService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
-    return this.cotacoesService.update(+id, updateCotacaoDto);
+  async update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
+    return await this.cotacoesService.update(+id, updateCotacaoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cotacoesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.cotacoesService.remove(+id);
   }
 }
