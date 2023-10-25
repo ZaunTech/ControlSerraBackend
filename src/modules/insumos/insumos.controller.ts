@@ -12,7 +12,9 @@ import {
 import { InsumosService } from './insumos.service';
 import { CreateInsumoDto } from './dto/create-insumo.dto';
 import { UpdateInsumoDto } from './dto/update-insumo.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('insumos')
 @Controller('insumos')
 export class InsumosController {
   constructor(private readonly insumosService: InsumosService) {}
@@ -34,8 +36,8 @@ export class InsumosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosService.findOne(+id);
   }
 
   @Patch(':id')
