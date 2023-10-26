@@ -45,4 +45,14 @@ export class CotacoesController {
   remove(@Param('id') id: string) {
     return this.cotacoesService.remove(+id);
   }
+
+  @Get('findByFornecedor/:id')
+  async findManyByFornecedor(@Param('id') id: string) {
+    return await this.cotacoesService.findManyByFornecedor(+id);
+  }
+
+  @Get('findByInsumo/:id')
+  async findManyByInsumo(@Param('id') id: string) {
+    return await this.cotacoesService.findManyByInsumo(+id);
+  }
 }

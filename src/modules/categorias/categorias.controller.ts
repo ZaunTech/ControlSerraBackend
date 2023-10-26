@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
@@ -11,7 +21,7 @@ export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
   @Get('count')
-  countAll(){
+  countAll() {
     return this.categoriasService.countAllCategorias();
   }
   @UsePipes(ValidationPipe)
@@ -24,15 +34,14 @@ export class CategoriasController {
   findAll() {
     return this.categoriasService.findAll();
   }
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.categoriasService.findOne(+id);
+  }
 
   @Get(':busca')
   findManyByTitle(@Param('busca') buscaParam: string) {
     return this.categoriasService.findManyByTitle(buscaParam);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriasService.findOne(+id);
   }
 
   @Patch(':id')
