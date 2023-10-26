@@ -33,22 +33,23 @@ export class AuthService {
    };
 
    const token = this.jwtService.sign(payload);
-
    return { access_token: token };
  }
 
   async login(user: Usuario):Promise<UserToken> {
-  const payload:UserPayload = {
+  
+    const payload:UserPayload = {
           sub: user.id, 
           email: user.email,
           name: user.nome,
           senha: user.senha,
         };
 
-        return {access_token: this.jwtService.sign(payload)};
-    }
+        const token = this.jwtService.sign(payload);
+        return {access_token: token};
+  }
   
-    async validateUser(email: string, password: string){
+  async validateUser(email: string, password: string){
     const usuario = await this.usuarioService.findByEmail(email);
 
     if (usuario) {

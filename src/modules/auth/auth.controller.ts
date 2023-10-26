@@ -12,14 +12,14 @@ import { AuthRequest } from './models/AuthRequest';
 import { ApiTags } from '@nestjs/swagger';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
-import { UserToken } from './models/UserToken';
 
 
 @ApiTags('auth')
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService,private readonly usuariosService: UsuariosService ) {}
   
+  @IsPublic()
   @Post('register')
   async register(@Body() createUserDto: CreateUsuarioDto){
     const user = await this.authService.register(createUserDto);
