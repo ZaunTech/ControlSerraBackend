@@ -8,8 +8,7 @@ export class CotacoesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async countAllCotacaos() {
-    return await this.prismaService.cotacao.count({
-    });
+    return await this.prismaService.cotacao.count({});
   }
   async create(createCotacaoDto: CreateCotacaoDto) {
     return await this.prismaService.cotacao.create({
@@ -21,11 +20,23 @@ export class CotacoesService {
     return await this.prismaService.cotacao.findMany();
   }
 
+  async findManyByFornecedor(id: number) {
+    return await this.prismaService.cotacao.findMany({
+      where: { idFornecedor: id },
+    });
+  }
+
+  async findManyByInsumo(id: number) {
+    return await this.prismaService.cotacao.findMany({
+      where: { idInsumo: id },
+    });
+  }
+
   async findOne(id: number) {
     return await this.prismaService.cotacao.findFirst({
       where: {
         id,
-      }
+      },
     });
   }
 

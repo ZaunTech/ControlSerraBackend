@@ -126,7 +126,7 @@ model Produto {
   listaInsumos  ListaInsumo[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  Orcamento     Orcamento    @relation(fields: [orcamentoId], references: [id])
+  Orcamento     Orcamento     @relation(fields: [orcamentoId], references: [id])
   orcamentoId   Int
 
   @@map("Produtos")
@@ -136,8 +136,9 @@ model Cotacao {
   id           Int           @id @default(autoincrement())
   data         DateTime
   valor        Float
-  idFornecedor Int           @unique
-  idInsumo     Int           @unique
+  dimensoes    String
+  idFornecedor Int          
+  idInsumo     Int           
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
   insumo       Insumo        @relation(fields: [idInsumo], references: [id])
   createdAt    DateTime      @default(now())
@@ -150,6 +151,7 @@ model Cotacao {
 model ListaInsumo {
   id         Int      @id @default(autoincrement())
   quantidade Int      @default(1)
+  dimensoes  String
   idProduto  Int
   idInsumo   Int
   idCotacao  Int?
@@ -170,6 +172,7 @@ model Usuario {
   email       String      @unique
   telefone    String
   senha       String
+  token       String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
@@ -190,6 +193,7 @@ model ProdutoBase {
 model InsumoProdutoBase {
   id            Int          @id @default(autoincrement())
   quantidade    Float        @default(1)
+  dimensoes     String
   idProdutoBase Int
   idInsumo      Int
   produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])

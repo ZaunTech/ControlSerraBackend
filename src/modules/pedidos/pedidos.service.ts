@@ -5,26 +5,14 @@ import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class PedidosService {
-constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
- async findOneBypagamento(pagamento: number) {
-    return await this.prismaService.pedido.findFirst({
-      where: {pagamento},
-    });
-  }
-
-  async findManyByPagamento(pagamento: number)
-  {
-    return await this.prismaService.pedido.findMany({
-      where: {pagamento},
-    });
-  }
   async create(createPedidoDto: CreatePedidoDto) {
-    const pedido = await this.findOneBypagamento(createPedidoDto.pagamento);
+    const pedido = await this.findOne(createPedidoDto.idOrcamento);
     if (!pedido) {
       return await this.prismaService.pedido.create({
         data: createPedidoDto,
-      })
+      });
     }
   }
 
@@ -33,17 +21,17 @@ constructor(private readonly prismaService: PrismaService) {}
   }
 
   async findOne(id: number) {
-    return await this.prismaService.pedido.findFirst({where: {id}});
+    return await this.prismaService.pedido.findFirst({ where: { id } });
   }
 
   async update(id: number, updatePedidoDto: UpdatePedidoDto) {
     return await this.prismaService.pedido.update({
-      where: {id},
+      where: { id },
       data: updatePedidoDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.pedido.delete({where: {id}});
+    return await this.prismaService.pedido.delete({ where: { id } });
   }
 }
