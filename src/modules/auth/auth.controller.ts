@@ -20,13 +20,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService,private readonly usuariosService: UsuariosService ) {}
   
   @IsPublic()
-  @Post('register')
-  async register(@Body() createUserDto: CreateUsuarioDto){
-    const user = await this.authService.register(createUserDto);
-    return user;
-  }
-
-  @IsPublic()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
