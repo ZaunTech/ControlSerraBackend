@@ -31,5 +31,5 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
   })
   idInsumo?: number;
 
-  dimensoes: string;
+  unidade?: string;
 }

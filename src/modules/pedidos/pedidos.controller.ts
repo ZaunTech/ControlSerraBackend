@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
@@ -9,11 +17,16 @@ import { ApiTags } from '@nestjs/swagger';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
+  @Get('count')
+  async countAll() {
+    return await this.pedidosService.countAll();
+  }
+
   @Post()
   create(@Body() createPedidoDto: CreatePedidoDto) {
     return this.pedidosService.create(createPedidoDto);
   }
-  
+
   @Get()
   findAll() {
     return this.pedidosService.findAll();

@@ -31,5 +31,5 @@ export class CreateListaInsumoDto {
   })
   idCotacao?: number;
 
-  dimensoes: string;
+  unidade: string;
 }

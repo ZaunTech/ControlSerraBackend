@@ -26,5 +26,5 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
   })
   idInsumo?: number;
 
-  dimensoes: string;
+  unidade?: string;
 }

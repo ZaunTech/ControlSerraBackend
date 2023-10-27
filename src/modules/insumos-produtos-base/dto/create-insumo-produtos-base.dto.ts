@@ -22,5 +22,5 @@ export class CreateInsumosProdutosBaseDto {
   })
   idInsumo: number;
 
-  dimensoes: string;
+  unidade: string;
 }
