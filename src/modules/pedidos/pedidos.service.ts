@@ -16,6 +16,10 @@ export class PedidosService {
     }
   }
 
+  async findManyByPagamento(buscaParam: number) {
+    
+  }
+
   async findAll() {
     return await this.prismaService.pedido.findMany();
   }
