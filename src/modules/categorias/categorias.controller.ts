@@ -43,7 +43,7 @@ export class CategoriasController {
   findManyByTitle(@Param('busca') buscaParam: string) {
     return this.categoriasService.findManyByTitle(buscaParam);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(
     @Param('id') id: string,
