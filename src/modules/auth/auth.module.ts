@@ -8,11 +8,11 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { PrismaService } from 'src/databases/prisma.service';
-import { ConfigModule } from '@nestjs/config';
+import { UsuariosModule } from '../usuarios/usuarios.module';
 @Module({
   imports: [
+    UsuariosModule,
     PassportModule,
-    ConfigModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '30d' },
