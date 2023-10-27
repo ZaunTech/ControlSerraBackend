@@ -136,9 +136,9 @@ model Cotacao {
   id           Int           @id @default(autoincrement())
   data         DateTime
   valor        Float
-  dimensoes    String
-  idFornecedor Int          
-  idInsumo     Int           
+  unidade      String
+  idFornecedor Int
+  idInsumo     Int
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
   insumo       Insumo        @relation(fields: [idInsumo], references: [id])
   createdAt    DateTime      @default(now())
@@ -151,7 +151,7 @@ model Cotacao {
 model ListaInsumo {
   id         Int      @id @default(autoincrement())
   quantidade Int      @default(1)
-  dimensoes  String
+  unidade    String
   idProduto  Int
   idInsumo   Int
   idCotacao  Int?
@@ -193,7 +193,7 @@ model ProdutoBase {
 model InsumoProdutoBase {
   id            Int          @id @default(autoincrement())
   quantidade    Float        @default(1)
-  dimensoes     String
+  unidade       String
   idProdutoBase Int
   idInsumo      Int
   produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])

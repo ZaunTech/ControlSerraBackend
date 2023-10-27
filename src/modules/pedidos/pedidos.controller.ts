@@ -1,3 +1,4 @@
+
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
@@ -9,7 +10,14 @@ import { ApiTags } from '@nestjs/swagger';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
+
   @UsePipes(ValidationPipe)
+  @Get('count')
+  async countAll() {
+    return await this.pedidosService.countAll();
+  }
+
+
   @Post()
   async create(@Body() createPedidoDto: CreatePedidoDto) {
     return await this.pedidosService.create(createPedidoDto);
@@ -19,6 +27,7 @@ export class PedidosController {
   async findManyByTitle(@Param('busca') buscaParam: number) {
     return await this.pedidosService.findManyByPagamento(buscaParam);
   }
+
 
   @Get()
   async findAll() {

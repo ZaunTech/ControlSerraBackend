@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  UsePipes,
+} from '@nestjs/common';
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { ApiTags } from '@nestjs/swagger';
-
 
 @ApiTags('lista-insumos')
 @Controller('lista-insumos')
@@ -21,10 +30,9 @@ export class ListaInsumosController {
     return await this.listaInsumosService.findAll();
   }
 
-  @Get('insumoProd/:id')
-  findProdutoOrc(@Param('id') id: number)
-  {
-    return this.listaInsumosService.findInsumoProd(+id);
+  @Get('produtos/:id')
+  async findProdutoOrc(@Param('id') id: number) {
+    return await this.listaInsumosService.findInsumoProd(+id);
   }
 
   @Get(':id')

@@ -40,5 +40,5 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
   @IsNumber()
   idCotacao?: number;
 
-  dimensoes: string;
+  unidade?: string;
 }

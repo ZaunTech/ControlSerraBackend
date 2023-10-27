@@ -36,5 +36,5 @@ export class CreateCotacaoDto {
   @IsNotEmpty({message: 'A cotacao deve um insumo relacionado a ela'})
   idInsumo: number;
 
-  dimensoes: string;
+  unidade: string;
 }

@@ -3,8 +3,8 @@ export class Cotacao {
   data: Date;
   valor: number;
   idFornecedor: number;
-  dimensoes: string;
   idInsumo: number;
+  unidade: string;
   createdAt: Date;
   updatedAt: Date;
 }

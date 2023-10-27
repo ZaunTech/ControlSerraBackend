@@ -29,5 +29,5 @@ export class CreateInsumosProdutosBaseDto {
   @IsNumber()
   idInsumo: number;
 
-  dimensoes: string;
+  unidade: string;
 }

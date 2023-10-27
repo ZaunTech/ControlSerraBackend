@@ -6,6 +6,9 @@ import { PrismaService } from 'src/databases/prisma.service';
 @Injectable()
 export class PedidosService {
   constructor(private readonly prismaService: PrismaService) {}
+  async countAll() {
+    return await this.prismaService.pedido.count({});
+  }
 
   async create(createPedidoDto: CreatePedidoDto) {
     const pedido = await this.findOne(createPedidoDto.idOrcamento);

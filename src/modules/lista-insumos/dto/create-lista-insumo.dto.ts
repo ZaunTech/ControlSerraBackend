@@ -38,5 +38,5 @@ export class CreateListaInsumoDto {
   @IsOptional()
   idCotacao?: number;
 
-  dimensoes: string;
+  unidade: string;
 }

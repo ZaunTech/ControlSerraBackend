@@ -1,3 +1,4 @@
+
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
@@ -8,6 +9,12 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('orcamentos')
 export class OrcamentosController {
   constructor(private readonly orcamentosService: OrcamentosService) {}
+
+
+  @Get('count')
+  async countAll() {
+    return await this.orcamentosService.countAll();
+  }
 
   @UsePipes(ValidationPipe)
   @Post()
@@ -28,6 +35,7 @@ export class OrcamentosController {
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateOrcamentoDto: UpdateOrcamentoDto) {
     return await this.orcamentosService.update(+id, updateOrcamentoDto);
+
   }
 
   @Delete(':id')

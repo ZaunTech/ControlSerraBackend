@@ -6,6 +6,9 @@ import { PrismaService } from 'src/databases/prisma.service';
 @Injectable()
 export class OrcamentosService {
   constructor(private readonly prismaService: PrismaService) {}
+  async countAll() {
+    return await this.prismaService.cliente.count({});
+  }
 
   async findCliente(id: number) {
     return await this.prismaService.cliente.findFirst({ where: { id } });
