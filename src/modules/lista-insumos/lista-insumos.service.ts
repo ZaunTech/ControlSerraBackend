@@ -13,6 +13,16 @@ export class ListaInsumosService {
     });
   }
 
+  async findInsumoProd(id: number) {
+    return await this.prismaService.listaInsumo.findMany({
+      where: {
+        OR: [
+          {idProduto: {equals: id}}
+        ],
+      },
+    });
+  }
+
   async findAll() {
     return await this.prismaService.listaInsumo.findMany();
   }

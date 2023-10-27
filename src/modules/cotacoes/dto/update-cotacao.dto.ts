@@ -36,4 +36,5 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
       @IsNumber()
       idInsumo?: number;
       
+      dimensoes: string;
 }

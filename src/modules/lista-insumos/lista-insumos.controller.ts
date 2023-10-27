@@ -21,6 +21,12 @@ export class ListaInsumosController {
     return await this.listaInsumosService.findAll();
   }
 
+  @Get('insumoProd/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.listaInsumosService.findInsumoProd(+id);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.listaInsumosService.findOne(+id);

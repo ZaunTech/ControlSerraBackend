@@ -20,6 +20,12 @@ export class ProdutosController {
     return await this.produtosService.create(createProdutoDto);
   }
 
+  @Get('prodOrc/:id')
+  findProdutoOrc(@Param('id') id: number)
+  {
+    return this.produtosService.findProdutoOrc(+id);
+  }
+
   @Get(':busca')
   async findManyByTitle(@Param('titulo') buscaparam: string)
   {

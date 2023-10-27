@@ -6,6 +6,7 @@ export class InsumoProdutosBase {
   quantidade?: number;
   idProdutoBase: number;
   idInsumo: number;
+  dimensoes: string;
   produtoBase: ProdutoBase;
   insumo: Insumo;
   createdAt: Date;

@@ -1,3 +1,4 @@
+
 import { Controller, Get, Post, Body, Patch, Param, Delete,UsePipes,ValidationPipe } from '@nestjs/common';
 import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedorDto } from './dto/create-fornecedor.dto';
@@ -24,8 +25,6 @@ export class FornecedoresController {
   async findAll() {
     return await this.fornecedoresService.findAll();
   }
-
-  
 
   @Get(':id')
   async findOne(@Param('id') id: string) {

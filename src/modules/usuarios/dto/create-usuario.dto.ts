@@ -66,4 +66,6 @@ export class CreateUsuarioDto {
       message: 'senha muito fraca',
   })
   senha: string;
+
+  token: string;
 }
