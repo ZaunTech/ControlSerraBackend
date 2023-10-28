@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
@@ -17,6 +18,12 @@ import { ApiTags } from '@nestjs/swagger';
 export class CotacoesController {
   constructor(private readonly cotacoesService: CotacoesService) {}
 
+@Get('paginate')
+async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  page = page || 1;
+  perPage = perPage || 10;
+  return await this.cotacoesService.findAllWithPagination(page, perPage);
+}
   @Get('count')
   countAll() {
     return this.cotacoesService.countAllCotacaos();
