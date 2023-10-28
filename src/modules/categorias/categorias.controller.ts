@@ -24,7 +24,7 @@ export class CategoriasController {
   @Get('paginate')
 async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
   page = page || 1;
-  perPage = perPage || 30;
+  perPage = perPage || 10;
   return await this.categoriasService.findAllWithPagination(page, perPage);
 }
 
