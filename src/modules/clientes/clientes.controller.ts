@@ -9,6 +9,13 @@ import { ApiTags } from '@nestjs/swagger';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
+@Get('paginate')
+async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  page = page || 1;
+  perPage = perPage || 10;
+  return await this.clientesService.findAllWithPagination(page, perPage);
+}
+
   @Get('count')
   countAll(){
     return this.clientesService.countAllCliente();
