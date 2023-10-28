@@ -8,6 +8,7 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 
 import { CategoriasService } from './categorias.service';
@@ -19,6 +20,13 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
+
+  @Get('paginate')
+async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  page = page || 1;
+  perPage = perPage || 30;
+  return await this.categoriasService.findAllWithPagination(page, perPage);
+}
 
   @Get('count')
   countAll() {
