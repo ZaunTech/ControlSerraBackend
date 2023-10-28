@@ -31,9 +31,7 @@ export class ProdutosService {
   async findProdutoOrc(id: number) {
     return await this.prismaService.produto.findMany({
       where: {
-        OR: [
-          {orcamentoId: {equals: id}}
-        ],
+        OR: [{ orcamentoId: { equals: id } }],
       },
     });
   }
@@ -58,6 +56,15 @@ export class ProdutosService {
   }
 
   async remove(id: number) {
-    return await this.prismaService.produto.delete({ where: { id } });
+    const removeInsumos = await this.prismaService.listaInsumo.deleteMany({
+      where: {
+        idProduto: id,
+      },
+    });
+    const removeProduto = await this.prismaService.produto.delete({
+      where: { id },
+    });
+
+    return { removeProduto, removeInsumos };
   }
 }
