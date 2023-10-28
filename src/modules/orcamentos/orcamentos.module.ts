@@ -6,6 +6,6 @@ import { ProdutosService } from '../produtos/produtos.service';
 
 @Module({
   controllers: [OrcamentosController],
-  providers: [OrcamentosService, PrismaService],
+  providers: [OrcamentosService, PrismaService, ProdutosService],
 })
 export class OrcamentosModule {}

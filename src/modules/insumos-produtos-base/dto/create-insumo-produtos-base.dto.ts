@@ -22,5 +22,10 @@ export class CreateInsumosProdutosBaseDto {
   })
   idInsumo: number;
 
+  @ApiProperty({
+    description:
+      'A unidade de medida serve para destacar a forma que o insumo base é medido',
+    example: 'cm',
+  })
   unidade: string;
 }
