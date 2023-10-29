@@ -1,14 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe,UsePipes, Query } from '@nestjs/common';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { ApiTags } from '@nestjs/swagger';
-
+import {response as res} from 'express';
 @ApiTags('orcamentos')
 @Controller('orcamentos')
 export class OrcamentosController {
   constructor(private readonly orcamentosService: OrcamentosService) {}
 
+  @Get('paginate')
+  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+    page = page;
+    perPage = perPage;
+    const totalcount = await this.orcamentosService.countAll();
+    res.set('x-total-count', totalcount.toString());
+    return await this.orcamentosService.findAllWithPagination(page, perPage);
+  }
+  
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
     return this.orcamentosService.create(createOrcamentoDto);

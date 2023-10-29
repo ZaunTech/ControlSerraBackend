@@ -11,6 +11,18 @@ export class OrcamentosService {
     return await this.prismaService.cliente.findFirst({ where: { id } });
   }
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const orcamentos = await this.prismaService.orcamento.findMany({
+    skip,
+    take: perPage,
+  });
+  return { orcamentos };
+  }
+  async countAll(){
+    return await this.prismaService.orcamento.count();
+  }
+
   async create(createOrcamentoDto: CreateOrcamentoDto) {
     const clienteExists = await this.findCliente(createOrcamentoDto.idCliente);
     if (clienteExists) {
