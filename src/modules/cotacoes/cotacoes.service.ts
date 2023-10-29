@@ -7,6 +7,14 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class CotacoesService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const cotacoes = await this.prismaService.cotacao.findMany({
+    skip,
+    take: perPage,
+  });
+  return { cotacoes };
+  }
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
   }

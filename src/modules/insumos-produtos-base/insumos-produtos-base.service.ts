@@ -7,6 +7,16 @@ import { PrismaService } from '../../databases/prisma.service';
 export class InsumosProdutosBaseService {
   constructor(private readonly prismaService: PrismaService) {}
  
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const insumosProdutosBase = await this.prismaService.insumoProdutoBase.findMany({
+    skip,
+    take: perPage,
+  });
+
+  return { insumosProdutosBase };
+  }
+
   async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return await this.prismaService.insumoProdutoBase.create({
       data: createInsumosProdutosBaseDto,

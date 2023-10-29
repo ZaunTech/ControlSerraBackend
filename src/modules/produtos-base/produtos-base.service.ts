@@ -7,6 +7,15 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class ProdutosBaseService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const produtosBase = await this.prismaService.produtoBase.findMany({
+    skip,
+    take: perPage,
+  });
+  return { produtosBase };
+  }
+
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produtoBase.findFirst({
       where: { titulo },

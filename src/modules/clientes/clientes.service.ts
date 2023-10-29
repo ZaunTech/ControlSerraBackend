@@ -7,11 +7,21 @@ import { PrismaService } from '../../databases/prisma.service';
 export class ClientesService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const clientes = await this.prismaService.cliente.findMany({
+    skip,
+    take: perPage,
+  });
+  return { clientes};
+  }
+  
   async findOneByCliente(nome: string, email: string, telefone: string) {
     return await this.prismaService.cliente.findFirst({
       where: { nome, email, telefone },
     });
   }
+
 
   async findManyCliente(termo: string) {
     return await this.prismaService.cliente.findMany({

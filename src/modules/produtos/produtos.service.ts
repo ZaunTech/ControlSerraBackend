@@ -13,6 +13,14 @@ export class ProdutosService {
     private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
   ) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const produtos = await this.prismaService.produto.findMany({
+    skip,
+    take: perPage,
+  });
+  return { produtos };
+  }
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
       where: { titulo },
