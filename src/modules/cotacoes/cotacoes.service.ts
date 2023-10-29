@@ -13,8 +13,7 @@ export class CotacoesService {
     skip,
     take: perPage,
   });
-  const total = await this.prismaService.cotacao.count();
-  return { cotacoes, total };
+  return { cotacoes };
   }
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
