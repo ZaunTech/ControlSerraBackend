@@ -23,9 +23,6 @@ export class OrcamentosService {
   });
   return { orcamentos };
   }
-  async countAll(){
-    return await this.prismaService.orcamento.count();
-  }
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
     const clienteExists = await this.findCliente(createOrcamentoDto.idCliente);

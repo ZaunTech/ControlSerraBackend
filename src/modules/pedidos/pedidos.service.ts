@@ -18,10 +18,6 @@ export class PedidosService {
   });
   return { pedidos };
   }
-  async countAll()
-  {
-    return await this.prismaService.pedido.count();
-  }
   async create(createPedidoDto: CreatePedidoDto) {
     const pedido = await this.findOne(createPedidoDto.idOrcamento);
     if (!pedido) {
