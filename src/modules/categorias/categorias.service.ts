@@ -15,7 +15,7 @@ export class CategoriasService {
     take: perPage,
   });
   const total = await this.prismaService.categoria.count();
-  return { categorias, total };
+  return { categorias };
   }
 
   async findOneByTitle(titulo: string) {

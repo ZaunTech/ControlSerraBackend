@@ -15,6 +15,8 @@ import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { response as res } from 'express';
+
 
 @ApiTags('categorias')
 @Controller('categorias')
@@ -22,10 +24,13 @@ export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
   @Get('paginate')
-async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page || 1;
-  perPage = perPage || 10;
-  return await this.categoriasService.findAllWithPagination(page, perPage);
+  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  page = page;
+  perPage = perPage;
+  const totalcount = await this.categoriasService.countAllCategorias();
+
+  res.set('x-total-count', totalcount.toString());
+  return await this.categoriasService.findAllWithPagination(page, Number(perPage));
 }
 
   @Get('count')
@@ -51,7 +56,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   findManyByTitle(@Param('busca') buscaParam: string) {
     return this.categoriasService.findManyByTitle(buscaParam);
   }
-
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(
     @Param('id') id: string,
