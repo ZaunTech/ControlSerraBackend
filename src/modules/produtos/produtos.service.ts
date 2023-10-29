@@ -4,6 +4,7 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
 import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
+import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 
 @Injectable()
 export class ProdutosService {
@@ -16,10 +17,10 @@ export class ProdutosService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const produtos = await this.prismaService.produto.findMany({
-    skip,
-    take: perPage,
-  });
-  return { produtos };
+      skip,
+      take: perPage,
+    });
+    return { produtos };
   }
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
@@ -82,15 +83,22 @@ export class ProdutosService {
     return { removeProduto, removeInsumos };
   }
 
-  async pullProdBase(idProdBase: number, idOrc: number) {
-    const prodBase = await this.produtosBaseService.findOne(idProdBase);
-    const insumosBase = await this.insumosProdutosBaseService.findInsumoProdBase(idProdBase);
+  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
+    const prodBase = await this.produtosBaseService.findOne(
+      addProdutoBaseDto.id,
+    );
+
+    const insumosBase =
+      await this.insumosProdutosBaseService.findInsumoProdBase(
+        addProdutoBaseDto.id,
+      );
+
     const copyProd = await this.prismaService.produto.create({
       data: {
         titulo: prodBase.titulo,
-        observacoes: prodBase.observacoes,
-        quantidade: 1,
-        orcamentoId: idOrc,
+        orcamentoId: addProdutoBaseDto.orcamentoId,
+        observacoes: addProdutoBaseDto.observacoes,
+        quantidade: addProdutoBaseDto.quantidade,
       },
     });
 

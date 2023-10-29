@@ -9,8 +9,8 @@ export class ListaInsumo {
   idInsumo: number;
   idCotacao?: number;
   unidade?: string;
-  produto: Produto;
-  insumo: Insumo;
+  produto?: Produto;
+  insumo?: Insumo;
   cotacao?: Cotacao;
   createdAt: Date;
   updatedAt: Date;
