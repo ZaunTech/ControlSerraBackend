@@ -2,16 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { ProdutosService } from '../produtos/produtos.service';
 
 @Injectable()
 export class OrcamentosService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly produtoService: ProdutosService) {}
   async countAll() {
     return await this.prismaService.cliente.count({});
   }
 
   async findCliente(id: number) {
     return await this.prismaService.cliente.findFirst({ where: { id } });
+  }
+
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const orcamentos = await this.prismaService.orcamento.findMany({
+    skip,
+    take: perPage,
+  });
+  return { orcamentos };
   }
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
@@ -50,6 +60,17 @@ export class OrcamentosService {
   }
 
   async remove(id: number) {
-    return await this.prismaService.orcamento.delete({ where: { id } });
+    const produtos = await this.prismaService.produto.findMany({
+      where: {
+        orcamentoId: id,
+      },
+    });
+    for (const produto of produtos) {
+      await this.produtoService.remove(produto.id)
+    }
+    const removeOrcamento = await this.prismaService.orcamento.delete({
+      where: { id },
+    });
+    return { removeOrcamento };
   }
 }

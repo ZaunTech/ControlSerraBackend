@@ -37,6 +37,4 @@ export class CreateListaInsumoDto {
   @IsNotEmpty({message: 'A lista precisa ter a identificação de uma cotacao de um insumo'})
   @IsOptional()
   idCotacao?: number;
-
-  unidade: string;
 }

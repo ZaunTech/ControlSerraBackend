@@ -40,5 +40,4 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
   @IsNumber()
   idCotacao?: number;
 
-  unidade?: string;
 }

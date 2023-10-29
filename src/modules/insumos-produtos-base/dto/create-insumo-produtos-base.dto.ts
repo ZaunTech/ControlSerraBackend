@@ -28,6 +28,4 @@ export class CreateInsumosProdutosBaseDto {
   @IsNotEmpty({message: 'A lista precisa ter a identificacao de um Insumo'})
   @IsNumber()
   idInsumo: number;
-
-  unidade: string;
 }

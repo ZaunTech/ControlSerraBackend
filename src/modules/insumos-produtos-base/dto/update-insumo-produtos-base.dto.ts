@@ -32,6 +32,4 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
   @IsOptional()
   @IsNumber()
   idInsumo?: number;
-
-  unidade?: string;
 }
