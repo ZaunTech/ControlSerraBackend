@@ -29,5 +29,5 @@ export class CreateCotacaoDto {
   })
   idInsumo: number;
 
-  dimensoes: string;
+  unidade: string;
 }

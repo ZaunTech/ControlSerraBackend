@@ -9,6 +9,11 @@ import {response as res} from 'express';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
+  @Get('count')
+  async countAll() {
+    return await this.pedidosService.countAll();
+  }
+
   @Get('paginate')
   async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
     page = page;
@@ -22,7 +27,7 @@ export class PedidosController {
   create(@Body() createPedidoDto: CreatePedidoDto) {
     return this.pedidosService.create(createPedidoDto);
   }
-  
+
   @Get()
   findAll() {
     return this.pedidosService.findAll();
@@ -32,6 +37,7 @@ export class PedidosController {
   findOne(@Param('id') id: string) {
     return this.pedidosService.findOne(+id);
   }
+  
   @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {

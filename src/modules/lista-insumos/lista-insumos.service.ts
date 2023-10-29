@@ -28,13 +28,18 @@ export class ListaInsumosService {
   }
 
   async findInsumoProd(id: number) {
-    return await this.prismaService.listaInsumo.findMany({
+    const listaInsumosProd = await this.prismaService.listaInsumo.findMany({
       where: {
-        OR: [
-          {idProduto: {equals: id}}
-        ],
+        idProduto: id,
       },
     });
+
+    if (!listaInsumosProd) {
+      return {
+        data: { message: 'Não existem insumos cadastrados deste produto' },
+      };
+    }
+    return listaInsumosProd;
   }
 
   async findAll() {

@@ -5,7 +5,7 @@ import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class ProdutosBaseService {
-  constructor(private readonly prismaService: PrismaService){}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
@@ -21,19 +21,21 @@ export class ProdutosBaseService {
       where: { titulo },
     });
   }
-  
+
   async create(createProdutosBaseDto: CreateProdutosBaseDto) {
-    const produtoBaseExiste = await this.findOneByTitle(createProdutosBaseDto.titulo);
+    const produtoBaseExiste = await this.findOneByTitle(
+      createProdutosBaseDto.titulo,
+    );
     if (!produtoBaseExiste) {
       return await this.prismaService.produtoBase.create({
         data: createProdutosBaseDto,
-      })
+      });
     }
+    return { data: { message: 'Titulo ja cadastrado' } };
   }
 
-  async countAll(){
+  async countAll() {
     return await this.prismaService.produtoBase.count();
-
   }
 
   async findAll() {
@@ -41,17 +43,26 @@ export class ProdutosBaseService {
   }
 
   async findOne(id: number) {
-    return await this.prismaService.produtoBase.findFirst({ where: { id } })
+    return await this.prismaService.produtoBase.findFirst({ where: { id } });
   }
 
   async update(id: number, updateProdutosBaseDto: UpdateProdutosBaseDto) {
     return await this.prismaService.produtoBase.update({
       where: { id },
       data: updateProdutosBaseDto,
-    })
+    });
   }
 
   async remove(id: number) {
-    return await this.prismaService.produtoBase.delete({ where: { id } })
+    const removeInsumosBase = await this.prismaService.insumoProdutoBase.deleteMany({
+        where: {
+          idProdutoBase: id,
+        },
+    });
+    const removeProdutoBase = await this.prismaService.produtoBase.delete({
+      where: { id },
+    });
+
+    return{ removeProdutoBase, removeInsumosBase}
   }
 }

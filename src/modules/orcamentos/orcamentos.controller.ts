@@ -9,6 +9,11 @@ import {response as res} from 'express';
 export class OrcamentosController {
   constructor(private readonly orcamentosService: OrcamentosService) {}
 
+  @Get('count')
+  async countAll() {
+    return await this.orcamentosService.countAll();
+  }
+  
   @Get('paginate')
   async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
     page = page;
@@ -34,11 +39,15 @@ export class OrcamentosController {
     return this.orcamentosService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrcamentoDto: UpdateOrcamentoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateOrcamentoDto: UpdateOrcamentoDto,
+  ) {
     return this.orcamentosService.update(+id, updateOrcamentoDto);
   }
-
+ 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.orcamentosService.remove(+id);

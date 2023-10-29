@@ -30,6 +30,4 @@ export class CreateListaInsumoDto {
     example: '5',
   })
   idCotacao?: number;
-
-  dimensoes: string;
 }

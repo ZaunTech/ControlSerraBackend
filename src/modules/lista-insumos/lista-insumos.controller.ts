@@ -29,10 +29,9 @@ export class ListaInsumosController {
     return this.listaInsumosService.findAll();
   }
 
-  @Get('insumoProd/:id')
-  findProdutoOrc(@Param('id') id: number)
-  {
-    return this.listaInsumosService.findInsumoProd(+id);
+  @Get('produtos/:id')
+  async findProdutoOrc(@Param('id') id: number) {
+    return await this.listaInsumosService.findInsumoProd(+id);
   }
 
   @Get(':id')
@@ -41,7 +40,10 @@ export class ListaInsumosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateListaInsumoDto: UpdateListaInsumoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateListaInsumoDto: UpdateListaInsumoDto,
+  ) {
     return this.listaInsumosService.update(+id, updateListaInsumoDto);
   }
 
