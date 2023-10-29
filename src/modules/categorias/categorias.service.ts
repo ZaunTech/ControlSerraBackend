@@ -7,6 +7,17 @@ import { PrismaService } from '../../databases/prisma.service';
 export class CategoriasService {
   constructor(private readonly prismaService: PrismaService) {}
 
+
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const categorias = await this.prismaService.categoria.findMany({
+    skip,
+    take: perPage,
+  });
+  const total = await this.prismaService.categoria.count();
+  return { categorias };
+  }
+
   async findOneByTitle(titulo: string) {
     return await this.prismaService.categoria.findFirst({
       where: { titulo },

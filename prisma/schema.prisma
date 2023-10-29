@@ -150,8 +150,7 @@ model Cotacao {
 
 model ListaInsumo {
   id         Int      @id @default(autoincrement())
-  quantidade Int      @default(1)
-  unidade    String
+  quantidade Float
   idProduto  Int
   idInsumo   Int
   idCotacao  Int?
@@ -193,7 +192,6 @@ model ProdutoBase {
 model InsumoProdutoBase {
   id            Int          @id @default(autoincrement())
   quantidade    Float        @default(1)
-  unidade       String
   idProdutoBase Int
   idInsumo      Int
   produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])

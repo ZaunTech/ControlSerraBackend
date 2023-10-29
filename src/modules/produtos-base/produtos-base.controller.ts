@@ -1,14 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes, Query } from '@nestjs/common';
+
 import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
-
+import {response as res} from 'express';
 @ApiTags('produtos-base')
 @Controller('produtos-base')
 export class ProdutosBaseController {
   constructor(private readonly produtosBaseService: ProdutosBaseService) {}
 
+  @Get('paginate')
+  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+    page = page;
+    perPage = perPage;
+    const totalcount = await this.produtosBaseService.countAll();
+    res.set('x-total-count', totalcount.toString());
+    return await this.produtosBaseService.findAllWithPagination(page, perPage);
+  }
   @Get('count')
   async countAll() {
     return await this.produtosBaseService.countAll();

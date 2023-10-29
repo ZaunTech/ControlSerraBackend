@@ -7,6 +7,15 @@ import { PrismaService } from '../../databases/prisma.service';
 export class FornecedoresService {
   constructor(private readonly prismaService: PrismaService) {}
   
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const fornecedores = await this.prismaService.fornecedor.findMany({
+    skip,
+    take: perPage,
+  });
+  return { fornecedores };
+  }
+
   async findOneByFornecedor(nome: string,email: string,telefone:string) {
     return await this.prismaService.fornecedor.findFirst({
       where: { nome,email,telefone },

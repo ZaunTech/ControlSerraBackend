@@ -7,6 +7,16 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class InsumosService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const insumos = await this.prismaService.insumo.findMany({
+    skip,
+    take: perPage,
+  });
+
+  return { insumos};
+  }
+
   async findOneByTitle(titulo: string) {
     return await this.prismaService.insumo.findFirst({
       where: { titulo },
