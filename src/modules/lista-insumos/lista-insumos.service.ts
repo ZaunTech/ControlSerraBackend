@@ -7,6 +7,20 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class ListaInsumosService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const listaInsumos = await this.prismaService.listaInsumo.findMany({
+    skip,
+    take: perPage,
+  });
+
+  return { listaInsumos };
+  }
+
+  async countAll(){
+    return await this.prismaService.insumoProdutoBase.count();
+  }
+  
   async create(createListaInsumoDto: CreateListaInsumoDto) {
     return await this.prismaService.listaInsumo.create({
       data: createListaInsumoDto,
