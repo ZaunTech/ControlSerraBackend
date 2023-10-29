@@ -22,6 +22,7 @@ export class ProdutosBaseService {
         data: createProdutosBaseDto,
       });
     }
+    return { data: { message: 'Titulo ja cadastrado' } };
   }
 
   async countAll() {

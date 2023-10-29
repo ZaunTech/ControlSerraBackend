@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
+import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
 
 @Injectable()
 export class ProdutosService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly produtosBaseService: ProdutosBaseService,
+    private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
+  ) {}
 
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
@@ -66,5 +72,30 @@ export class ProdutosService {
     });
 
     return { removeProduto, removeInsumos };
+  }
+
+  async pullProdBase(idProdBase: number, idOrc: number) {
+    const prodBase = await this.produtosBaseService.findOne(idProdBase);
+    const insumosBase = await this.insumosProdutosBaseService.findInsumoProdBase(idProdBase);
+    const copyProd = await this.prismaService.produto.create({
+      data: {
+        titulo: prodBase.titulo,
+        observacoes: prodBase.observacoes,
+        quantidade: 1,
+        orcamentoId: idOrc,
+      },
+    });
+
+    for (const insumoBase of insumosBase) {
+      await this.prismaService.listaInsumo.create({
+        data: {
+          quantidade: insumoBase.quantidade,
+          idInsumo: insumoBase.idInsumo,
+          idProduto: copyProd.id,
+        },
+      });
+    }
+
+    return copyProd;
   }
 }

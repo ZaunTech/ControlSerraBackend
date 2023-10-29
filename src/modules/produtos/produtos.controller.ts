@@ -19,6 +19,11 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto);
   }
 
+  @Post(':idProdBase/:idOrc')
+  createProdFromBase(@Param('idProdBase') idProdBase: number, @Param('idOrc') idOrc: number) {
+    return this.produtosService.pullProdBase(+idProdBase, +idOrc);
+  }
+
   @Get('prodOrc/:id')
   findProdutoOrc(@Param('id') id: number)
   {
