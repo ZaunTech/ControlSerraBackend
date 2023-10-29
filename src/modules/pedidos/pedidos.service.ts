@@ -7,6 +7,18 @@ import { PrismaService } from 'src/databases/prisma.service';
 export class PedidosService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllWithPagination(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+    const pedidos = await this.prismaService.pedido.findMany({
+    skip,
+    take: perPage,
+  });
+  return { pedidos };
+  }
+  async countAll()
+  {
+    return await this.prismaService.pedido.count();
+  }
   async create(createPedidoDto: CreatePedidoDto) {
     const pedido = await this.findOne(createPedidoDto.idOrcamento);
     if (!pedido) {
