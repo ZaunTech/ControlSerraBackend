@@ -9,8 +9,10 @@ import { LoginValidationMiddleware } from './middlewares/login-validation.middle
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { PrismaService } from 'src/databases/prisma.service';
 import { UsuariosModule } from '../usuarios/usuarios.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     UsuariosModule,
     PassportModule,
     JwtModule.register({

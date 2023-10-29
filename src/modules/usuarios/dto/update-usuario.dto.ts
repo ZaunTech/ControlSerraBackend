@@ -69,6 +69,6 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
         message: 'senha muito fraca. A senha precisa de 8 a 20 caracteres',
       })
       senha?: string;
-      token: string;
+      token?: string;
 
 }

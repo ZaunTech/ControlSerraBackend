@@ -67,5 +67,5 @@ export class CreateUsuarioDto {
   })
   senha: string;
 
-  token: string;
+  token?: string;
 }
