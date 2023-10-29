@@ -8,8 +8,8 @@ export class Cotacao {
   @IsNotEmpty({ message: 'O valor não pode estar vazio' })
   @IsNumber({}, { message: 'O valor inserido não é válido' })
   valor: number;
-  @IsNumber({}, { message: 'O fornecedor inserido não é válido' })
   @IsNotEmpty({ message: 'O fornecedor não pode estar vazio' })
+  @IsNumber({}, { message: 'O fornecedor inserido não é válido' })
   idFornecedor: number;
   @IsNotEmpty({ message: 'O insumo não pode estar vazio' })
   @IsNumber({}, { message: 'O insumo inserido não é válido' })

@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
 export class Categoria {
   id: number;
@@ -8,6 +8,7 @@ export class Categoria {
   @IsNotEmpty({message: 'O titulo não pode estar vázio'})
   @IsString({message: 'O titulo deve ser uma string'})
   titulo: string;
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({message: 'A descrição deve ser uma string'})
   descricao?: string;
   createdAt: Date;

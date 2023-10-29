@@ -2,7 +2,7 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateFornecedorDto } from './create-fornecedor.dto';
 import { contaTipo } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsString, Matches } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
 
 export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
   @ApiProperty({
@@ -37,6 +37,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O nome serve para identificar o fornecedor, caso seja pessoa fisica',
     example: 'João Pedro',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O nome inserido não é válido' })
   @Matches(/^[a-zA-Z -]*$/, { message: 'O nome só pode ter letras' })
   nome?: string;
@@ -46,6 +47,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O CPF serve para identificar o fornecedor, caso seja pessoa fisica',
     example: '02370334029',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O CPF inserido não é válido' })
   cpf?: string;
 
@@ -54,6 +56,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O RG serve para identificar o fornecedor, caso seja pessoa fisica',
     example: '114421225',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O RG inserido não é válido' })
   rg?: string;
 
@@ -62,6 +65,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O nome fantasia serve para identificar o fornecedor, caso seja pessoa juridica',
     example: 'ZawnTech',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O nome fantasia inserido não é válido' })
   nomeFantasia?: string;
 
@@ -70,6 +74,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'A razão social serve para identificar o fornecedor, caso seja pessoa juridica',
     example: 'Industria mecanica modelo Ltda.',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'A razão social inserida não é válida' })
   razaoSocial?: string;
 
@@ -78,6 +83,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O CNPJ serve para identificar o fornecedor, caso seja pessoa juridica',
     example: '31895255000193',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O CNPJ inserido não é válido' })
   cnpj?: string;
 
@@ -86,6 +92,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O pais serve para identificar a região onde o fornecedor se encontra',
     example: 'Brasil',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O país inserido não é válido' })
   pais?: string;
 
@@ -94,6 +101,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O CEP serve para identificar a região onde o fornecedor se encontra',
     example: '69918170',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O CEP inserido não é válido' })
   cep?: string;
 
@@ -102,6 +110,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O estado serve para identificar a região onde o fornecedor se encontra',
     example: 'SP',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O estado inserido não é válido' })
   estado?: string;
 
@@ -110,6 +119,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'A cidade serve para identificar a região onde o fornecedor se encontra',
     example: 'Sorocaba',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'A cidade inserida não é válida' })
   cidade?: string;
 
@@ -118,6 +128,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O bairro serve para identificar o local onde o fornecedor se encontra',
     example: 'Vila Barão',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O bairro inserido não é válido' })
   bairro?: string;
 
@@ -126,6 +137,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'A rua serve para identificar o local onde o fornecedor se encontra',
     example: 'Rua Manuel Lourenço Rodrigues',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'A rua inserida não é válida' })
   rua?: string;
 
@@ -134,6 +146,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O numero serve para identificar o local onde o fornecedor se encontra',
     example: '44',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O numero inserido não é válido' })
   numero?: string;
 
@@ -142,6 +155,7 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
       'O complemento serve para dar informações adicionais para identificar o local onde o fornecedor se encontra',
     example: 'apt. 42',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O complemento inserido não é válido' })
   complemento?: string;
 }

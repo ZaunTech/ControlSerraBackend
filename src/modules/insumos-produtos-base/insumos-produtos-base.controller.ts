@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
@@ -28,6 +28,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
@@ -43,6 +44,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return this.insumosProdutosBaseService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
     return this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);

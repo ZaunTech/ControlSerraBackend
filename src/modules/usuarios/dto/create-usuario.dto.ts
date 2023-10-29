@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { tipoUsuario } from '@prisma/client';
-import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsString, Matches } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
 
 export class CreateUsuarioDto {
   @ApiProperty({
@@ -17,6 +17,7 @@ export class CreateUsuarioDto {
       'O nome do usuário serve para identificar e pesquisar o usuário',
     example: 'Sérgio Moraes',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O nome inserido não é válido' })
   @Matches(/^[a-zA-Z -]*$/, { message: 'O nome só pode ter letras' })
   nome: string;
@@ -25,6 +26,7 @@ export class CreateUsuarioDto {
     description: 'O CPF serve para identificar o usuario',
     example: '02370334029',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumberString({}, { message: 'O CPF inserido não é válido' })
   cpf: string;
 
@@ -32,6 +34,7 @@ export class CreateUsuarioDto {
     description: 'O email serve para descrever o email do usuario',
     example: 'email@gmail.com',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNotEmpty({ message: 'O e-mail não pode estar vazio' })
   @IsEmail({}, { message: 'O e-mail inserido não é válido' })
   email: string;
@@ -50,9 +53,11 @@ export class CreateUsuarioDto {
       'A senha serve para o usuário realizar o acesso dentro da aplicação',
     example: '1234',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({message: 'A senha inserida não é válida'})
   senha: string;
   
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({message: 'O token inserido não é válido'})
   token: string;
 }

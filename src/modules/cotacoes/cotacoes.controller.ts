@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
@@ -31,6 +33,8 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   countAll() {
     return this.cotacoesService.countAllCotacaos();
   }
+
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createCotacaoDto: CreateCotacaoDto) {
     return this.cotacoesService.create(createCotacaoDto);
@@ -46,6 +50,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return await this.cotacoesService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
     return this.cotacoesService.update(+id, updateCotacaoDto);

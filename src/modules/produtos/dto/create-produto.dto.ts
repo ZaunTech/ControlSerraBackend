@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class CreateProdutoDto {
   @ApiProperty({
@@ -15,6 +15,7 @@ export class CreateProdutoDto {
       'A quantidade serve para descrever quantas unidades deste produto serão necessárias para o orçamento',
     example: '3',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A quantidade inserida não é válida' })
   quantidade?: number;
 
@@ -23,6 +24,7 @@ export class CreateProdutoDto {
       'O valor unitario serve para descrever o valor do produto como uma unica unidade',
     example: '340',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'O valor unitário inserido não é válido' })
   valorUnitario?: number;
 
@@ -31,6 +33,7 @@ export class CreateProdutoDto {
       'As observações servem para descrever caracteristicas relevantes sobre o produto',
     example: '2" x 6 m',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'A observação inserida não é válida' })
   observacoes?: string;
 

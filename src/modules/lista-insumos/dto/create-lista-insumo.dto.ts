@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator';
 
 export class CreateListaInsumoDto {
   @ApiProperty({
@@ -34,6 +34,7 @@ export class CreateListaInsumoDto {
       'O id da cotação serve para descrever qual a cotação que determinará o custo do insumo',
     example: '5',
   })
+  @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
 }
