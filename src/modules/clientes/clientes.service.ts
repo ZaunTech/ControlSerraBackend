@@ -13,8 +13,7 @@ export class ClientesService {
     skip,
     take: perPage,
   });
-  const total = await this.prismaService.cliente.count();
-  return { clientes, total };
+  return { clientes};
   }
   
   async findOneByCliente(nome: string, email: string, telefone: string) {
