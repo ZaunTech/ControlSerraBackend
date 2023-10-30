@@ -15,7 +15,6 @@ export class OrcamentosController {
   async countAll() {
     return await this.orcamentosService.countAll();
   }
-
   
   @Get('paginate')
   async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
@@ -25,7 +24,6 @@ export class OrcamentosController {
     res.set('x-total-count', totalcount.toString());
     return await this.orcamentosService.findAllWithPagination(page, perPage);
   }
-  
 
   @UsePipes(ValidationPipe)
   @Post()

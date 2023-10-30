@@ -1,17 +1,25 @@
-
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { response as res } from 'express';
+import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 @ApiTags('produtos')
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
+  
+  @Post('addProdutoBase')
+  createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
+    return this.produtosService.pullProdBase(addProdutoBaseDto);
+  }
 
   @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  async findAllWithPagination(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+  ) {
     page = page;
     perPage = perPage;
     const totalcount = await this.produtosService.countAll();
@@ -29,14 +37,8 @@ export class ProdutosController {
     return await this.produtosService.create(createProdutoDto);
   }
 
-  @Post(':idProdBase/:idOrc')
-  createProdFromBase(@Param('idProdBase') idProdBase: number, @Param('idOrc') idOrc: number) {
-    return this.produtosService.pullProdBase(+idProdBase, +idOrc);
-  }
-
   @Get('prodOrc/:id')
-  findProdutoOrc(@Param('id') id: number)
-  {
+  findProdutoOrc(@Param('id') id: number) {
     return this.produtosService.findProdutoOrc(+id);
   }
 
@@ -50,6 +52,7 @@ export class ProdutosController {
   async findAll() {
     return await this.produtosService.findAll();
   }
+
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
