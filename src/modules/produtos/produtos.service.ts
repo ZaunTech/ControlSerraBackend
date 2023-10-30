@@ -83,7 +83,7 @@ export class ProdutosService {
     return { removeProduto, removeInsumos };
   }
 
-  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
+  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto,idOrc:) {
     const prodBase = await this.produtosBaseService.findOne(
       addProdutoBaseDto.id,
     );
