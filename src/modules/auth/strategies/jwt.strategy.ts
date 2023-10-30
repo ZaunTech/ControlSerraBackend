@@ -8,13 +8,11 @@ import { UserPayload } from '../models/UserPayload';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
-    console.log('JWT_SECRET:',process.env.JWT_SECRET);
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET,
     });
-    console.log('JWT_SECRET:', process.env.JWT_SECRET);
   }
 
   async validate(payload: UserPayload): Promise<UserFromJwt> {

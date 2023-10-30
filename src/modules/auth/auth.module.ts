@@ -6,13 +6,10 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
-import { UsuariosService } from '../usuarios/usuarios.service';
-import { PrismaService } from 'src/databases/prisma.service';
 import { UsuariosModule } from '../usuarios/usuarios.module';
-import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     UsuariosModule,
     PassportModule,
     JwtModule.register({
@@ -21,7 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy,JwtService,UsuariosService,PrismaService],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -10,14 +10,14 @@ import { IsPublic } from './decorators/is-public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/AuthRequest';
 import { ApiTags } from '@nestjs/swagger';
-import { UsuariosService } from '../usuarios/usuarios.service';
-import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
+
+
 
 
 @ApiTags('auth')
 @Controller()
 export class AuthController {
-  constructor(private readonly authService: AuthService,private readonly usuariosService: UsuariosService ) {}
+  constructor(private readonly authService: AuthService) {}
   
   @IsPublic()
   @UseGuards(LocalAuthGuard)
