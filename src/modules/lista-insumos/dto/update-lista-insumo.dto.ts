@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateListaInsumoDto } from './create-lista-insumo.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, ValidateIf } from 'class-validator';
 
 export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
   @ApiProperty({
@@ -10,7 +10,7 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
     example: '5',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, { message: 'A quantidade inserida não é válida' })
   quantidade?: number;
 
   @ApiProperty({
@@ -19,7 +19,7 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
     example: '1',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, { message: 'O produto inserido não é válido' })
   idProduto?: number;
 
   @ApiProperty({
@@ -28,7 +28,7 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
     example: '1',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, { message: 'O insumo inserido não é válido' })
   idInsumo?: number;
 
   @ApiProperty({
@@ -37,9 +37,9 @@ export class UpdateListaInsumoDto extends PartialType(CreateListaInsumoDto) {
     example: '5',
   })
   @IsOptional()
-  @IsNumber()
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
-
   unidade?:string;
 
 }

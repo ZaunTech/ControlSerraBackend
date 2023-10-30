@@ -1,49 +1,53 @@
+
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString,ValidateIf } from "class-validator";
 
 export class CreateProdutoDto {
   @ApiProperty({
-    description:
-      'O titulo serve para identificar o produto',
+    description: 'O titulo serve para identificar o produto',
     example: 'Portão',
   })
   @IsNotEmpty({message: 'O produto precisa ter um titulo'})
-  @IsString()
+  @IsString({ message: 'O titulo inserido não é válido' })
   titulo: string;
-  
+
   @ApiProperty({
     description:
       'A quantidade serve para descrever quantas unidades deste produto serão necessárias para o orçamento',
     example: '3',
   })
   @IsNotEmpty({message: 'O produto precisa de uma quantidade'})
-  @IsNumber()
-  quantidade: number;
-  
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'A quantidade inserida não é válida' })
+  quantidade?: number;
+
   @ApiProperty({
     description:
       'O valor unitario serve para descrever o valor do produto como uma unica unidade',
     example: '340',
   })
+
   @IsOptional()
-  @IsNumber()
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'O valor unitário inserido não é válido' })
   valorUnitario?: number;
-  
+
   @ApiProperty({
     description:
       'As observações servem para descrever caracteristicas relevantes sobre o produto',
     example: '2" x 6 m',
   })
   @IsOptional()
-  @IsString()
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'A observação inserida não é válida' })
   observacoes?: string;
-  
+
   @ApiProperty({
     description:
       'O id do orçamento serve para indentificar qual o orçamento a quem este produto pertence',
     example: '1',
   })
-  @IsNotEmpty({message:'O pedido precisa ter um orcamento que ele faz parte'})
-  @IsNumber()
+  @IsNotEmpty({ message: 'O orçamento não pode estar vazio' })
+  @IsNumber({}, { message: 'O orçamento inserido não é válido' })
   orcamentoId: number;
 }

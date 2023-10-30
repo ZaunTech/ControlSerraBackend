@@ -7,25 +7,24 @@ export class CreatePedidoDto {
       'O pagamento serve para descrever o quanto o cliente pagará no total para o orçamento',
     example: '2400',
   })
-  @IsNotEmpty({message:'Todo pedido necessita do valor do pagamento'})
-  @IsNumber()
+  @IsNotEmpty({ message: 'O pagamento não pode estar vazio' })
+  @IsNumber({}, { message: 'O pagamento inserido não é válido' })
   pagamento: number;
-  
+
   @ApiProperty({
-    description:
-      'O status serve para descrever a atual situação do orçamento',
+    description: 'O status serve para descrever a atual situação do orçamento',
     example: 'Concluido',
   })
-  @IsNotEmpty({message: 'O pedido precisa de informacao sobre a stiuacao atual dele'})
-  @IsEnum(status)
+  @IsNotEmpty({ message: 'O status não pode estar vazio' })
+  @IsEnum(status, { message: 'O status inserido não é válido' })
   status: status;
-  
+
   @ApiProperty({
     description:
       'O id do orçamento serve para descrever a qual orçamento este pedido pertence',
     example: '1',
   })
-  @IsNotEmpty({message:'O pedido precisa ter um orcamento que ele faz parte'})
-  @IsNumber()
+  @IsNotEmpty({ message: 'O orçamento não pode estar vazio' })
+  @IsNumber({}, { message: 'O orçamento inserido não é válido' })
   idOrcamento: number;
 }

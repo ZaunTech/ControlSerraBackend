@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query,UsePipes,ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
@@ -22,13 +22,12 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return await this.insumosProdutosBaseService.countAll();
   }
 
-
   @Get('insumoProd/:id')
   findProdutoOrc(@Param('id') id: number)
   {
     return this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
-  
+
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
@@ -44,6 +43,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   async findOne(@Param('id') id: string) {
     return await this.insumosProdutosBaseService.findOne(+id);
   }
+
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {

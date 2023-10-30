@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { tipoUsuario } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Matches, MaxLength, MinLength,ValidateIf,IsNumberString, IsEmail } from 'class-validator';
+
 
 export class CreateUsuarioDto {
   @ApiProperty({
@@ -8,8 +9,8 @@ export class CreateUsuarioDto {
       'O tipo de usuario serve para descrever o nivel de acesso dele',
     example: 'Vendedor',
   })
-  @IsNotEmpty({message:"Precisa ter um nivel de acesso para que possa criar a conta"})
-  @IsEnum(tipoUsuario)
+  @IsNotEmpty({message: 'O tipo do usuário não poder estar vazio'})
+  @IsEnum(tipoUsuario, {message: 'O tipo de usuário inserido não é válido'})
   tipoUsuario: tipoUsuario;
 
   @ApiProperty({
@@ -18,7 +19,9 @@ export class CreateUsuarioDto {
     example: 'Sérgio Moraes',
   })
   @IsNotEmpty({message:"O nome nao pode ser vazio"})
-  @IsString()
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'O nome inserido não é válido' })
+  @Matches(/^[a-zA-Z -]*$/, { message: 'O nome só pode ter letras' })
   nome: string;
 
   @ApiProperty({
@@ -26,11 +29,12 @@ export class CreateUsuarioDto {
     example: '02370334029',
   })
   @IsNotEmpty({message:"Insira um CPF valido"})
-  @IsString()
   @MaxLength(11,{message: "Limite Maximo de caracteres para CPF"})
   @Matches(/(?<=\D|^)(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|\d{3}\.?\d{3}\.?\d{3}-?\d{2})(?=\D|$).*$/,{
         message:"CPF Invalido"
   })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumberString({}, { message: 'O CPF inserido não é válido' })
   cpf: string;
 
   @ApiProperty({
@@ -42,6 +46,8 @@ export class CreateUsuarioDto {
   @Matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,{
     message: "Insira um endereco de email valido"
   })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsEmail({}, { message: 'O e-mail inserido não é válido' })
   email: string;
 
   @ApiProperty({
@@ -50,7 +56,7 @@ export class CreateUsuarioDto {
     example: '1734112736',
   })
   @IsNotEmpty({message:"O telefone não pode estar vazio. Insire um telefone valido"})
-  @IsString()
+  @IsNumberString({}, { message: 'O telefone inserido não é válido' })
   telefone: string;
 
   @ApiProperty({
@@ -65,7 +71,11 @@ export class CreateUsuarioDto {
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
       message: 'senha muito fraca',
   })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({message: 'A senha inserida não é válida'})
   senha: string;
-
-  token?: string;
+  
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({message: 'O token inserido não é válido'})
+  token: string;
 }

@@ -13,17 +13,25 @@ export class PedidosService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const pedidos = await this.prismaService.pedido.findMany({
-    skip,
-    take: perPage,
-  });
-  return { pedidos };
+      skip,
+      take: perPage,
+    });
+    return { pedidos };
   }
   async create(createPedidoDto: CreatePedidoDto) {
-    const pedido = await this.findOne(createPedidoDto.idOrcamento);
-    if (!pedido) {
-      return await this.prismaService.pedido.create({
-        data: createPedidoDto,
-      });
+    const orc = await this.prismaService.orcamento.findFirst({
+      where: {
+        id: createPedidoDto.idOrcamento,
+      },
+    });
+
+    if (orc.status === 'Concluido') {
+      const pedidoExists = await this.findOne(createPedidoDto.idOrcamento);
+      if (!pedidoExists) {
+        return await this.prismaService.pedido.create({
+          data: createPedidoDto,
+        });
+      }
     }
   }
 

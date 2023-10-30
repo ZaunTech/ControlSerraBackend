@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePedidoDto } from './create-pedido.dto';
-import { status } from "@prisma/client";
+import { status } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
@@ -10,7 +10,7 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
         example: '2400',
       })
       @IsOptional()
-      @IsNumber()
+      @IsNumber({}, { message: 'O pagamento inserido não é válido' })
       pagamento?: number;
       
       @ApiProperty({
@@ -19,7 +19,7 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
         example: 'Concluido',
       })
       @IsOptional()
-      @IsEnum(status)
+      @IsEnum(status, { message: 'O status inserido não é válido' })
       status?: status;
       
       @ApiProperty({
@@ -28,6 +28,6 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
         example: '1',
       })
       @IsOptional()
-      @IsNumber()
+      @IsNumber({}, { message: 'O orçamento inserido não é válido' })
       idOrcamento?: number;
 }

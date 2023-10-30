@@ -34,6 +34,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   async countAll() {
     return await this.cotacoesService.countAllCotacaos();
   }
+  
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createCotacaoDto: CreateCotacaoDto) {

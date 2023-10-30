@@ -2,7 +2,7 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateUsuarioDto } from './create-usuario.dto';
 import { tipoUsuario } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsOptional, IsString, Matches, MaxLength, MinLength, ValidateIf } from 'class-validator';
 
 export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
 
@@ -69,6 +69,7 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
         message: 'senha muito fraca. A senha precisa de 8 a 20 caracteres',
       })
       senha?: string;
-      token?: string;
-
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({message: 'O token inserido não é válido'})
+  token?: string;
 }

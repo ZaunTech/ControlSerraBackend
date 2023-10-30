@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  Query,
+} from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -9,11 +20,6 @@ import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
-  
-  @Post('addProdutoBase')
-  createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
-    return this.produtosService.pullProdBase(addProdutoBaseDto);
-  }
 
   @Get('paginate')
   async findAllWithPagination(
@@ -35,6 +41,14 @@ export class ProdutosController {
   @Post()
   async create(@Body() createProdutoDto: CreateProdutoDto) {
     return await this.produtosService.create(createProdutoDto);
+  }
+
+  @Post(':idProdBase/:idOrc')
+  async createProdFromBase(
+    @Param('idProdBase') idProdBase: number,
+    @Param('idOrc') idOrc: number,
+  ) {
+    return await this.produtosService.pullProdBase(+idProdBase, +idOrc);
   }
 
   @Get('prodOrc/:id')

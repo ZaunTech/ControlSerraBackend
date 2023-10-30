@@ -2,7 +2,6 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateInsumosProdutosBaseDto } from './create-insumo-produtos-base.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional } from 'class-validator';
-
 export class UpdateInsumosProdutosBaseDto extends PartialType(
   CreateInsumosProdutosBaseDto,
 ) {
@@ -12,7 +11,7 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
     example: '5',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({},{message: 'A quantidade inserida não é válida'})
   quantidade?: number;
 
   @ApiProperty({
@@ -21,7 +20,7 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
     example: '1',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({},{message: 'O produto base inserido não é válido'})
   idProdutoBase?: number;
 
   @ApiProperty({
@@ -30,6 +29,6 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
     example: '1',
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumber({},{message: 'O insumo inserido não é válido'})
   idInsumo?: number;
 }

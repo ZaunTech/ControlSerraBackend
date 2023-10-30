@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  Query,
+} from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { ApiTags } from '@nestjs/swagger';
-import {response as res} from 'express';
+import { response as res } from 'express';
 @ApiTags('pedidos')
 @Controller('pedidos')
 export class PedidosController {
@@ -18,13 +29,17 @@ export class PedidosController {
 
 
   @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  async findAllWithPagination(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+  ) {
     page = page;
     perPage = perPage;
     const totalcount = await this.pedidosService.countAll();
     res.set('x-total-count', totalcount.toString());
     return await this.pedidosService.findAllWithPagination(page, perPage);
   }
+
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createPedidoDto: CreatePedidoDto) {
