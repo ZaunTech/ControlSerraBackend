@@ -2,7 +2,7 @@ import { Cliente } from 'src/modules/clientes/entities/cliente.entity';
 import { Produto } from 'src/modules/produtos/entities/produto.entity';
 import { status } from '@prisma/client';
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -13,7 +13,7 @@ import {
 export class Orcamento {
   id: Number;
   @ValidateIf((object, value) => value !== undefined)
-  @IsDate({ message: 'A validade inserida não é válida' })
+  @IsDateString({},{ message: 'A validade inserida não é válida' })
   validade?: Date;
   dataOrcamento: Date;
   @ValidateIf((object, value) => value !== undefined)

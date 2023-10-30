@@ -32,7 +32,9 @@ export class PedidosService {
           data: createPedidoDto,
         });
       }
+      return {data: { message: 'Pedido já existe'}}
     }
+    return {data: { message: 'Orçamento ainda não foi concluido'}}
   }
 
   async findAll() {

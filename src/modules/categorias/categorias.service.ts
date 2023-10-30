@@ -52,13 +52,32 @@ export class CategoriasService {
   }
 
   async update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return await this.prismaService.categoria.update({
-      where: { id },
-      data: updateCategoriaDto,
-    });
+    const categoriaExists = await this.findOne(id);
+    if (categoriaExists) {
+      const categoriaRepeated = await this.prismaService.categoria.findFirst({
+        where: {
+          titulo: updateCategoriaDto.titulo,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+      if (!categoriaRepeated) {
+        return await this.prismaService.categoria.update({
+          where: { id },
+          data: updateCategoriaDto,
+        });
+      }
+      return { data: { message: 'Categoria com titulo repetido' } };
+    }
+    return { data: { message: 'Categoria não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.categoria.delete({ where: { id } });
+    const categoria = await this.findOne(id);
+    if (categoria) {
+      return await this.prismaService.categoria.delete({ where: { id } });
+    }
+    return { data: { message: 'Categoria não existe' } };
   }
 }
