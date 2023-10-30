@@ -32,4 +32,11 @@ export class CreateListaInsumoDto {
   idCotacao?: number;
 
   unidade?: string;
+
+  @ApiProperty({
+    description:
+      'O valor unitario serve para descrever qual é o valor do insumo',
+    example: '100,00',
+  })
+  valorUnitario?: number;
 }

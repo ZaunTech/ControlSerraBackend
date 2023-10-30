@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseP
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import  {response as res} from 'express';
 
 @ApiTags('lista-insumos')
@@ -50,5 +50,11 @@ export class ListaInsumosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.listaInsumosService.remove(+id);
+  }
+
+  @Post(':id/cotar')
+  @ApiBody({})
+  selectCotacao(@Param('id') idListaInsumo: number, @Body() requestBody: { idCot: number }) {
+    return this.listaInsumosService.selectCotacao(+idListaInsumo, +requestBody.idCot);
   }
 }

@@ -155,6 +155,7 @@ model ListaInsumo {
   idInsumo   Int
   idCotacao  Int?
   unidade    String?
+  valorUnitario Float?
   produto    Produto? @relation(fields: [idProduto], references: [id])
   insumo     Insumo?  @relation(fields: [idInsumo], references: [id])
   cotacao    Cotacao? @relation(fields: [idCotacao], references: [id])
