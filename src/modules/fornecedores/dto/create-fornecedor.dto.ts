@@ -37,7 +37,6 @@ export class CreateFornecedorDto {
   })
   @ValidateIf((object, value) => value !== undefined)
   @IsString({ message: 'O nome inserido não é válido' })
-  @Matches(/^[a-zA-Z -]*$/, { message: 'O nome só pode ter letras' })
   nome?: string;
 
   @ApiProperty({

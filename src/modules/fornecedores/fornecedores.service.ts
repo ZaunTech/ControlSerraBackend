@@ -30,14 +30,74 @@ export class FornecedoresService {
     return await this.prismaService.fornecedor.count({
     });
   }
+
+  async findExistingFornecedor(id: number, termo: string) {
+    const emailExists = await this.prismaService.fornecedor.findUnique({
+      where: {
+        email: termo,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+    const cpfExists = await this.prismaService.fornecedor.findUnique({
+      where: {
+        cpf: termo,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+    const rgExists = await this.prismaService.fornecedor.findUnique({
+      where: {
+        rg: termo,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+    const cnpjExists = await this.prismaService.fornecedor.findUnique({
+      where: {
+        cnpj: termo,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+    const razaoExists = await this.prismaService.fornecedor.findUnique({
+      where: {
+        razaoSocial: termo,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+    if (
+      !emailExists &&
+      !cpfExists &&
+      !rgExists &&
+      !cnpjExists &&
+      !razaoExists
+    ) {
+      return await 0;
+    }
+    return await 1;
+  }
+
   async create(createFornecedoresDto: CreateFornecedorDto) {
-    const cliente = await this.findOneByFornecedor(createFornecedoresDto.nome,createFornecedoresDto.email,createFornecedoresDto.telefone);
-    if (!cliente) {
+    if (
+      !(await this.findExistingFornecedor(undefined, createFornecedoresDto.email)) &&
+      !(await this.findExistingFornecedor(undefined, createFornecedoresDto.cpf)) &&
+      !(await this.findExistingFornecedor(undefined, createFornecedoresDto.rg)) &&
+      !(await this.findExistingFornecedor(undefined, createFornecedoresDto.cnpj)) &&
+      !(await this.findExistingFornecedor(undefined, createFornecedoresDto.razaoSocial))
+    ) {
       return await this.prismaService.fornecedor.create({
         data: createFornecedoresDto,
       });
     }
-    return { data: { message: 'Cliente ja cadastrado' } };
+
+    return { data: { message: 'fornecedor com dados repetidos' } };
   }
 
   async findAll() {
@@ -49,13 +109,30 @@ export class FornecedoresService {
   }
 
   async update(id: number, updateFornecedoresDto: UpdateFornecedorDto) {
-    return await this.prismaService.fornecedor.update({
-      where: {id},
-      data: updateFornecedoresDto,
-    })
+    const fornecedorExists = await this.findOne(id);
+    if (fornecedorExists) {
+      if (
+        !(await this.findExistingFornecedor(fornecedorExists.id, updateFornecedoresDto.email)) &&
+        !(await this.findExistingFornecedor(fornecedorExists.id, updateFornecedoresDto.cpf)) &&
+        !(await this.findExistingFornecedor(fornecedorExists.id, updateFornecedoresDto.rg)) &&
+        !(await this.findExistingFornecedor(fornecedorExists.id, updateFornecedoresDto.cnpj)) &&
+        !(await this.findExistingFornecedor(fornecedorExists.id, updateFornecedoresDto.razaoSocial))
+      ) {
+        return await this.prismaService.fornecedor.update({
+          where: { id },
+          data: updateFornecedoresDto,
+        });
+      }
+      return { data: { message: 'fornecedor com dados repetidos' } };
+    }
+    return { data: { message: 'fornecedor não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.fornecedor.delete({where: {id}})
+    const fornecedorExists = await this.findOne(id);
+    if (fornecedorExists) {
+      return await this.prismaService.fornecedor.delete({ where: { id } });
+    }
+    return { data: { message: 'fornecedor não existe' } };
   }
 }

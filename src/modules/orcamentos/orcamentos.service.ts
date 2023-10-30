@@ -64,7 +64,6 @@ export class OrcamentosService {
             },
           });
         }
-        console.log(orcamentoExists.status);
         return await this.prismaService.orcamento.update({
           where: { id },
           data: updateOrcamentoDto,
@@ -76,17 +75,21 @@ export class OrcamentosService {
   }
 
   async remove(id: number) {
-    const produtos = await this.prismaService.produto.findMany({
-      where: {
-        orcamentoId: id,
-      },
-    });
-    for (const produto of produtos) {
-      await this.produtoService.remove(produto.id);
+    const orcamentoExists = await this.findOne(id);
+    if (orcamentoExists) {
+      const produtos = await this.prismaService.produto.findMany({
+        where: {
+          orcamentoId: id,
+        },
+      });
+      for (const produto of produtos) {
+        await this.produtoService.remove(produto.id);
+      }
+      const removeOrcamento = await this.prismaService.orcamento.delete({
+        where: { id },
+      });
+      return { removeOrcamento };
     }
-    const removeOrcamento = await this.prismaService.orcamento.delete({
-      where: { id },
-    });
-    return { removeOrcamento };
+    return { data: { message: 'Orçamento não existe' } };
   }
 }

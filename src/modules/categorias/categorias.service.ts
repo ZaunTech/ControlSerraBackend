@@ -74,8 +74,8 @@ export class CategoriasService {
   }
 
   async remove(id: number) {
-    const categoria = await this.findOne(id);
-    if (categoria) {
+    const categoriaExists = await this.findOne(id);
+    if (categoriaExists) {
       return await this.prismaService.categoria.delete({ where: { id } });
     }
     return { data: { message: 'Categoria não existe' } };

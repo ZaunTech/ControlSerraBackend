@@ -10,21 +10,36 @@ export class ListaInsumosService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const listaInsumos = await this.prismaService.listaInsumo.findMany({
-    skip,
-    take: perPage,
-  });
+      skip,
+      take: perPage,
+    });
 
-  return { listaInsumos };
+    return { listaInsumos };
   }
 
-  async countAll(){
+  async countAll() {
     return await this.prismaService.insumoProdutoBase.count();
   }
-  
+
   async create(createListaInsumoDto: CreateListaInsumoDto) {
     return await this.prismaService.listaInsumo.create({
       data: createListaInsumoDto,
     });
+  }
+
+  async AttachCotacao(idItemListaInsumo: number, idCotacao: number) {
+    const listaInsumo = await this.findOne(idItemListaInsumo);
+    if (listaInsumo) {
+      listaInsumo.idCotacao = idCotacao;
+
+      return {
+        data: {
+          idItemlistaInsumo: listaInsumo.id,
+          idCotacao: listaInsumo.idCotacao,
+        },
+      };
+    }
+    return { data: { message: 'O insumo da lista não existe' } };
   }
 
   async findInsumoProd(id: number) {
