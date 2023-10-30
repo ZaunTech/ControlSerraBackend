@@ -20,9 +20,10 @@ import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
-  
+
   @Post('addProdutoBase')
   createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
+    console.log('Entrou no controller');
     return this.produtosService.pullProdBase(addProdutoBaseDto);
   }
 

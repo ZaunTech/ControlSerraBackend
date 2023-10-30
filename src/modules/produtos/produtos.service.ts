@@ -84,10 +84,12 @@ export class ProdutosService {
   }
 
   async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
+    console.log("banana2")
     const prodBase = await this.produtosBaseService.findOne(
       addProdutoBaseDto.id,
     );
 
+    console.log("banana1")
     const insumosBase =
       await this.insumosProdutosBaseService.findInsumoProdBase(
         addProdutoBaseDto.id,
@@ -101,13 +103,17 @@ export class ProdutosService {
         quantidade: addProdutoBaseDto.quantidade,
       },
     });
-
+  
+    console.log("banana")
+    
     for (const insumoBase of insumosBase) {
+      
       await this.prismaService.listaInsumo.create({
         data: {
           quantidade: insumoBase.quantidade,
           idInsumo: insumoBase.idInsumo,
           idProduto: copyProd.id,
+          unidade: insumoBase.unidade,
         },
       });
     }

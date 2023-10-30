@@ -21,4 +21,6 @@ export class CreateInsumosProdutosBaseDto {
     example: '1',
   })
   idInsumo: number;
+
+  unidade:string;
 }
