@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateInsumosProdutosBaseDto } from './create-insumo-produtos-base.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class UpdateInsumosProdutosBaseDto extends PartialType(
   CreateInsumosProdutosBaseDto,
@@ -33,5 +33,12 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
   @IsNumber({},{message: 'O insumo inserido não é válido'})
   idInsumo?: number;
 
+  @ApiProperty({
+    description:
+      'A unidade serve para descrever as dimensões do insumo',
+    example: '1M',
+  })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'A unidade inserida não é válida' })
   unidade?: string;
 }

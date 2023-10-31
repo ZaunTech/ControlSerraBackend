@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString, IsString, ValidateIf } from 'class-validator';
 import { Cotacao } from 'src/modules/cotacoes/entities/cotacao.entity';
 import { Insumo } from 'src/modules/insumos/entities/insumo.entity';
 import { Produto } from 'src/modules/produtos/entities/produto.entity';
@@ -17,7 +17,11 @@ export class ListaInsumo {
   @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString()
   unidade?: string;
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumberString({},{message: 'O valor unitário inserido não é válido'})
   valorUnitario?: number;
   produto?: Produto;
   insumo?: Insumo;
