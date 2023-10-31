@@ -19,22 +19,24 @@ export class PedidosService {
     return { pedidos };
   }
   async create(createPedidoDto: CreatePedidoDto) {
-    const orc = await this.prismaService.orcamento.findFirst({
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
       where: {
         id: createPedidoDto.idOrcamento,
       },
     });
-
-    if (orc.status === 'Concluido') {
-      const pedidoExists = await this.findOne(createPedidoDto.idOrcamento);
-      if (!pedidoExists) {
-        return await this.prismaService.pedido.create({
-          data: createPedidoDto,
-        });
+    if (orcamentoExists) {
+      if (orcamentoExists.status === 'Concluido') {
+        const pedidoExists = await this.findOne(createPedidoDto.idOrcamento);
+        if (!pedidoExists) {
+          return await this.prismaService.pedido.create({
+            data: createPedidoDto,
+          });
+        }
+        return { data: { message: 'Pedido já existe' } };
       }
-      return {data: { message: 'Pedido já existe'}}
+      return { data: { message: 'Orçamento ainda não foi concluido' } };
     }
-    return {data: { message: 'Orçamento ainda não foi concluido'}}
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async findAll() {
@@ -46,13 +48,29 @@ export class PedidosService {
   }
 
   async update(id: number, updatePedidoDto: UpdatePedidoDto) {
-    return await this.prismaService.pedido.update({
-      where: { id },
-      data: updatePedidoDto,
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: {
+        id: updatePedidoDto.idOrcamento,
+      },
     });
+    if (orcamentoExists) {
+      const pedidoExists = await this.findOne(updatePedidoDto.idOrcamento);
+      if (pedidoExists) {
+        return await this.prismaService.pedido.update({
+          where: { id },
+          data: updatePedidoDto,
+        });
+      }
+      return { data: { message: 'Pedido não existe' } };
+    }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.pedido.delete({ where: { id } });
+    const pedidoExists = await this.findOne(id);
+    if (pedidoExists) {
+      return await this.prismaService.pedido.delete({ where: { id } });
+    }
+    return { data: { message: 'Pedido não existe' } };
   }
 }

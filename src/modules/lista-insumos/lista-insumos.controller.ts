@@ -39,12 +39,6 @@ export class ListaInsumosController {
     return this.listaInsumosService.create(createListaInsumoDto);
   }
 
-  @Post(':id/cotar')
-  @ApiBody({})
-  AttachCotacao(@Param('id') idListaInsumo: number, @Body() requestBody: { idCot: number }) {
-    return this.listaInsumosService.AttachCotacao(+idListaInsumo, +requestBody.idCot);
-  }
-
   @Get()
   findAll() {
     return this.listaInsumosService.findAll();

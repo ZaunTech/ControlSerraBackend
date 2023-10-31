@@ -10,33 +10,58 @@ export class UsuariosService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const usuarios = await this.prismaService.usuario.findMany({
-    skip,
-    take: perPage,
-  });
-  return {usuarios};
+      skip,
+      take: perPage,
+    });
+    return { usuarios };
   }
+
   async create(createUsuarioDto: CreateUsuarioDto) {
-    const usuario = await this.findOneByUsuario(
-      createUsuarioDto.nome,
-      createUsuarioDto.email,
-    )
-    if (!usuario) {
-    return await this.prismaService.usuario.create({
-      data: createUsuarioDto,
-    });
+    if (
+      !(await this.findExistingUsuario(undefined, createUsuarioDto.email)) &&
+      !(await this.findExistingUsuario(undefined, createUsuarioDto.cpf))
+    ) {
+      return await this.prismaService.usuario.create({
+        data: createUsuarioDto,
+      });
+    }
+
+    return { data: { message: 'Usuário com dados repetidos' } };
   }
-  return {data: {message: 'Usuario ja cadastrado'}};
-  }
-  async findByEmail(email: string){
+
+  async findByEmail(email: string) {
     return await this.prismaService.usuario.findFirst({
-      where: {email},
+      where: { email },
     });
   }
-  async findOneByUsuario(nome:string,email:string){
-    return await this.prismaService.usuario.findFirst({
-      where: {nome,email}
-    });
+
+  async findExistingUsuario(id: number, termo: string) {
+    if (!termo === undefined) {
+      var emailExists = await this.prismaService.usuario.findUnique({
+        where: {
+          email: termo,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+    }
+    if (!termo === undefined) {
+      var cpfExists = await this.prismaService.usuario.findUnique({
+        where: {
+          cpf: termo,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+    }
+    if (!emailExists && !cpfExists) {
+      return await 0;
+    }
+    return await 1;
   }
+
   async countAll() {
     return await this.prismaService.usuario.count();
   }
@@ -50,13 +75,28 @@ export class UsuariosService {
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return await this.prismaService.usuario.update({
-      where: { id },
-      data: updateUsuarioDto,
-    })
+    const usuarioExists = await this.findOne(id);
+    if (usuarioExists) {
+      if (
+        !(await this.findExistingUsuario(id, updateUsuarioDto.email)) &&
+        !(await this.findExistingUsuario(id, updateUsuarioDto.cpf))
+      ) {
+        return await this.prismaService.usuario.update({
+          where: { id },
+          data: updateUsuarioDto,
+        });
+      }
+
+      return { data: { message: 'Usuário com dados repetidos' } };
+    }
+    return { data: { message: 'Usuário não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.usuario.delete({ where: { id } });
+    const usuarioExists = await this.findOne(id);
+    if (usuarioExists) {
+      return await this.prismaService.usuario.delete({ where: { id } });
+    }
+    return { data: { message: 'Usuário não existe' } };
   }
 }

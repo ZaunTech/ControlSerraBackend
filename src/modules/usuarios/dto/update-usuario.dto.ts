@@ -35,7 +35,6 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
     description: 'O email serve para descrever o email do usuario',
     example: 'email@gmail.com',
   })
-  @ValidateIf((object, value) => value !== undefined)
   @IsNotEmpty({ message: 'O e-mail não pode estar vazio' })
   @IsEmail({}, { message: 'O e-mail inserido não é válido' })
   email?: string;
@@ -58,6 +57,11 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
   @IsString({message: 'A senha inserida não é válida'})
   senha?: string;
   
+  @ApiProperty({
+    description:
+      'A token serve para autenticar o usuário dentro da aplicação',
+    example: '3213211312231',
+  })
   @ValidateIf((object, value) => value !== undefined)
   @IsString({message: 'O token inserido não é válido'})
   token?: string;

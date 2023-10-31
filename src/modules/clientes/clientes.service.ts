@@ -17,46 +17,56 @@ export class ClientesService {
   }
 
   async findExistingCliente(id: number, termo: string) {
-    const emailExists = await this.prismaService.cliente.findUnique({
-      where: {
-        email: termo,
-        NOT: {
-          id: id,
+    if (!termo === undefined) {
+      var emailExists = await this.prismaService.cliente.findUnique({
+        where: {
+          email: termo,
+          NOT: {
+            id: id,
+          },
         },
-      },
-    });
-    const cpfExists = await this.prismaService.cliente.findUnique({
-      where: {
-        cpf: termo,
-        NOT: {
-          id: id,
+      });
+    }
+    if (!termo === undefined) {
+      var cpfExists = await this.prismaService.cliente.findUnique({
+        where: {
+          cpf: termo,
+          NOT: {
+            id: id,
+          },
         },
-      },
-    });
-    const rgExists = await this.prismaService.cliente.findUnique({
-      where: {
-        rg: termo,
-        NOT: {
-          id: id,
+      });
+    }
+    if (!termo === undefined) {
+      var rgExists = await this.prismaService.cliente.findUnique({
+        where: {
+          rg: termo,
+          NOT: {
+            id: id,
+          },
         },
-      },
-    });
-    const cnpjExists = await this.prismaService.cliente.findUnique({
-      where: {
-        cnpj: termo,
-        NOT: {
-          id: id,
+      });
+    }
+    if (!termo === undefined) {
+      var cnpjExists = await this.prismaService.cliente.findUnique({
+        where: {
+          cnpj: termo,
+          NOT: {
+            id: id,
+          },
         },
-      },
-    });
-    const razaoExists = await this.prismaService.cliente.findUnique({
-      where: {
-        razaoSocial: termo,
-        NOT: {
-          id: id,
+      });
+    }
+    if (!termo === undefined) {
+      var razaoExists = await this.prismaService.cliente.findUnique({
+        where: {
+          razaoSocial: termo,
+          NOT: {
+            id: id,
+          },
         },
-      },
-    });
+      });
+    }
     if (
       !emailExists &&
       !cpfExists &&
@@ -98,7 +108,7 @@ export class ClientesService {
       });
     }
 
-    return { data: { message: 'cliente com dados repetidos' } };
+    return { data: { message: 'Cliente com dados repetidos' } };
   }
 
   async findAll() {
@@ -113,27 +123,48 @@ export class ClientesService {
     const clienteExists = await this.findOne(id);
     if (clienteExists) {
       if (
-        !(await this.findExistingCliente(clienteExists.id, updateClienteDto.email)) &&
-        !(await this.findExistingCliente(clienteExists.id, updateClienteDto.cpf)) &&
-        !(await this.findExistingCliente(clienteExists.id, updateClienteDto.rg)) &&
-        !(await this.findExistingCliente(clienteExists.id, updateClienteDto.cnpj)) &&
-        !(await this.findExistingCliente(clienteExists.id, updateClienteDto.razaoSocial))
+        !(await this.findExistingCliente(
+          clienteExists.id,
+          updateClienteDto.email,
+        )) &&
+        !(await this.findExistingCliente(
+          clienteExists.id,
+          updateClienteDto.cpf,
+        )) &&
+        !(await this.findExistingCliente(
+          clienteExists.id,
+          updateClienteDto.rg,
+        )) &&
+        !(await this.findExistingCliente(
+          clienteExists.id,
+          updateClienteDto.cnpj,
+        )) &&
+        !(await this.findExistingCliente(
+          clienteExists.id,
+          updateClienteDto.razaoSocial,
+        ))
       ) {
         return await this.prismaService.cliente.update({
           where: { id },
           data: updateClienteDto,
         });
       }
-      return { data: { message: 'cliente com dados repetidos' } };
+      return { data: { message: 'Cliente com dados repetidos' } };
     }
-    return { data: { message: 'cliente não existe' } };
+    return { data: { message: 'Cliente não existe' } };
   }
- 
+
   async remove(id: number) {
     const clienteExists = await this.findOne(id);
     if (clienteExists) {
-      return await this.prismaService.cliente.delete({ where: { id } });
+      const clienteOrcs = await this.prismaService.orcamento.findFirst({
+        where: { idCliente: id },
+      });
+      if (!clienteOrcs) {
+        return await this.prismaService.cliente.delete({ where: { id } });
+      }
+      return { data: { message: 'Cliente possui orçamentos' } };
     }
-    return { data: { message: 'cliente não existe' } };
+    return { data: { message: 'Cliente não existe' } };
   }
-} 
+}
