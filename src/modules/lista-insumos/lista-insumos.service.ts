@@ -51,6 +51,8 @@ export class ListaInsumosService {
   }
 
   async findOne(id: number) {
+    console.log(id)
+    console.log(this.prismaService.listaInsumo.findFirst({ where: { id } }));
     return await this.prismaService.listaInsumo.findFirst({ where: { id } });
   }
 
@@ -65,14 +67,17 @@ export class ListaInsumosService {
     return await this.prismaService.listaInsumo.delete({ where: { id } });
   }
 
-  async selectCotacao(idListaInsumo: number, idCot: number) {
-    const cotacao = await this.cotacaoServices.findOne(idCot);
+  async selectCotacao(idItemListaInsumo: number, idCotacao: number) {
+    console.log(idItemListaInsumo, idCotacao);
+    const cotacao = await this.cotacaoServices.findOne(idCotacao);
+
+    console.log(idItemListaInsumo, idCotacao);
     if (!cotacao) {
       return { data: { message: 'Essa cotação não existe' } };
     }
 
     const lista = await this.prismaService.listaInsumo.findFirst({
-      where: { id: idListaInsumo },
+      where: { id: idItemListaInsumo },
     });
     if (!lista == null) {
       return { data: { message: 'Esse insumo não existe' } };

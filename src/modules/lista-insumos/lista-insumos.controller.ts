@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  UsePipes,
+  Query,
+} from '@nestjs/common';
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import  {response as res} from 'express';
+import { response as res } from 'express';
 
 @ApiTags('lista-insumos')
 @Controller('lista-insumos')
@@ -11,7 +22,10 @@ export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
 
   @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
+  async findAllWithPagination(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+  ) {
     page = page;
     perPage = perPage;
     const totalcount = await this.listaInsumosService.countAll();
@@ -36,6 +50,7 @@ export class ListaInsumosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log(this.listaInsumosService.findOne(+id))
     return this.listaInsumosService.findOne(+id);
   }
 
@@ -54,7 +69,7 @@ export class ListaInsumosController {
 
   @Post(':id/cotar')
   @ApiBody({})
-  selectCotacao(@Param('id') idListaInsumo: number, @Body() requestBody: { idCot: number }) {
-    return this.listaInsumosService.selectCotacao(+idListaInsumo, +requestBody.idCot);
+  selectCotacao(@Param('id') idItemListaInsumo: number, @Body() body) {
+    return this.listaInsumosService.selectCotacao(+idItemListaInsumo, +body.idCotacao);
   }
 }
