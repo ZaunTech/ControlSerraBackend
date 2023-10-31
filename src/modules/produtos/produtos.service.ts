@@ -35,12 +35,19 @@ export class ProdutosService {
   }
 
   async create(createProdutoDto: CreateProdutoDto) {
-    const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
-    if (!produtoExiste) {
-      return await this.prismaService.produto.create({
-        data: createProdutoDto,
-      });
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: { id: createProdutoDto.orcamentoId },
+    });
+    if (orcamentoExists) {
+      const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
+      if (!produtoExiste) {
+        return await this.prismaService.produto.create({
+          data: createProdutoDto,
+        });
+      }
+      return { data: { message: 'Titulo já cadastrado' } };
     }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async findProdutoOrc(id: number) {
@@ -64,23 +71,33 @@ export class ProdutosService {
   }
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
-    return await this.prismaService.produto.update({
-      where: { id },
-      data: updateProdutoDto,
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: { id: updateProdutoDto.orcamentoId },
     });
+    if (orcamentoExists) {
+      return await this.prismaService.produto.update({
+        where: { id },
+        data: updateProdutoDto,
+      });
+    }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async remove(id: number) {
-    const removeInsumos = await this.prismaService.listaInsumo.deleteMany({
-      where: {
-        idProduto: id,
-      },
-    });
-    const removeProduto = await this.prismaService.produto.delete({
-      where: { id },
-    });
+    const produtoExists = await this.findOne(id);
+    if (produtoExists) {
+      const removeInsumos = await this.prismaService.listaInsumo.deleteMany({
+        where: {
+          idProduto: id,
+        },
+      });
+      const removeProduto = await this.prismaService.produto.delete({
+        where: { id },
+      });
 
-    return { removeProduto, removeInsumos };
+      return { removeProduto, removeInsumos };
+    }
+    return { data: { message: 'Produto não existe' } };
   }
 
   async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {

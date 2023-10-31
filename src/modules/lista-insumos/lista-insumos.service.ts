@@ -26,9 +26,29 @@ export class ListaInsumosService {
   }
 
   async create(createListaInsumoDto: CreateListaInsumoDto) {
-    return await this.prismaService.listaInsumo.create({
-      data: createListaInsumoDto,
+    const insumoExists = await this.prismaService.insumo.findFirst({
+      where: { id: createListaInsumoDto.idInsumo },
     });
+    if (insumoExists) {
+      const produtoExists = await this.prismaService.produto.findFirst({
+        where: { id: createListaInsumoDto.idProduto },
+      });
+      if (produtoExists) {
+        if (createListaInsumoDto.idCotacao) {
+          var cotacaoExists = await this.prismaService.cotacao.findFirst({
+            where: { id: createListaInsumoDto.idCotacao },
+          });
+        }
+        if (cotacaoExists || !createListaInsumoDto.idCotacao) {
+          return await this.prismaService.listaInsumo.create({
+            data: createListaInsumoDto,
+          });
+        }
+        return { data: { message: 'Cotação não existe' } };
+      }
+      return { data: { message: 'Produto não existe' } };
+    }
+    return { data: { message: 'Insumo não existe' } };
   }
 
   async findInsumoProd(id: number) {
@@ -57,14 +77,40 @@ export class ListaInsumosService {
   }
 
   async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
-    return await this.prismaService.listaInsumo.update({
-      where: { id },
-      data: updateListaInsumoDto,
+    const insumoExists = await this.prismaService.insumo.findFirst({
+      where: { id: updateListaInsumoDto.idInsumo },
     });
+    if (insumoExists) {
+      const produtoExists = await this.prismaService.produto.findFirst({
+        where: { id: updateListaInsumoDto.idProduto },
+      });
+      if (produtoExists) {
+        if (updateListaInsumoDto.idCotacao) {
+          var cotacaoExists = await this.prismaService.cotacao.findFirst({
+            where: { id: updateListaInsumoDto.idCotacao },
+          });
+        }
+        if (cotacaoExists || !updateListaInsumoDto.idCotacao) {
+          return await this.prismaService.listaInsumo.update({
+            where: { id },
+            data: updateListaInsumoDto,
+          });
+        }
+        return { data: { message: 'Cotação não existe' } };
+      }
+      return { data: { message: 'Produto não existe' } };
+    }
+    return { data: { message: 'Insumo não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.listaInsumo.delete({ where: { id } });
+    const listaInsumoExists = await this.findOne(id);
+    if (listaInsumoExists) {
+      return await this.prismaService.listaInsumo.delete({
+        where: { id },
+      });
+    }
+    return { data: { message: 'Insumo da lista não existe' } };
   }
 
   async selectCotacao(idItemListaInsumo: number, idCotacao: number) {

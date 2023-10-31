@@ -32,6 +32,7 @@ export class ListaInsumosController {
     res.set('x-total-count', totalcount.toString());
     return await this.listaInsumosService.findAllWithPagination(page, perPage);
   }
+
   @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
@@ -54,6 +55,7 @@ export class ListaInsumosController {
     return this.listaInsumosService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(
     @Param('id') id: string,

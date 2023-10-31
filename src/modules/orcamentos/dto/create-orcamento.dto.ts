@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { status as Status } from '@prisma/client';
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 
 export class CreateOrcamentoDto {
   @ApiProperty({
@@ -8,7 +15,8 @@ export class CreateOrcamentoDto {
       'A validade serve para descrever até qual data o orçamento será valido',
     example: '2023-10-23T17:30:44.382Z',
   })
-  @IsDate({message: 'Validade inserida não é uma data'})
+  @ValidateIf((object, value) => value !== undefined)
+  @IsDateString({},{ message: 'A validade inserida não é válida' })
   validade?: Date;
 
   @ApiProperty({
@@ -16,7 +24,8 @@ export class CreateOrcamentoDto {
       'O total mão de obra serve para descrever o custo total de mão de obra para produzir os itens do orçamento',
     example: '750',
   })
-  @IsNumber({},{ message: 'Valor total de mão de obra deve ser um numero'})
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'O valor de mão de obra inserido não é válido' })
   totalMaoObra?: number;
 
   @ApiProperty({
@@ -24,15 +33,16 @@ export class CreateOrcamentoDto {
       'O total materiais serve para descrever o custo total das compras do materiais para produzir os itens do orçamento',
     example: '700',
   })
-  @IsNumber({},{ message: 'Valor total de materiais deve ser um numero'})
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'O valor total de materiais inserido não é válido' })
   totalMateriais?: number;
 
   @ApiProperty({
-    description:
-      'O status serve para descrever a atual situação do orçamento',
+    description: 'O status serve para descrever a atual situação do orçamento',
     example: 'Pendente',
   })
-  @IsNotEmpty({ message: 'Status não pode ser vazio'})
+  @IsNotEmpty({ message: 'O status não pode estar vazio' })
+  @IsEnum(Status, { message: 'O status inserido não é válido' })
   status: Status;
 
   @ApiProperty({
@@ -40,7 +50,8 @@ export class CreateOrcamentoDto {
       'O prazo estimado de produção serve para descrever uma estimativa de quanto tempo será necessário para concluir o orçamento, descrito em dias',
     example: '90',
   })
-  @IsNumber({},{ message: 'Prazo estimado deve ser um numero'})
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumber({}, { message: 'O prazo estimado inserido não é válido' })
   prazoEstimadoProducao: number;
 
   @ApiProperty({
@@ -48,7 +59,8 @@ export class CreateOrcamentoDto {
       'As observações servem para descrever caracteristicas relevantes obre o orçamento',
     example: '2 portões e 1 grade para janela',
   })
-  @IsString({ message: 'Observação não é de um tipo valido'})
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'A observação inserida não é válida' })
   observacoes?: string;
 
   @ApiProperty({
@@ -56,7 +68,7 @@ export class CreateOrcamentoDto {
       'O id do cliente serve para indentificar qual o cliente a quem este orçamento pertence',
     example: '1',
   })
-  @IsNotEmpty({ message: 'Cliente não pode ser vazio'})
-  @IsNumber({},{ message: 'Id do cliente deve ser um numero'})
+  @IsNotEmpty({ message: 'O cliente não pode estar vazio' })
+  @IsNumber({}, { message: 'O cliente inserido não é válido' })
   idCliente: number;
 }

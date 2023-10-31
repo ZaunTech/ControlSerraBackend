@@ -51,7 +51,7 @@ model Fornecedor {
   nome         String?
   cpf          String?   @unique
   rg           String?   @unique
-  nomeFantasia String?   @unique
+  nomeFantasia String?
   razaoSocial  String?   @unique
   cnpj         String?   @unique
   cotacaos     Cotacao[]

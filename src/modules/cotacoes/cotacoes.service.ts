@@ -10,18 +10,30 @@ export class CotacoesService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const cotacoes = await this.prismaService.cotacao.findMany({
-    skip,
-    take: perPage,
-  });
-  return { cotacoes };
+      skip,
+      take: perPage,
+    });
+    return { cotacoes };
   }
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
   }
   async create(createCotacaoDto: CreateCotacaoDto) {
-    return await this.prismaService.cotacao.create({
-      data: createCotacaoDto,
+    const fornecedorExists = await this.prismaService.fornecedor.findFirst({
+      where: { id: createCotacaoDto.idFornecedor },
     });
+    if (fornecedorExists) {
+      const insumoExists = await this.prismaService.insumo.findFirst({
+        where: { id: createCotacaoDto.idInsumo },
+      });
+      if (insumoExists) {
+        return await this.prismaService.cotacao.create({
+          data: createCotacaoDto,
+        });
+      }
+      return { data: { message: 'Insumo não existe' } }
+    }
+    return { data: { message: 'Fornecedor não existe' } };
   }
 
   async findAll() {
@@ -51,13 +63,29 @@ export class CotacoesService {
   }
 
   async update(id: number, updateCotacaoDto: UpdateCotacaoDto) {
-    return this.prismaService.cotacao.update({
-      where: { id },
-      data: updateCotacaoDto,
+    const fornecedorExists = await this.prismaService.fornecedor.findFirst({
+      where: { id: updateCotacaoDto.idFornecedor },
     });
+    if (fornecedorExists) {
+      const insumoExists = await this.prismaService.insumo.findFirst({
+        where: { id: updateCotacaoDto.idInsumo },
+      });
+      if (insumoExists) {
+        return await this.prismaService.cotacao.update({
+          where: { id },
+          data: updateCotacaoDto,
+        });
+      }
+      return { data: { message: 'Insumo não existe' } }
+    }
+    return { data: { message: 'Fornecedor não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.cotacao.delete({ where: { id } });
+    const cotacaoExists = await this.findOne(id);
+    if (cotacaoExists) {
+      return await this.prismaService.cotacao.delete({ where: { id } });
+    }
+    return { data: { message: 'Cotação não existe' } };
   }
 }

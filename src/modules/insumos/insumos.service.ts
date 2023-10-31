@@ -10,11 +10,11 @@ export class InsumosService {
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const insumos = await this.prismaService.insumo.findMany({
-    skip,
-    take: perPage,
-  });
+      skip,
+      take: perPage,
+    });
 
-  return { insumos};
+    return { insumos };
   }
 
   async findOneByTitle(titulo: string) {
@@ -24,11 +24,22 @@ export class InsumosService {
   }
 
   async create(createInsumoDto: CreateInsumoDto) {
-    const insumo = await this.findOneByTitle(createInsumoDto.titulo);
-    if (!insumo) {
-      return await this.prismaService.insumo.create({
-        data: createInsumoDto,
-      });
+    const insumoRepetido = await this.findOneByTitle(createInsumoDto.titulo);
+    if (!insumoRepetido) {
+      if (createInsumoDto.idCategoria !== undefined) {
+        var categoriaExists = await this.prismaService.categoria.findFirst({
+          where: { id: createInsumoDto.idCategoria },
+        });
+      }
+      if (
+        (createInsumoDto.idCategoria && categoriaExists) ||
+        (!createInsumoDto.idCategoria && !categoriaExists)
+      ) {
+        return await this.prismaService.insumo.create({
+          data: createInsumoDto,
+        });
+      }
+      return { data: { message: 'Categoria não existe' } };
     }
     return { data: { message: 'Titulo ja cadastrado' } };
   }
@@ -48,13 +59,44 @@ export class InsumosService {
   }
 
   async update(id: number, updateInsumoDto: UpdateInsumoDto) {
-    return await this.prismaService.insumo.update({
-      where: { id },
-      data: updateInsumoDto,
-    });
+    const insumoRepetido = await this.findOneByTitle(updateInsumoDto.titulo);
+    if (!insumoRepetido) {
+      if (updateInsumoDto.idCategoria !== undefined) {
+        var categoriaExists = await this.prismaService.categoria.findFirst({
+          where: { id: updateInsumoDto.idCategoria },
+        });
+      }
+      if (
+        (updateInsumoDto.idCategoria && categoriaExists) ||
+        (!updateInsumoDto.idCategoria && !categoriaExists)
+      ) {
+        return await this.prismaService.insumo.update({
+          where: { id },
+          data: updateInsumoDto,
+        });
+      }
+      return { data: { message: 'Categoria não existe' } };
+    }
+    return { data: { message: 'Titulo ja cadastrado' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.insumo.delete({ where: { id } });
+    const insumoExists = await this.findOne(id);
+    if (insumoExists) {
+      const insumoProds = await this.prismaService.listaInsumo.findFirst({
+        where: { idInsumo: id },
+      });
+      const insumoProdsBase = await this.prismaService.insumoProdutoBase.findFirst({
+        where: { idInsumo: id },
+      });
+      const insumoCota = await this.prismaService.cotacao.findFirst({
+        where: { idInsumo: id },
+      });
+      if (!insumoProds && !insumoProdsBase && !insumoCota) {
+        return await this.prismaService.insumo.delete({ where: { id } });
+      }
+      return { data: { message: 'Insumo está sendo utilizado em outro local' } };
+    }
+    return { data: { message: 'Insumo não existe' } };
   }
 }

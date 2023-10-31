@@ -7,15 +7,14 @@ import { PrismaService } from '../../databases/prisma.service';
 export class CategoriasService {
   constructor(private readonly prismaService: PrismaService) {}
 
-
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const categorias = await this.prismaService.categoria.findMany({
-    skip,
-    take: perPage,
-  });
-  const total = await this.prismaService.categoria.count();
-  return { categorias };
+      skip,
+      take: perPage,
+    });
+    const total = await this.prismaService.categoria.count();
+    return { categorias };
   }
 
   async findOneByTitle(titulo: string) {
@@ -24,9 +23,8 @@ export class CategoriasService {
     });
   }
 
-  async countAllCategorias(){
-    return await this.prismaService.categoria.count({
-    });
+  async countAllCategorias() {
+    return await this.prismaService.categoria.count({});
   }
 
   async findManyByTitle(titulo: string) {
@@ -54,13 +52,32 @@ export class CategoriasService {
   }
 
   async update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return await this.prismaService.categoria.update({
-      where: { id },
-      data: updateCategoriaDto,
-    });
+    const categoriaExists = await this.findOne(id);
+    if (categoriaExists) {
+      const categoriaRepeated = await this.prismaService.categoria.findFirst({
+        where: {
+          titulo: updateCategoriaDto.titulo,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+      if (!categoriaRepeated) {
+        return await this.prismaService.categoria.update({
+          where: { id },
+          data: updateCategoriaDto,
+        });
+      }
+      return { data: { message: 'Categoria com titulo repetido' } };
+    }
+    return { data: { message: 'Categoria não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.categoria.delete({ where: { id } });
+    const categoriaExists = await this.findOne(id);
+    if (categoriaExists) {
+      return await this.prismaService.categoria.delete({ where: { id } });
+    }
+    return { data: { message: 'Categoria não existe' } };
   }
 }

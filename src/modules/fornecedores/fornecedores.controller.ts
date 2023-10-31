@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedorDto } from './dto/create-fornecedor.dto';
@@ -31,6 +33,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return this.fornecedoresService.countAllFornecedor();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
     return this.fornecedoresService.create(CreateFornecedoresDto);
@@ -45,7 +48,8 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   async findOne(@Param('id') id: string) {
     return await this.fornecedoresService.findOne(+id);
   }
-
+  
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(
     @Param('id') id: string,

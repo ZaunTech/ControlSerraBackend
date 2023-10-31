@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
@@ -24,6 +24,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return this.clientesService.countAllCliente();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clientesService.create(createClienteDto);
@@ -46,6 +47,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return this.clientesService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
     return this.clientesService.update(+id, updateClienteDto);

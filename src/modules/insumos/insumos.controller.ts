@@ -50,6 +50,7 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
     return await this.insumosService.findOne(+id);
   }
 
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInsumoDto: UpdateInsumoDto) {
     return this.insumosService.update(+id, updateInsumoDto);
