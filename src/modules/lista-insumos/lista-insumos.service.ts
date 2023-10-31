@@ -122,16 +122,14 @@ export class ListaInsumosService {
       return { data: { message: 'Essa cotação não existe' } };
     }
 
-    const lista = await this.prismaService.listaInsumo.findFirst({
-      where: { id: idItemListaInsumo },
-    });
-    if (!lista == null) {
+    const listaInsumoExists = await this.findOne(idItemListaInsumo)
+    if (!listaInsumoExists) {
       return { data: { message: 'Esse insumo não existe' } };
     }
-    lista.valorUnitario = cotacao.valor;
+    listaInsumoExists.valorUnitario = cotacao.valor;
 
-    lista.idCotacao = cotacao.id;
+    listaInsumoExists.idCotacao = cotacao.id;
 
-    return await this.update(lista.id, lista);
+    return await this.update(listaInsumoExists.id, listaInsumoExists);
   }
 }

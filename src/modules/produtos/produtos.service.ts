@@ -99,7 +99,7 @@ export class ProdutosService {
     }
     return { data: { message: 'Produto não existe' } };
   }
-
+ /*
   async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
     console.log("banana2")
     const prodBase = await this.produtosBaseService.findOne(
@@ -136,5 +136,5 @@ export class ProdutosService {
     }
 
     return copyProd;
-  }
+  }*/
 }
