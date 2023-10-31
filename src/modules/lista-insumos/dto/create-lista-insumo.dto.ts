@@ -37,4 +37,13 @@ export class CreateListaInsumoDto {
   @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
+
+  unidade?: string;
+
+  @ApiProperty({
+    description:
+      'O valor unitario serve para descrever qual é o valor do insumo',
+    example: '100,00',
+  })
+  valorUnitario?: number;
 }

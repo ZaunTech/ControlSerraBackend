@@ -28,4 +28,6 @@ export class CreateInsumosProdutosBaseDto {
   @IsNotEmpty({message: 'O insumo não pode estar vazio'})
   @IsNumber({},{message: 'O insumo inserido não é válido'})
   idInsumo: number;
+
+  unidade:string;
 }

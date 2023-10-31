@@ -53,6 +53,8 @@ export class CotacoesService {
   }
 
   async findOne(id: number) {
+
+    
     return await this.prismaService.cotacao.findFirst({
       where: {
         id,

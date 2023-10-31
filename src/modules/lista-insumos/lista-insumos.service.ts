@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { CotacoesService } from '../cotacoes/cotacoes.service';
 
 @Injectable()
 export class ListaInsumosService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly cotacaoServices: CotacoesService,
+  ) {}
 
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
@@ -67,6 +71,8 @@ export class ListaInsumosService {
   }
 
   async findOne(id: number) {
+    console.log(id)
+    console.log(this.prismaService.listaInsumo.findFirst({ where: { id } }));
     return await this.prismaService.listaInsumo.findFirst({ where: { id } });
   }
 
@@ -105,5 +111,27 @@ export class ListaInsumosService {
       });
     }
     return { data: { message: 'Insumo da lista não existe' } };
+  }
+
+  async selectCotacao(idItemListaInsumo: number, idCotacao: number) {
+    console.log(idItemListaInsumo, idCotacao);
+    const cotacao = await this.cotacaoServices.findOne(idCotacao);
+
+    console.log(idItemListaInsumo, idCotacao);
+    if (!cotacao) {
+      return { data: { message: 'Essa cotação não existe' } };
+    }
+
+    const lista = await this.prismaService.listaInsumo.findFirst({
+      where: { id: idItemListaInsumo },
+    });
+    if (!lista == null) {
+      return { data: { message: 'Esse insumo não existe' } };
+    }
+    lista.valorUnitario = cotacao.valor;
+
+    lista.idCotacao = cotacao.id;
+
+    return await this.update(lista.id, lista);
   }
 }

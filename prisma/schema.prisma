@@ -154,8 +154,10 @@ model ListaInsumo {
   idProduto  Int
   idInsumo   Int
   idCotacao  Int?
-  produto    Produto @relation(fields: [idProduto], references: [id])
-  insumo     Insumo  @relation(fields: [idInsumo], references: [id])
+  unidade    String?
+  valorUnitario Float?
+  produto    Produto? @relation(fields: [idProduto], references: [id])
+  insumo     Insumo?  @relation(fields: [idInsumo], references: [id])
   cotacao    Cotacao? @relation(fields: [idCotacao], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -194,6 +196,7 @@ model InsumoProdutoBase {
   quantidade    Float        @default(1)
   idProdutoBase Int
   idInsumo      Int
+  unidade       String
   produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])
   insumos       Insumo?      @relation(fields: [idInsumo], references: [id])
   createdAt     DateTime     @default(now())

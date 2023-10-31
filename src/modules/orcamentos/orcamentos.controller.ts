@@ -14,6 +14,11 @@ export class OrcamentosController {
     return await this.orcamentosService.countAll();
   }
   
+  @Get()
+  findAll() {
+    return this.orcamentosService.findAll();
+  }
+  
   @Get('paginate')
   async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
     page = page;
@@ -23,16 +28,13 @@ export class OrcamentosController {
     return await this.orcamentosService.findAllWithPagination(page, perPage);
   }
   
-  @UsePipes(ValidationPipe)
+  
   @Post()
   create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
+   
     return this.orcamentosService.create(createOrcamentoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.orcamentosService.findAll();
-  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -17,8 +17,10 @@ export class ListaInsumo {
   @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
-  produto: Produto;
-  insumo: Insumo;
+  unidade?: string;
+  valorUnitario?: number;
+  produto?: Produto;
+  insumo?: Insumo;
   cotacao?: Cotacao;
   createdAt: Date;
   updatedAt: Date;

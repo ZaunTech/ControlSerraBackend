@@ -51,6 +51,7 @@ export class ListaInsumosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log(this.listaInsumosService.findOne(+id))
     return this.listaInsumosService.findOne(+id);
   }
 
@@ -66,5 +67,11 @@ export class ListaInsumosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.listaInsumosService.remove(+id);
+  }
+
+  @Post(':id/cotar')
+  @ApiBody({})
+  selectCotacao(@Param('id') idItemListaInsumo: number, @Body() body) {
+    return this.listaInsumosService.selectCotacao(+idItemListaInsumo, +body.idCotacao);
   }
 }

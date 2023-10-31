@@ -4,6 +4,7 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
 import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
+import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 
 @Injectable()
 export class ProdutosService {
@@ -99,25 +100,37 @@ export class ProdutosService {
     return { data: { message: 'Produto não existe' } };
   }
 
-  async pullProdBase(idProdBase: number, idOrc: number) {
-    const prodBase = await this.produtosBaseService.findOne(idProdBase);
+  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
+    console.log("banana2")
+    const prodBase = await this.produtosBaseService.findOne(
+      addProdutoBaseDto.id,
+    );
+
+    console.log("banana1")
     const insumosBase =
-      await this.insumosProdutosBaseService.findInsumoProdBase(idProdBase);
+      await this.insumosProdutosBaseService.findInsumoProdBase(
+        addProdutoBaseDto.id,
+      );
+
     const copyProd = await this.prismaService.produto.create({
       data: {
         titulo: prodBase.titulo,
-        observacoes: prodBase.observacoes,
-        quantidade: 1,
-        orcamentoId: idOrc,
+        orcamentoId: addProdutoBaseDto.orcamentoId,
+        observacoes: addProdutoBaseDto.observacoes,
+        quantidade: addProdutoBaseDto.quantidade,
       },
     });
-
+  
+    console.log("banana")
+    
     for (const insumoBase of insumosBase) {
+      
       await this.prismaService.listaInsumo.create({
         data: {
           quantidade: insumoBase.quantidade,
           idInsumo: insumoBase.idInsumo,
           idProduto: copyProd.id,
+          unidade: insumoBase.unidade,
         },
       });
     }
