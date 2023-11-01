@@ -9,6 +9,8 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
@@ -25,18 +27,6 @@ export class PedidosController {
     return await this.pedidosService.countAll();
   }
 
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.pedidosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.pedidosService.findAllWithPagination(page, perPage);
-  }
-
   @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createPedidoDto: CreatePedidoDto) {
@@ -44,8 +34,19 @@ export class PedidosController {
   }
 
   @Get()
-  findAll() {
-    return this.pedidosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const pedidos = await this.pedidosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.pedidosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      pedidos,
+    };
   }
 
   @Get(':id')
