@@ -28,12 +28,7 @@ export class InsumosProdutosBaseService {
       });
       if (produtoBaseExists) {
         return await this.prismaService.insumoProdutoBase.create({
-          data: {
-            quantidade: createInsumosProdutosBaseDto.quantidade,
-            idProdutoBase: createInsumosProdutosBaseDto.idProdutoBase,
-            idInsumo: createInsumosProdutosBaseDto.idInsumo,
-            unidade: createInsumosProdutosBaseDto.unidade,
-          },
+          data: createInsumosProdutosBaseDto,
         });
       }
       return { data: { message: 'Produto base não existe' } };

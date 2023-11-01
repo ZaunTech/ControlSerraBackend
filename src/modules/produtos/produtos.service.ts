@@ -99,42 +99,45 @@ export class ProdutosService {
     }
     return { data: { message: 'Produto não existe' } };
   }
- /*
+
   async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
-    console.log("banana2")
     const prodBase = await this.produtosBaseService.findOne(
       addProdutoBaseDto.id,
     );
-
-    console.log("banana1")
-    const insumosBase =
-      await this.insumosProdutosBaseService.findInsumoProdBase(
-        addProdutoBaseDto.id,
-      );
-
-    const copyProd = await this.prismaService.produto.create({
-      data: {
-        titulo: prodBase.titulo,
-        orcamentoId: addProdutoBaseDto.orcamentoId,
-        observacoes: addProdutoBaseDto.observacoes,
-        quantidade: addProdutoBaseDto.quantidade,
-      },
-    });
-  
-    console.log("banana")
-    
-    for (const insumoBase of insumosBase) {
-      
-      await this.prismaService.listaInsumo.create({
-        data: {
-          quantidade: insumoBase.quantidade,
-          idInsumo: insumoBase.idInsumo,
-          idProduto: copyProd.id,
-          unidade: insumoBase.unidade,
-        },
+    if (prodBase) {
+      const orcamentoExists = await this.prismaService.orcamento.findFirst({
+        where: { id: addProdutoBaseDto.orcamentoId },
       });
-    }
+      if (orcamentoExists) {
+        const insumosBase =
+          await this.insumosProdutosBaseService.findInsumoProdBase(
+            addProdutoBaseDto.id,
+          );
 
-    return copyProd;
-  }*/
+        const copyProd = await this.prismaService.produto.create({
+          data: {
+            titulo: prodBase.titulo,
+            orcamentoId: addProdutoBaseDto.orcamentoId,
+            observacoes: addProdutoBaseDto.observacoes,
+            quantidade: addProdutoBaseDto.quantidade,
+          },
+        });
+
+        for (const insumoBase of insumosBase) {
+          await this.prismaService.listaInsumo.create({
+            data: {
+              quantidade: insumoBase.quantidade,
+              idInsumo: insumoBase.idInsumo,
+              idProduto: copyProd.id,
+              unidade: insumoBase.unidade,
+            },
+          });
+        }
+
+        return copyProd;
+      }
+      return { data: { message: 'Orçamento não existe' } };
+    }
+    return { data: { message: 'Produto base não existe' } };
+  }
 }
