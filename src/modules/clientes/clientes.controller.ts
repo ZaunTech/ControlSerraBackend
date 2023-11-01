@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe, Header, Res } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
@@ -9,15 +9,7 @@ import { response as res } from 'express';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
-@Get('paginate')
-async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page;
-  perPage = perPage;
-  const totalcount = await this.clientesService.countAllCliente();
 
-  res.set('x-total-count', totalcount.toString());
-  return await this.clientesService.findAllWithPagination(page, perPage);
-}
 
   @Get('count')
   countAll(){
@@ -31,8 +23,19 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   }
 
   @Get()
-  findAll() {
-    return this.clientesService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const clientes = await this.clientesService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.clientesService.countAllCliente();
+    res.header('x-total-count',total.toString())
+    return {
+      clientes,
+    };
   }
 
   

@@ -9,29 +9,19 @@ import {
   ValidationPipe,
   UsePipes,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 
 @ApiTags('lista-insumos')
 @Controller('lista-insumos')
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
-
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.listaInsumosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.listaInsumosService.findAllWithPagination(page, perPage);
-  }
 
   @UsePipes(ValidationPipe)
   @Post()
@@ -40,8 +30,19 @@ export class ListaInsumosController {
   }
 
   @Get()
-  findAll() {
-    return this.listaInsumosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const listaInsumos = await this.listaInsumosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.listaInsumosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      listaInsumos,
+    };
   }
 
   @Get('produtos/:id')

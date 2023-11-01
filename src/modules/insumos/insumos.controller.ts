@@ -9,6 +9,8 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Res,
+  Header,
 } from '@nestjs/common';
 import { InsumosService } from './insumos.service';
 import { CreateInsumoDto } from './dto/create-insumo.dto';
@@ -19,15 +21,6 @@ import { response as res } from "express";
 @Controller('insumos')
 export class InsumosController {
   constructor(private readonly insumosService: InsumosService) {}
-
-  @Get('paginate')
-async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page;
-  perPage = perPage;
-  const totalcount = await this.insumosService.countAll();
-  res.set('x-total-count', totalcount.toString());
-  return await this.insumosService.findAllWithPagination(page, perPage);
-}
 
   @Get('count')
   countAll() {
@@ -41,8 +34,19 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   }
 
   @Get()
-  findAll() {
-    return this.insumosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const insumos = await this.insumosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.insumosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      insumos,
+    };
   }
 
   @Get(':id')
