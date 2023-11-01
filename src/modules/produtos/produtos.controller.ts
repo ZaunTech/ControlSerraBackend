@@ -23,7 +23,6 @@ export class ProdutosController {
 
   @Post('addProdutoBase')
   createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
-    console.log('Entrou no controller');
     return this.produtosService.pullProdBase(addProdutoBaseDto);
   }
 
