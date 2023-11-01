@@ -9,6 +9,8 @@ import {
   ValidationPipe,
   UsePipes,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -19,18 +21,6 @@ import { response as res } from 'express';
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
-
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.usuariosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.usuariosService.findAllWithPagination(page, perPage);
-  }
 
   @Get('count')
   countAll() {
@@ -44,8 +34,19 @@ export class UsuariosController {
   }
 
   @Get()
-  findAll() {
-    return this.usuariosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const usuarios = await this.usuariosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.usuariosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      usuarios,
+    };
   }
 
   @Get(':id')
