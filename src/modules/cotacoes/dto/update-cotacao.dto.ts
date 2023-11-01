@@ -1,7 +1,14 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCotacaoDto } from './create-cotacao.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 
 export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
   @ApiProperty({
@@ -13,7 +20,14 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
   @IsDateString({}, { message: 'A data inserida não é válida' })
   data?: Date;
 
-  obsoleta: boolean;
+  @ApiProperty({
+    description:
+      'A propriedade obsoleta serve para descrever quando esta cotação deixou de ser atualizada',
+    example: 'false',
+  })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsBoolean({ message: 'O valor de obsoleta inserido não é válido' })
+  obsoleta?: boolean;
 
   @ApiProperty({
     description:
@@ -43,8 +57,7 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
   idInsumo?: number;
 
   @ApiProperty({
-    description:
-      'A unidade serve para descrever as dimensões do insumo',
+    description: 'A unidade serve para descrever as dimensões do insumo',
     example: '1M',
   })
   @IsNotEmpty({ message: 'A unidade não pode estar vazia' })
