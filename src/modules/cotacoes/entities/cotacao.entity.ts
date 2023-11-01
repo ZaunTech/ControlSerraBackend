@@ -3,8 +3,9 @@ import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class Cotacao {
   id: number;
   @IsNotEmpty({ message: 'A data não pode estar vazia' })
-  @IsDateString({},{ message: 'A data inserida não é válida' })
+  @IsDateString({}, { message: 'A data inserida não é válida' })
   data: Date;
+  obsoleta: boolean;
   @IsNotEmpty({ message: 'O valor não pode estar vazio' })
   @IsNumber({}, { message: 'O valor inserido não é válido' })
   valor: number;

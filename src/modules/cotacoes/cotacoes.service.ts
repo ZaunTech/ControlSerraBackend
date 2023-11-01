@@ -2,10 +2,40 @@ import { Injectable } from '@nestjs/common';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { recotarDto } from './dto/recotar.dto';
 
 @Injectable()
 export class CotacoesService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
+
+  async recotar(idCotacao: number, recotarDto: recotarDto) {
+    const oldQuotation = await this.prismaService.cotacao.update({
+      where: { id: idCotacao }, data: {
+        obsoleta: true,
+      }
+    })
+
+    if (!oldQuotation) {
+
+      return { data: { message: 'Não foi possivel criar a nova cotação' } };
+    }
+
+    const newQuotation = await this.prismaService.cotacao.create({
+      data: {
+        idInsumo: oldQuotation.idInsumo,
+        idFornecedor: oldQuotation.idFornecedor,
+        unidade: oldQuotation.unidade,
+        valor: recotarDto.valor,
+        data: recotarDto.data,
+      }
+    })
+
+    if (!newQuotation) {
+      return { data: { message: 'Não foi possivel criar a nova cotação' } };
+    }
+
+    return newQuotation;
+  }
 
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
@@ -54,7 +84,7 @@ export class CotacoesService {
 
   async findOne(id: number) {
 
-    
+
     return await this.prismaService.cotacao.findFirst({
       where: {
         id,

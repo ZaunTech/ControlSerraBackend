@@ -10,8 +10,10 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
     example: '2023-10-23T17:30:44.382Z',
   })
   @IsNotEmpty({ message: 'A data não pode estar vazia' })
-  @IsDateString({},{ message: 'A data inserida não é válida' })
+  @IsDateString({}, { message: 'A data inserida não é válida' })
   data?: Date;
+
+  obsoleta: boolean;
 
   @ApiProperty({
     description:
