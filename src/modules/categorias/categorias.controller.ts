@@ -16,6 +16,7 @@ import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { response as res } from 'express';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 
 
 @ApiTags('categorias')
@@ -23,26 +24,18 @@ import { response as res } from 'express';
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
-  @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page;
-  perPage = perPage;
-  const totalcount = await this.categoriasService.countAllCategorias();
-
-  res.set('x-total-count', totalcount.toString());
-  return await this.categoriasService.findAllWithPagination(page, Number(perPage));
-}
-
   @Get('count')
   async countAll(){
     return await this.categoriasService.countAllCategorias();
   }
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createCategoriaDto: CreateCategoriaDto) {
     return await this.categoriasService.create(createCategoriaDto);
   }
 
+  @IsPublic()
   @Get()
   async findAll() {
     return this.categoriasService.findAll();
@@ -58,12 +51,13 @@ export class CategoriasController {
     return await this.categoriasService.findOne(+id);
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string,@Body() updateCategoriaDto: UpdateCategoriaDto,) {
     return await this.categoriasService.update(+id, updateCategoriaDto);
   }
-
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.categoriasService.remove(+id);
