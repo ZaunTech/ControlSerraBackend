@@ -34,19 +34,8 @@ export class FornecedoresController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const fornecedores = await this.fornecedoresService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.fornecedoresService.countAllFornecedor();
-    res.header('x-total-count',total.toString())
-    return {
-      fornecedores,
-    };
+  async findAll(){
+    return this.fornecedoresService.findAll()
   }
 
   @Get(':id')

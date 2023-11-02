@@ -34,19 +34,8 @@ export class UsuariosController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const usuarios = await this.usuariosService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.usuariosService.countAll();
-    res.header('x-total-count',total.toString())
-    return {
-      usuarios,
-    };
+  async findAll(){
+    return this.usuariosService.findAll()
   }
 
   @Get(':id')

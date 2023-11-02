@@ -54,19 +54,8 @@ export class ProdutosController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const produtos = await this.produtosService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.produtosService.countAll();
-    res.header('x-total-count',total.toString())
-    return {
-      produtos,
-    };
+  async findAll(){
+    return this.produtosService.findAll()
   }
 
   @UsePipes(ValidationPipe)

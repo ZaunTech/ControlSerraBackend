@@ -30,19 +30,8 @@ export class ListaInsumosController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const listaInsumos = await this.listaInsumosService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.listaInsumosService.countAll();
-    res.header('x-total-count',total.toString())
-    return {
-      listaInsumos,
-    };
+  async findAll(){
+    return this.listaInsumosService.findAll()
   }
 
   @Get('produtos/:id')

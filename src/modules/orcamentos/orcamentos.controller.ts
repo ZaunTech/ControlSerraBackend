@@ -14,19 +14,8 @@ export class OrcamentosController {
   }
   
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const orcamentos = await this.orcamentosService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.orcamentosService.countAll();
-    res.header('x-total-count',total.toString())
-    return {
-      orcamentos,
-    };
+  async findAll(){
+    return this.orcamentosService.findAll()
   }
   
   @Post()

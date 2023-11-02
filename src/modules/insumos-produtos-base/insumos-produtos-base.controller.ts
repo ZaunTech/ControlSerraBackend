@@ -26,19 +26,8 @@ export class InsumosProdutosBaseController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const insumosProdutosBase = await this.insumosProdutosBaseService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.insumosProdutosBaseService.countAll();
-    res.header('x-total-count',total.toString())
-    return {
-      insumosProdutosBase,
-    };
+  async findAll(){
+    return this.insumosProdutosBaseService.findAll()
   }
 
   @Get(':id')

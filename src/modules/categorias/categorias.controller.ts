@@ -37,19 +37,8 @@ export class CategoriasController {
   }
 
   @Get()
-  @Header('x-total-count','0')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage||10;
-    const categorias = await this.categoriasService.findAllWithPagination(
-      page,
-      Number(perPage)
-    );
-    const total = await this.categoriasService.countAllCategorias();
-    res.header('x-total-count',total.toString())
-    return {
-      categorias,
-    };
+  async findAll(){
+    return this.categoriasService.findAll()
   }
 
   @Get(':id')
