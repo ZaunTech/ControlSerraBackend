@@ -21,26 +21,13 @@ import { response as res } from "express";
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.usuariosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.usuariosService.findAllWithPagination(page, perPage);
-  }
-
   @IsPublic()
   @Get('count')
   async countAll() {
     return await this.usuariosService.countAll();
   }
-
-  @UsePipes(ValidationPipe)
   @IsPublic()
+  @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return await this.usuariosService.create(createUsuarioDto);
