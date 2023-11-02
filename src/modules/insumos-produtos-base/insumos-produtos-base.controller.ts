@@ -1,22 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe, Header, Res } from '@nestjs/common';
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
-import  {response as res} from 'express';
 @ApiTags('insumos-produtos-base')
 @Controller('insumos-produtos-base')
 export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
-  @Get('paginate')
-async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page;
-  perPage = perPage;
-  const totalcount = await this.insumosProdutosBaseService.countAll();
-  res.set('x-total-count', totalcount.toString());
-  return await this.insumosProdutosBaseService.findAllWithPagination(page, perPage);
-}
   @Get('count')
   countAll() {
     return this.insumosProdutosBaseService.countAll();
@@ -35,8 +26,19 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   }
 
   @Get()
-  findAll() {
-    return this.insumosProdutosBaseService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const insumosProdutosBase = await this.insumosProdutosBaseService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.insumosProdutosBaseService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      insumosProdutosBase,
+    };
   }
 
   @Get(':id')

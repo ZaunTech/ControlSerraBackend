@@ -9,18 +9,22 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 
 @ApiTags('categorias')
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
+
+  totalcount =  this.categoriasService.countAllCategorias();
 
   @Get('count')
   countAll() {
@@ -33,16 +37,19 @@ export class CategoriasController {
   }
 
   @Get()
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.categoriasService.countAllCategorias();
-
-    res.set('x-total-count', totalcount.toString());
-    return await this.categoriasService.findAllWithPagination(
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const categorias = await this.categoriasService.findAllWithPagination(
       page,
-      Number(perPage),
+      Number(perPage)
     );
+    const total = await this.categoriasService.countAllCategorias();
+    res.header('x-total-count',total.toString())
+    return {
+      categorias,
+    };
   }
 
   @Get(':id')

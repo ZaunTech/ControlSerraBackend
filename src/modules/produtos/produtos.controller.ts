@@ -9,6 +9,8 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
@@ -20,24 +22,12 @@ import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
-/*
+
   @Post('addProdutoBase')
   createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
-    console.log('Entrou no controller');
     return this.produtosService.pullProdBase(addProdutoBaseDto);
-  }*/
-
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.produtosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.produtosService.findAllWithPagination(page, perPage);
   }
+
   @Get('count')
   countAll() {
     return this.produtosService.countAll();
@@ -64,8 +54,19 @@ export class ProdutosController {
   }
 
   @Get()
-  findAll() {
-    return this.produtosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const produtos = await this.produtosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.produtosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      produtos,
+    };
   }
 
   @UsePipes(ValidationPipe)

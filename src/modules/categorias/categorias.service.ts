@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { PrismaService } from '../../databases/prisma.service';
-
 @Injectable()
 export class CategoriasService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -13,7 +12,6 @@ export class CategoriasService {
       skip,
       take: perPage,
     });
-    const total = await this.prismaService.categoria.count();
     return { categorias };
   }
 

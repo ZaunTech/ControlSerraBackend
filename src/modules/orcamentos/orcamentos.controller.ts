@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe,UsePipes, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe,UsePipes, Query, Res, Header } from '@nestjs/common';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { ApiTags } from '@nestjs/swagger';
-import {response as res} from 'express';
 @ApiTags('orcamentos')
 @Controller('orcamentos')
 export class OrcamentosController {
@@ -15,19 +14,20 @@ export class OrcamentosController {
   }
   
   @Get()
-  findAll() {
-    return this.orcamentosService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const orcamentos = await this.orcamentosService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.orcamentosService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      orcamentos,
+    };
   }
-  
-  @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.orcamentosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.orcamentosService.findAllWithPagination(page, perPage);
-  }
-  
   
   @Post()
   create(@Body() createOrcamentoDto: CreateOrcamentoDto) {

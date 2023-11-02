@@ -9,6 +9,8 @@ import {
   ValidationPipe,
   UsePipes,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
@@ -43,8 +45,19 @@ export class ProdutosBaseController {
   }
 
   @Get()
-  findAll() {
-    return this.produtosBaseService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const produtosBase = await this.produtosBaseService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.produtosBaseService.countAll();
+    res.header('x-total-count',total.toString())
+    return {
+      produtosBase,
+    };
   }
 
   @Get(':id')

@@ -193,15 +193,15 @@ model ProdutoBase {
 }
 
 model InsumoProdutoBase {
-  id            Int          @id @default(autoincrement())
-  quantidade    Float        @default(1)
+  id            Int         @id @default(autoincrement())
+  quantidade    Float       @default(1)
   idProdutoBase Int
   idInsumo      Int
-  unidade       String
-  produtoBase   ProdutoBase? @relation(fields: [idProdutoBase], references: [id])
-  insumos       Insumo?      @relation(fields: [idInsumo], references: [id])
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  unidade       String?
+  produtoBase   ProdutoBase @relation(fields: [idProdutoBase], references: [id])
+  insumos       Insumo      @relation(fields: [idInsumo], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   @@map("InsumosProdutosBase")
 }

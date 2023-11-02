@@ -9,6 +9,8 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedorDto } from './dto/create-fornecedor.dto';
@@ -20,14 +22,6 @@ import { response as res } from "express";
 export class FornecedoresController {
   constructor(private readonly fornecedoresService: FornecedoresService) {}
 
-  @Get('paginate')
-async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-  page = page;
-  perPage = perPage;
-  const totalcount = await this.fornecedoresService.countAllFornecedor();
-  res.set('x-total-count', totalcount.toString());
-  return await this.fornecedoresService.findAllWithPagination(page, perPage);
-}
   @Get('count')
   countAll() {
     return this.fornecedoresService.countAllFornecedor();
@@ -40,8 +34,19 @@ async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPa
   }
 
   @Get()
-  findAll() {
-    return this.fornecedoresService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const fornecedores = await this.fornecedoresService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.fornecedoresService.countAllFornecedor();
+    res.header('x-total-count',total.toString())
+    return {
+      fornecedores,
+    };
   }
 
   @Get(':id')

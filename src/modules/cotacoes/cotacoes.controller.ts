@@ -9,6 +9,8 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
@@ -35,6 +37,7 @@ export class CotacoesController {
     res.set('x-total-count', totalcount.toString());
     return await this.cotacoesService.findAllWithPagination(page, perPage);
   }
+
   @Get('count')
   countAll() {
     return this.cotacoesService.countAllCotacaos();
@@ -47,8 +50,19 @@ export class CotacoesController {
   }
 
   @Get()
-  findAll() {
-    return this.cotacoesService.findAll();
+  @Header('x-total-count','0')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const cotacoes = await this.cotacoesService.findAllWithPagination(
+      page,
+      Number(perPage)
+    );
+    const total = await this.cotacoesService.countAllCotacaos();
+    res.header('x-total-count',total.toString())
+    return {
+      cotacoes,
+    };
   }
 
   @Get(':id')
