@@ -15,51 +15,41 @@ import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { response as res } from 'express';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 
 @ApiTags('lista-insumos')
 @Controller('lista-insumos')
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
-
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.listaInsumosService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.listaInsumosService.findAllWithPagination(page, perPage);
-  }
-
+  
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
     return await this.listaInsumosService.create(createListaInsumoDto);
   }
-
+  @IsPublic()
   @Get()
   async findAll() {
     return await this.listaInsumosService.findAll();
   }
-
+  @IsPublic()
   @Get('produtos/:id')
   async findProdutoOrc(@Param('id') id: number) {
     return await this.listaInsumosService.findInsumoProd(+id);
   }
-
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.listaInsumosService.findOne(+id);
   }
-  
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateListaInsumoDto: UpdateListaInsumoDto) {
     return await this.listaInsumosService.update(+id, updateListaInsumoDto);
   }
-
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.listaInsumosService.remove(+id);
