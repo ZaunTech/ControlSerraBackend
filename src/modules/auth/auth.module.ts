@@ -7,13 +7,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
 import { UsuariosModule } from '../usuarios/usuarios.module';
+import { jwtConstants } from '../constants';
 
 @Module({
   imports: [
     UsuariosModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: jwtConstants.secret,
       signOptions: { expiresIn: '30d' },
     }),
   ],
