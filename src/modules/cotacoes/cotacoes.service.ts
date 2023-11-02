@@ -2,10 +2,40 @@ import { Injectable } from '@nestjs/common';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { recotarDto } from './dto/recotar.dto';
 
 @Injectable()
 export class CotacoesService {
   constructor(private readonly prismaService: PrismaService) {}
+
+  async recotar(idCotacao: number, recotarDto: recotarDto) {
+    const oldQuotation = await this.prismaService.cotacao.update({
+      where: { id: idCotacao },
+      data: {
+        obsoleta: true,
+      },
+    });
+
+    if (!oldQuotation) {
+      return { data: { message: 'Não foi possivel criar a nova cotação' } };
+    }
+
+    const newQuotation = await this.prismaService.cotacao.create({
+      data: {
+        idInsumo: oldQuotation.idInsumo,
+        idFornecedor: oldQuotation.idFornecedor,
+        unidade: oldQuotation.unidade,
+        valor: recotarDto.valor,
+        data: recotarDto.data,
+      },
+    });
+
+    if (!newQuotation) {
+      return { data: { message: 'Não foi possivel criar a nova cotação' } };
+    }
+
+    return newQuotation;
+  }
 
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
@@ -31,7 +61,7 @@ export class CotacoesService {
           data: createCotacaoDto,
         });
       }
-      return { data: { message: 'Insumo não existe' } }
+      return { data: { message: 'Insumo não existe' } };
     }
     return { data: { message: 'Fornecedor não existe' } };
   }
@@ -53,8 +83,6 @@ export class CotacoesService {
   }
 
   async findOne(id: number) {
-
-    
     return await this.prismaService.cotacao.findFirst({
       where: {
         id,
@@ -63,22 +91,30 @@ export class CotacoesService {
   }
 
   async update(id: number, updateCotacaoDto: UpdateCotacaoDto) {
-    const fornecedorExists = await this.prismaService.fornecedor.findFirst({
-      where: { id: updateCotacaoDto.idFornecedor },
-    });
-    if (fornecedorExists) {
-      const insumoExists = await this.prismaService.insumo.findFirst({
-        where: { id: updateCotacaoDto.idInsumo },
-      });
-      if (insumoExists) {
-        return await this.prismaService.cotacao.update({
-          where: { id },
-          data: updateCotacaoDto,
+    const cotacaoExists = await this.findOne(1);
+    if (cotacaoExists) {
+      const notObsolete = await this.findOne(id);
+      if (notObsolete.obsoleta === false) {
+        const fornecedorExists = await this.prismaService.fornecedor.findFirst({
+          where: { id: updateCotacaoDto.idFornecedor },
         });
+        if (fornecedorExists) {
+          const insumoExists = await this.prismaService.insumo.findFirst({
+            where: { id: updateCotacaoDto.idInsumo },
+          });
+          if (insumoExists) {
+            return await this.prismaService.cotacao.update({
+              where: { id },
+              data: updateCotacaoDto,
+            });
+          }
+          return { data: { message: 'Insumo não existe' } };
+        }
+        return { data: { message: 'Fornecedor não existe' } };
       }
-      return { data: { message: 'Insumo não existe' } }
+      return { data: { message: 'Cotação selecionada é obsoleta' } };
     }
-    return { data: { message: 'Fornecedor não existe' } };
+    return { data: { message: 'Cotação não existe' } };
   }
 
   async remove(id: number) {

@@ -139,6 +139,7 @@ model Cotacao {
   unidade      String
   idFornecedor Int
   idInsumo     Int
+  obsoleta     Boolean?      @default(false)
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
   insumo       Insumo        @relation(fields: [idInsumo], references: [id])
   createdAt    DateTime      @default(now())
