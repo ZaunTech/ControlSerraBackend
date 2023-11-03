@@ -2,17 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { PrismaService } from '../../databases/prisma.service';
+import { Categoria } from './entities/categoria.entity';
 @Injectable()
 export class CategoriasService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {
+   
+    
     const skip = (page - 1) * perPage;
-    const categorias = await this.prismaService.categoria.findMany({
+    let  categorias = Categoria[""];
+    if(titulo_like){
+     categorias = await this.prismaService.categoria.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+             { tipo: { contains: titulo_like } },],
+      },
+    });
+  }else{
+     categorias = await this.prismaService.categoria.findMany({
       skip,
       take: perPage,
     });
-    return { categorias };
+  }
+    
+    
+    return  categorias ;
   }
 
   async findOneByTitle(titulo: string) {
