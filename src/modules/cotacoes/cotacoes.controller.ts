@@ -50,8 +50,19 @@ export class CotacoesController {
   }
 
   @Get()
-  async findAll(){
-    return this.cotacoesService.findAll()
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('nome_like') nome_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||10;
+    const cotacoes = await this.cotacoesService.findAllWithPagination(
+      page,
+      Number(perPage),
+      nome_like
+    );
+    const total = await this.cotacoesService.countAllCotacaos(); 
+    res.header('x-total-count',total);
+    return cotacoes
   }
 
   @Get(':id')
