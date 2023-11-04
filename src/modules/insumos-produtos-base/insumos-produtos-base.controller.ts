@@ -26,8 +26,19 @@ export class InsumosProdutosBaseController {
   }
 
   @Get()
-  async findAll(){
-    return this.insumosProdutosBaseService.findAll()
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||5;
+    const insumosBase = await this.insumosProdutosBaseService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.insumosProdutosBaseService.countAll(); 
+    res.header('x-total-count',total);
+    return insumosBase
   }
 
   @Get(':id')

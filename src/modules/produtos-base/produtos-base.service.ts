@@ -2,18 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { ProdutosBase } from './entities/produtos-base.entity';
 
 @Injectable()
 export class ProdutosBaseService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    const produtosBase = await this.prismaService.produtoBase.findMany({
+    let  produtos = ProdutosBase[""];
+    if(titulo_like){
+      produtos = await this.prismaService.produtoBase.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+             { observacoes: { contains: titulo_like } },
+             
+           ],
+      },
+    });
+  }else{
+    produtos = await this.prismaService.produtoBase.findMany({
       skip,
       take: perPage,
     });
-    return { produtosBase };
+  } 
+
+
+    return  produtos ;
   }
 
   async findOneByTitle(titulo: string) {

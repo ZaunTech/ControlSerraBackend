@@ -5,6 +5,7 @@ import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
 import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
 import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
+import { Produto } from './entities/produto.entity';
 
 @Injectable()
 export class ProdutosService {
@@ -14,13 +15,29 @@ export class ProdutosService {
     private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
   ) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    const produtos = await this.prismaService.produto.findMany({
+    console.log(titulo_like)
+    let  produtos = Produto[""];
+    if(titulo_like){
+      produtos = await this.prismaService.produto.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+
+           ],
+      },
+    });
+  }else{
+    produtos = await this.prismaService.produto.findMany({
       skip,
       take: perPage,
     });
-    return { produtos };
+  } 
+
+
+    return  produtos ;
   }
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({

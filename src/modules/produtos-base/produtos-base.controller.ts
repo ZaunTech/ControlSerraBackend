@@ -22,17 +22,7 @@ import { response as res } from 'express';
 export class ProdutosBaseController {
   constructor(private readonly produtosBaseService: ProdutosBaseService) {}
 
-  @Get('paginate')
-  async findAllWithPagination(
-    @Query('page') page: number,
-    @Query('perPage') perPage: number,
-  ) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.produtosBaseService.countAll();
-    res.set('x-total-count', totalcount.toString());
-    return await this.produtosBaseService.findAllWithPagination(page, perPage);
-  }
+
   @Get('count')
   countAll() {
     return this.produtosBaseService.countAll();
@@ -45,8 +35,19 @@ export class ProdutosBaseController {
   }
 
   @Get()
-  async findAll(){
-    return this.produtosBaseService.findAll()
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||5;
+    const produtos = await this.produtosBaseService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.produtosBaseService.countAll(); 
+    res.header('x-total-count',total);
+    return produtos
   }
 
   @Get(':id')
