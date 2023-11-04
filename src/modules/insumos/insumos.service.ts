@@ -2,19 +2,36 @@ import { Injectable } from '@nestjs/common';
 import { CreateInsumoDto } from './dto/create-insumo.dto';
 import { UpdateInsumoDto } from './dto/update-insumo.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { Insumo } from './entities/insumo.entity';
 
 @Injectable()
 export class InsumosService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    const insumos = await this.prismaService.insumo.findMany({
+    let  insumos = Insumo[""];
+    if(titulo_like){
+      insumos = await this.prismaService.insumo.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+             { unidadeMedida: { contains: titulo_like } },
+             { descricao: { contains: titulo_like } },
+             { categoria: {titulo:  { contains: titulo_like }} },
+           ],
+      },
+    });
+  }else{
+    insumos = await this.prismaService.insumo.findMany({
       skip,
       take: perPage,
     });
+  } 
 
-    return { insumos };
+
+    return  insumos ;
   }
 
   async findOneByTitle(titulo: string) {

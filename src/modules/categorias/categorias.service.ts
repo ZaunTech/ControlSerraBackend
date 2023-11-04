@@ -8,8 +8,6 @@ export class CategoriasService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {
-   
-    
     const skip = (page - 1) * perPage;
     let  categorias = Categoria[""];
     if(titulo_like){
@@ -26,9 +24,7 @@ export class CategoriasService {
       skip,
       take: perPage,
     });
-  }
-    
-    
+  } 
     return  categorias ;
   }
 

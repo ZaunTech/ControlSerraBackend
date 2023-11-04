@@ -3,6 +3,7 @@ import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { recotarDto } from './dto/recotar.dto';
+import { Cotacao } from './entities/cotacao.entity';
 
 @Injectable()
 export class CotacoesService {
@@ -37,14 +38,33 @@ export class CotacoesService {
     return newQuotation;
   }
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, nome_like? : string) {
     const skip = (page - 1) * perPage;
-    const cotacoes = await this.prismaService.cotacao.findMany({
+    let  cotacoes = Cotacao[""];
+    if(nome_like){
+      cotacoes = await this.prismaService.cotacao.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ insumo: { titulo: { contains: nome_like } }},
+             { fornecedor: {nome:  { contains: nome_like }} },
+             { fornecedor: {nomeFantasia:  { contains: nome_like }} },
+             { fornecedor: {razaoSocial:  { contains: nome_like }} },
+           ],
+      },
+    });
+  }else{
+    cotacoes = await this.prismaService.cotacao.findMany({
       skip,
       take: perPage,
     });
-    return { cotacoes };
+  } 
+
+
+    return  cotacoes ;
   }
+
+
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
   }
