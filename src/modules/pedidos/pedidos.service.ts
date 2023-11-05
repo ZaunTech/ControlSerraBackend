@@ -3,6 +3,7 @@ import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { Pedido } from './entities/pedido.entity';
+import { status } from '@prisma/client';
 
 @Injectable()
 export class PedidosService {
@@ -11,7 +12,7 @@ export class PedidosService {
     return await this.prismaService.pedido.count({});
   }
 
-  async findAllWithPagination(page: number, perPage: number, status_like? : string) {
+  async findAllWithPagination(page: number, perPage: number, status_like? : status) {
     const skip = (page - 1) * perPage;
     let  pedidos = Pedido[""];
     if(status_like){
@@ -19,7 +20,7 @@ export class PedidosService {
       skip,
       take: perPage,
       where:{
-        OR: [{ status: { contains: status_like } }],
+        status: status_like
       },
     });
   }else{
