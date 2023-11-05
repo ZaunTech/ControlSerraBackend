@@ -38,7 +38,7 @@ export class FornecedoresController {
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('nome_like') nome_like : string, @Res({ passthrough: true }) res) {
     page = page||1;
-    perPage = perPage||10;
+    perPage = perPage||await this.countAll();
     const fornecedores = await this.fornecedoresService.findAllWithPagination(
       page,
       Number(perPage),
