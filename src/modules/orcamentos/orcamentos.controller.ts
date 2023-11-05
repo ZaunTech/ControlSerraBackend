@@ -14,8 +14,19 @@ export class OrcamentosController {
   }
   
   @Get()
-  async findAll(){
-    return this.orcamentosService.findAll()
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : number, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage|| await this.countAll();
+    const orcamentos = await this.orcamentosService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.orcamentosService.countAll(); 
+    res.header('x-total-count',total);
+    return orcamentos
   }
   
   @Post()

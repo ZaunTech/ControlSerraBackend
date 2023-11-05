@@ -34,8 +34,19 @@ export class UsuariosController {
   }
 
   @Get()
-  async findAll(){
-    return this.usuariosService.findAll()
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage|| await this.countAll();
+    const usuarios = await this.usuariosService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.usuariosService.countAll(); 
+    res.header('x-total-count',total);
+    return usuarios
   }
 
   @Get(':id')
