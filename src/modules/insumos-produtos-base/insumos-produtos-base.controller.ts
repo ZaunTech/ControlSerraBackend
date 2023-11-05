@@ -30,7 +30,7 @@ export class InsumosProdutosBaseController {
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
     page = page||1;
-    perPage = perPage||5;
+    perPage = perPage||await this.countAll();
     const insumosBase = await this.insumosProdutosBaseService.findAllWithPagination(
       page,
       Number(perPage),
