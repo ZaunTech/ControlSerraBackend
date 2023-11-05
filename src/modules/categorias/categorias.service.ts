@@ -10,9 +10,6 @@ export class CategoriasService {
   async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {
     const skip = (page - 1) * perPage;
     let  categorias = Categoria[""];
-    if(page === null && perPage === null){
-      perPage = await this.countAllCategorias()
-    }
     if(titulo_like){
      categorias = await this.prismaService.categoria.findMany({
       skip,
