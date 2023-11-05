@@ -3,6 +3,7 @@ import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosService } from '../produtos/produtos.service';
+import { Orcamento } from './entities/orcamento.entity';
 
 @Injectable()
 export class OrcamentosService {
@@ -18,13 +19,25 @@ export class OrcamentosService {
     return await this.prismaService.cliente.findFirst({ where: { id } });
   }
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like? : number) {
     const skip = (page - 1) * perPage;
-    const orcamentos = await this.prismaService.orcamento.findMany({
+    let  orcamentos = Orcamento[""];
+    if(titulo_like){
+      orcamentos = await this.prismaService.orcamento.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{id: {equals: titulo_like }},
+             {idCliente : {equals: titulo_like}}],
+      },
+    });
+  }else{
+    orcamentos = await this.prismaService.categoria.findMany({
       skip,
       take: perPage,
     });
-    return { orcamentos };
+  } 
+    return  orcamentos ;
   }
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
