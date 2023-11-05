@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { Pedido } from './entities/pedido.entity';
 
 @Injectable()
 export class PedidosService {
@@ -10,14 +11,26 @@ export class PedidosService {
     return await this.prismaService.pedido.count({});
   }
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, status_like? : string) {
     const skip = (page - 1) * perPage;
-    const pedidos = await this.prismaService.pedido.findMany({
+    let  pedidos = Pedido[""];
+    if(status_like){
+      pedidos = await this.prismaService.pedido.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ status: { contains: status_like } }],
+      },
+    });
+  }else{
+    pedidos = await this.prismaService.pedido.findMany({
       skip,
       take: perPage,
     });
-    return { pedidos };
+  } 
+    return  pedidos ;
   }
+
   async create(createPedidoDto: CreatePedidoDto) {
     const orcamentoExists = await this.prismaService.orcamento.findFirst({
       where: {
