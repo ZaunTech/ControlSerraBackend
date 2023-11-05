@@ -2,18 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from '../../databases/prisma.service';
+import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
 export class UsuariosService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {
     const skip = (page - 1) * perPage;
-    const usuarios = await this.prismaService.usuario.findMany({
+    let  usuarios = Usuario[""];
+    if(titulo_like){
+      usuarios = await this.prismaService.usuario.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ nome: { contains: titulo_like } },
+             { email: { contains: titulo_like } },
+             { cpf: { contains: titulo_like}}],
+      },
+    });
+  }else{
+    usuarios = await this.prismaService.categoria.findMany({
       skip,
       take: perPage,
     });
-    return { usuarios };
+  } 
+    return  usuarios ;
   }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
