@@ -1,50 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe, Header, Res } from '@nestjs/common';
 import { InsumosProdutosBaseService } from './insumos-produtos-base.service';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
-import  {response as res} from 'express';
-import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('insumos-produtos-base')
 @Controller('insumos-produtos-base')
 export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
   @Get('count')
-  async countAll() {
-    return await this.insumosProdutosBaseService.countAll();
+  countAll() {
+    return this.insumosProdutosBaseService.countAll();
   }
-  @IsPublic()
+
   @Get('insumoProd/:id')
   findProdutoOrc(@Param('id') id: number)
   {
     return this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
-  @IsPublic()
+
   @UsePipes(ValidationPipe)
   @Post()
-  async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
+  create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
+    return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
-  @IsPublic()
+
   @Get()
-  async findAll() {
-    return await this.insumosProdutosBaseService.findAll();
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||await this.countAll();
+    const insumosBase = await this.insumosProdutosBaseService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.insumosProdutosBaseService.countAll(); 
+    res.header('x-total-count',total);
+    return insumosBase
   }
-  @IsPublic()
+
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.insumosProdutosBaseService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.insumosProdutosBaseService.findOne(+id);
   }
-  @IsPublic()
+
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
-    return await this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
+  update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
+    return this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
   }
-  @IsPublic()
+
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.insumosProdutosBaseService.remove(+id);
+  remove(@Param('id') id: string) {
+    return this.insumosProdutosBaseService.remove(+id);
   }
 }

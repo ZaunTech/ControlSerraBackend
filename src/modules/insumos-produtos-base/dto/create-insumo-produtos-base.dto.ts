@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
+
 export class CreateInsumosProdutosBaseDto {
   @ApiProperty({
     description:
@@ -27,4 +28,13 @@ export class CreateInsumosProdutosBaseDto {
   @IsNotEmpty({message: 'O insumo não pode estar vazio'})
   @IsNumber({},{message: 'O insumo inserido não é válido'})
   idInsumo: number;
+
+  @ApiProperty({
+    description:
+      'A unidade serve para descrever as dimensões do insumo',
+    example: '1M',
+  })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'A unidade inserida não é válida' })
+  unidade?: string;
 }

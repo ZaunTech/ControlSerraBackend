@@ -6,7 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  
+
   const config = new DocumentBuilder()
     .setTitle('Documentação com Swagger - Fábrica de Sinapse')
     .setDescription(
@@ -38,7 +38,13 @@ app.useGlobalPipes(
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(process.env.PORT ? Number(process.env.PORT) : 3333);
+
+  console.log(
+    'Server running at port: ',
+    process.env.PORT ? Number(process.env.PORT) : 3000,
+  );
+
+  await app.listen(process.env.PORT ? Number(process.env.PORT) : 3000);
 }
 
 bootstrap();

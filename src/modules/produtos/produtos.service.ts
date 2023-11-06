@@ -5,6 +5,7 @@ import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
 import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
 import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
+import { Produto } from './entities/produto.entity';
 
 @Injectable()
 export class ProdutosService {
@@ -14,13 +15,29 @@ export class ProdutosService {
     private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
   ) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    const produtos = await this.prismaService.produto.findMany({
+    console.log(titulo_like)
+    let  produtos = Produto[""];
+    if(titulo_like){
+      produtos = await this.prismaService.produto.findMany({
+      skip,
+      take: perPage,
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+
+           ],
+      },
+    });
+  }else{
+    produtos = await this.prismaService.produto.findMany({
       skip,
       take: perPage,
     });
-    return { produtos };
+  } 
+
+
+    return  produtos ;
   }
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
@@ -35,12 +52,19 @@ export class ProdutosService {
   }
 
   async create(createProdutoDto: CreateProdutoDto) {
-    const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
-    if (!produtoExiste) {
-      return await this.prismaService.produto.create({
-        data: createProdutoDto,
-      });
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: { id: createProdutoDto.orcamentoId },
+    });
+    if (orcamentoExists) {
+      const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
+      if (!produtoExiste) {
+        return await this.prismaService.produto.create({
+          data: createProdutoDto,
+        });
+      }
+      return { data: { message: 'Titulo já cadastrado' } };
     }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async findProdutoOrc(id: number) {
@@ -64,54 +88,73 @@ export class ProdutosService {
   }
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
-    return await this.prismaService.produto.update({
-      where: { id },
-      data: updateProdutoDto,
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: { id: updateProdutoDto.orcamentoId },
     });
+    if (orcamentoExists) {
+      return await this.prismaService.produto.update({
+        where: { id },
+        data: updateProdutoDto,
+      });
+    }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async remove(id: number) {
-    const removeInsumos = await this.prismaService.listaInsumo.deleteMany({
-      where: {
-        idProduto: id,
-      },
-    });
-    const removeProduto = await this.prismaService.produto.delete({
-      where: { id },
-    });
+    const produtoExists = await this.findOne(id);
+    if (produtoExists) {
+      const removeInsumos = await this.prismaService.listaInsumo.deleteMany({
+        where: {
+          idProduto: id,
+        },
+      });
+      const removeProduto = await this.prismaService.produto.delete({
+        where: { id },
+      });
 
-    return { removeProduto, removeInsumos };
+      return { removeProduto, removeInsumos };
+    }
+    return { data: { message: 'Produto não existe' } };
   }
 
   async pullProdBase(addProdutoBaseDto: addProdutoBaseDto,idOrc:) {
     const prodBase = await this.produtosBaseService.findOne(
       addProdutoBaseDto.id,
     );
-
-    const insumosBase =
-      await this.insumosProdutosBaseService.findInsumoProdBase(
-        addProdutoBaseDto.id,
-      );
-
-    const copyProd = await this.prismaService.produto.create({
-      data: {
-        titulo: prodBase.titulo,
-        orcamentoId: addProdutoBaseDto.orcamentoId,
-        observacoes: addProdutoBaseDto.observacoes,
-        quantidade: addProdutoBaseDto.quantidade,
-      },
-    });
-
-    for (const insumoBase of insumosBase) {
-      await this.prismaService.listaInsumo.create({
-        data: {
-          quantidade: insumoBase.quantidade,
-          idInsumo: insumoBase.idInsumo,
-          idProduto: copyProd.id,
-        },
+    if (prodBase) {
+      const orcamentoExists = await this.prismaService.orcamento.findFirst({
+        where: { id: addProdutoBaseDto.orcamentoId },
       });
-    }
+      if (orcamentoExists) {
+        const insumosBase =
+          await this.insumosProdutosBaseService.findInsumoProdBase(
+            addProdutoBaseDto.id,
+          );
 
-    return copyProd;
+        const copyProd = await this.prismaService.produto.create({
+          data: {
+            titulo: prodBase.titulo,
+            orcamentoId: addProdutoBaseDto.orcamentoId,
+            observacoes: addProdutoBaseDto.observacoes,
+            quantidade: addProdutoBaseDto.quantidade,
+          },
+        });
+
+        for (const insumoBase of insumosBase) {
+          await this.prismaService.listaInsumo.create({
+            data: {
+              quantidade: insumoBase.quantidade,
+              idInsumo: insumoBase.idInsumo,
+              idProduto: copyProd.id,
+              unidade: insumoBase.unidade,
+            },
+          });
+        }
+
+        return copyProd;
+      }
+      return { data: { message: 'Orçamento não existe' } };
+    }
+    return { data: { message: 'Produto base não existe' } };
   }
 }

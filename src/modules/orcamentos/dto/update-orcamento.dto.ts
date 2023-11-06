@@ -3,7 +3,7 @@ import { CreateOrcamentoDto } from './create-orcamento.dto';
 import { status as Status } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
   IsOptional,
   IsNumber,
@@ -19,7 +19,7 @@ export class UpdateOrcamentoDto extends PartialType(CreateOrcamentoDto) {
   })
   @IsOptional()
   @ValidateIf((object, value) => value !== undefined)
-  @IsDate({ message: 'A validade inserida não é válida' })
+  @IsDateString({},{ message: 'A validade inserida não é válida' })
   validade?: Date;
 
   @ApiProperty({

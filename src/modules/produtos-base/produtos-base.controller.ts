@@ -9,48 +9,63 @@ import {
   ValidationPipe,
   UsePipes,
   Query,
+  Header,
+  Res,
 } from '@nestjs/common';
 import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { response as res } from 'express';
-import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('produtos-base')
 @Controller('produtos-base')
 export class ProdutosBaseController {
   constructor(private readonly produtosBaseService: ProdutosBaseService) {}
 
-  @IsPublic()
+
   @Get('count')
-  async countAll() {
-    return await this.produtosBaseService.countAll();
+  countAll() {
+    return this.produtosBaseService.countAll();
   }
-  @IsPublic()
+
   @UsePipes(ValidationPipe)
   @Post()
-  async create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
-    return await this.produtosBaseService.create(createProdutosBaseDto);
+  create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
+    return this.produtosBaseService.create(createProdutosBaseDto);
   }
-  @IsPublic()
+
   @Get()
-  async findAll() {
-    return await this.produtosBaseService.findAll();
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    page = page||1;
+    perPage = perPage||await this.countAll();
+    const produtos = await this.produtosBaseService.findAllWithPagination(
+      page,
+      Number(perPage),
+      titulo_like
+    );
+    const total = await this.produtosBaseService.countAll(); 
+    res.header('x-total-count',total);
+    return produtos
   }
-  @IsPublic()
+
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.produtosBaseService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.produtosBaseService.findOne(+id);
   }
-  @IsPublic()
+  
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateProdutosBaseDto: UpdateProdutosBaseDto) {
-    return await this.produtosBaseService.update(+id, updateProdutosBaseDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateProdutosBaseDto: UpdateProdutosBaseDto,
+  ) {
+    return this.produtosBaseService.update(+id, updateProdutosBaseDto);
   }
-  @IsPublic()
+
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.produtosBaseService.remove(+id);
+  remove(@Param('id') id: string) {
+    return this.produtosBaseService.remove(+id);
   }
 }

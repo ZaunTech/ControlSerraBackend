@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { status as Status } from '@prisma/client';
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -18,7 +18,7 @@ export class CreateOrcamentoDto {
   })
   @IsOptional()
   @ValidateIf((object, value) => value !== undefined)
-  @IsDate({ message: 'A validade inserida não é válida' })
+  @IsDateString({},{ message: 'A validade inserida não é válida' })
   validade?: Date;
 
   @ApiProperty({

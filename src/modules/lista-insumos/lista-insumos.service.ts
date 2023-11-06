@@ -2,29 +2,53 @@ import { Injectable } from '@nestjs/common';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { CotacoesService } from '../cotacoes/cotacoes.service';
 
 @Injectable()
 export class ListaInsumosService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly cotacaoServices: CotacoesService,
+  ) {}
 
   async findAllWithPagination(page: number, perPage: number) {
     const skip = (page - 1) * perPage;
     const listaInsumos = await this.prismaService.listaInsumo.findMany({
-    skip,
-    take: perPage,
-  });
+      skip,
+      take: perPage,
+    });
 
-  return { listaInsumos };
+    return { listaInsumos };
   }
 
-  async countAll(){
+  async countAll() {
     return await this.prismaService.insumoProdutoBase.count();
   }
-  
+
   async create(createListaInsumoDto: CreateListaInsumoDto) {
-    return await this.prismaService.listaInsumo.create({
-      data: createListaInsumoDto,
+    const insumoExists = await this.prismaService.insumo.findFirst({
+      where: { id: createListaInsumoDto.idInsumo },
     });
+    if (insumoExists) {
+      const produtoExists = await this.prismaService.produto.findFirst({
+        where: { id: createListaInsumoDto.idProduto },
+      });
+      if (produtoExists) {
+        if (createListaInsumoDto.idCotacao) {
+          var cotacaoExists = await this.prismaService.cotacao.findFirst({
+            where: { id: createListaInsumoDto.idCotacao },
+          });
+        }
+        if (cotacaoExists || !createListaInsumoDto.idCotacao) {
+          return await this.prismaService.listaInsumo.create({
+            data: createListaInsumoDto,
+          });
+        }
+        return { data: { message: 'Cotação não existe' } };
+      }
+      return { data: { message: 'Produto não existe' } };
+    }
+    return { data: { message: 'Insumo não existe' } };
   }
 
   async findInsumoProd(id: number) {
@@ -47,17 +71,65 @@ export class ListaInsumosService {
   }
 
   async findOne(id: number) {
+    console.log(id)
+    console.log(this.prismaService.listaInsumo.findFirst({ where: { id } }));
     return await this.prismaService.listaInsumo.findFirst({ where: { id } });
   }
 
   async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
-    return await this.prismaService.listaInsumo.update({
-      where: { id },
-      data: updateListaInsumoDto,
+    const insumoExists = await this.prismaService.insumo.findFirst({
+      where: { id: updateListaInsumoDto.idInsumo },
     });
+    if (insumoExists) {
+      const produtoExists = await this.prismaService.produto.findFirst({
+        where: { id: updateListaInsumoDto.idProduto },
+      });
+      if (produtoExists) {
+        if (updateListaInsumoDto.idCotacao) {
+          var cotacaoExists = await this.prismaService.cotacao.findFirst({
+            where: { id: updateListaInsumoDto.idCotacao },
+          });
+        }
+        if (cotacaoExists || !updateListaInsumoDto.idCotacao) {
+          return await this.prismaService.listaInsumo.update({
+            where: { id },
+            data: updateListaInsumoDto,
+          });
+        }
+        return { data: { message: 'Cotação não existe' } };
+      }
+      return { data: { message: 'Produto não existe' } };
+    }
+    return { data: { message: 'Insumo não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.listaInsumo.delete({ where: { id } });
+    const listaInsumoExists = await this.findOne(id);
+    if (listaInsumoExists) {
+      return await this.prismaService.listaInsumo.delete({
+        where: { id },
+      });
+    }
+    return { data: { message: 'Insumo da lista não existe' } };
+  }
+
+  async selectCotacao(idItemListaInsumo: number, idCotacao: number) {
+    console.log(idItemListaInsumo, idCotacao);
+    const cotacao = await this.cotacaoServices.findOne(idCotacao);
+
+    console.log(idItemListaInsumo, idCotacao);
+    if (!cotacao) {
+      return { data: { message: 'Essa cotação não existe' } };
+    }
+
+    const listaInsumoExists = await this.findOne(idItemListaInsumo)
+    if (!listaInsumoExists) {
+      return { data: { message: 'Esse insumo não existe' } };
+    }
+    listaInsumoExists.valorUnitario = cotacao.valor;
+
+    listaInsumoExists.idCotacao = cotacao.id;
+
+    return await this.update(listaInsumoExists.id, listaInsumoExists);
   }
 }

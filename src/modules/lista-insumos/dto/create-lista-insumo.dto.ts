@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, ValidateIf,IsOptional } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString, IsString, ValidateIf } from 'class-validator';
 
 export class CreateListaInsumoDto {
   @ApiProperty({
@@ -34,10 +34,25 @@ export class CreateListaInsumoDto {
       'O id da cotação serve para descrever qual a cotação que determinará o custo do insumo',
     example: '5',
   })
-  @IsOptional()
   @ValidateIf((object, value) => value !== undefined)
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
 
+  @ApiProperty({
+    description:
+      'A unidade serve para descrever as dimensões do insumo',
+    example: '1M',
+  })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsString({ message: 'A unidade inserida não é válida' })
   unidade?: string;
+
+  @ApiProperty({
+    description:
+      'O valor unitario serve para descrever qual é o valor do insumo',
+    example: '100,00',
+  })
+  @ValidateIf((object, value) => value !== undefined)
+  @IsNumberString({},{message: 'O valor unitário inserido não é válido'})
+  valorUnitario?: number;
 }

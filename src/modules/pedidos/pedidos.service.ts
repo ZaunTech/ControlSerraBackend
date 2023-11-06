@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { PrismaService } from 'src/databases/prisma.service';
+import { Pedido } from './entities/pedido.entity';
+import { status } from '@prisma/client';
 
 @Injectable()
 export class PedidosService {
@@ -10,29 +12,45 @@ export class PedidosService {
     return await this.prismaService.pedido.count({});
   }
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(page: number, perPage: number, status_like? : status) {
     const skip = (page - 1) * perPage;
-    const pedidos = await this.prismaService.pedido.findMany({
+    let  pedidos = Pedido[""];
+    if(status_like){
+      pedidos = await this.prismaService.pedido.findMany({
+      skip,
+      take: perPage,
+      where:{
+        status: status_like
+      },
+    });
+  }else{
+    pedidos = await this.prismaService.pedido.findMany({
       skip,
       take: perPage,
     });
-    return { pedidos };
+  } 
+    return  pedidos ;
   }
+
   async create(createPedidoDto: CreatePedidoDto) {
-    const orc = await this.prismaService.orcamento.findFirst({
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
       where: {
         id: createPedidoDto.idOrcamento,
       },
     });
-
-    if (orc.status === 'Concluido') {
-      const pedidoExists = await this.findOne(createPedidoDto.idOrcamento);
-      if (!pedidoExists) {
-        return await this.prismaService.pedido.create({
-          data: createPedidoDto,
-        });
+    if (orcamentoExists) {
+      if (orcamentoExists.status === 'Concluido') {
+        const pedidoExists = await this.findOne(createPedidoDto.idOrcamento);
+        if (!pedidoExists) {
+          return await this.prismaService.pedido.create({
+            data: createPedidoDto,
+          });
+        }
+        return { data: { message: 'Pedido já existe' } };
       }
+      return { data: { message: 'Orçamento ainda não foi concluido' } };
     }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async findManyByPagamento(buscaParam: number) {
@@ -48,13 +66,29 @@ export class PedidosService {
   }
 
   async update(id: number, updatePedidoDto: UpdatePedidoDto) {
-    return await this.prismaService.pedido.update({
-      where: { id },
-      data: updatePedidoDto,
+    const orcamentoExists = await this.prismaService.orcamento.findFirst({
+      where: {
+        id: updatePedidoDto.idOrcamento,
+      },
     });
+    if (orcamentoExists) {
+      const pedidoExists = await this.findOne(updatePedidoDto.idOrcamento);
+      if (pedidoExists) {
+        return await this.prismaService.pedido.update({
+          where: { id },
+          data: updatePedidoDto,
+        });
+      }
+      return { data: { message: 'Pedido não existe' } };
+    }
+    return { data: { message: 'Orçamento não existe' } };
   }
 
   async remove(id: number) {
-    return await this.prismaService.pedido.delete({ where: { id } });
+    const pedidoExists = await this.findOne(id);
+    if (pedidoExists) {
+      return await this.prismaService.pedido.delete({ where: { id } });
+    }
+    return { data: { message: 'Pedido não existe' } };
   }
 }

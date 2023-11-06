@@ -44,7 +44,6 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
   @IsOptional()
   @ValidateIf((o) => o.contaTipo === contaTipo.Fisica)
   @IsString({ message: 'O nome inserido não é válido' })
-  @Matches(/^[a-zA-Z -]*$/, { message: 'O nome só pode ter letras' })
   nome?: string;
 
   @ApiProperty({

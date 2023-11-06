@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateCotacaoDto {
   @ApiProperty({
@@ -8,7 +8,7 @@ export class CreateCotacaoDto {
     example: '2023-10-23T17:30:44.382Z',
   })
   @IsNotEmpty({ message: 'A data não pode estar vazia' })
-  @IsDate({ message: 'A data inserida não é válida' })
+  @IsDateString({},{ message: 'A data inserida não é válida' })
   data: Date;
 
   @ApiProperty({
@@ -23,7 +23,7 @@ export class CreateCotacaoDto {
   @ApiProperty({
     description:
       'O id do fornecedor serve para descrever com qual fornecedor foi realizada a cotação',
-    example: 'NK Serralheria',
+    example: '1',
   })
   @IsNumber({}, { message: 'O fornecedor inserido não é válido' })
   @IsNotEmpty({ message: 'O fornecedor não pode estar vazio' })
@@ -37,7 +37,12 @@ export class CreateCotacaoDto {
   @IsNotEmpty({ message: 'O insumo não pode estar vazio' })
   @IsNumber({}, { message: 'O insumo inserido não é válido' })
   idInsumo: number;
-
+  
+  @ApiProperty({
+    description:
+      'A unidade serve para descrever as dimensões do insumo',
+    example: '1M',
+  })
   @IsNotEmpty({ message: 'A unidade não pode estar vazia' })
   @IsString({ message: 'A unidade inserida não é válida' })
   unidade: string;
