@@ -24,16 +24,14 @@ import { ApiTags } from '@nestjs/swagger';
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
-  totalcount =  this.categoriasService.countAllCategorias();
-
   @Get('count')
-  countAll() {
-    return this.categoriasService.countAllCategorias();
+  async countAll() {
+    return await this.categoriasService.countAllCategorias();
   }
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createCategoriaDto: CreateCategoriaDto) {
-    return this.categoriasService.create(createCategoriaDto);
+  async create(@Body() createCategoriaDto: CreateCategoriaDto) {
+    return await this.categoriasService.create(createCategoriaDto);
   }
 
   @Get()
@@ -49,7 +47,7 @@ export class CategoriasController {
     );
     const total = await this.categoriasService.countAllCategorias(); 
     res.header('x-total-count',total);
-    return categorias
+    return await categorias
   }
 
   @Get(':id')
@@ -58,20 +56,20 @@ export class CategoriasController {
   }
 
   @Get(':busca')
-  findManyByTitle(@Param('busca') buscaParam: string) {
-    return this.categoriasService.findManyByTitle(buscaParam);
+  async findManyByTitle(@Param('busca') buscaParam: string) {
+    return await this.categoriasService.findManyByTitle(buscaParam);
   }
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
   ) {
-    return this.categoriasService.update(+id, updateCategoriaDto);
+    return await this.categoriasService.update(+id, updateCategoriaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriasService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.categoriasService.remove(+id);
   }
 }
