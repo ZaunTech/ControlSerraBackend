@@ -31,22 +31,22 @@ export class CotacoesController {
 
 
   @Get('count')
-  countAll() {
-    return this.cotacoesService.countAllCotacaos();
+  async countAll() {
+    return await this.cotacoesService.countAllCotacaos();
   }
 
   @Get('countbyId')
-  countById(id:number) {
+  async countById(id:number) {
     if(id){
-      return this.cotacoesService.countByIdInsumoCotacaos(id);
+      return await this.cotacoesService.countByIdInsumoCotacaos(id);
     }
-    return this.cotacoesService.countAllCotacaos();
+    return await this.cotacoesService.countAllCotacaos();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createCotacaoDto: CreateCotacaoDto) {
-    return this.cotacoesService.create(createCotacaoDto);
+  async create(@Body() createCotacaoDto: CreateCotacaoDto) {
+    return await this.cotacoesService.create(createCotacaoDto);
   }
 
   @Get()
@@ -68,7 +68,7 @@ export class CotacoesController {
    
     
     res.header('x-total-count',total);
-    return cotacoes
+    return await cotacoes
   }
 
   @Get(':id')
@@ -78,13 +78,13 @@ export class CotacoesController {
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
-    return this.cotacoesService.update(+id, updateCotacaoDto);
+  async update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
+    return await this.cotacoesService.update(+id, updateCotacaoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cotacoesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.cotacoesService.remove(+id);
   }
 
   @Get('findByFornecedor/:id')
