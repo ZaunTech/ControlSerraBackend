@@ -35,6 +35,14 @@ export class CotacoesController {
     return this.cotacoesService.countAllCotacaos();
   }
 
+  @Get('countbyId')
+  countById(id:number) {
+    if(id){
+      return this.cotacoesService.countByIdInsumoCotacaos(id);
+    }
+    return this.cotacoesService.countAllCotacaos();
+  }
+
   @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createCotacaoDto: CreateCotacaoDto) {
@@ -44,15 +52,21 @@ export class CotacoesController {
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('nome_like') nome_like : string, @Res({ passthrough: true }) res) {
+  async findAll(@Query('fornecedor') idFornecedor: number,@Query('insumo') idInsumo: number, @Query('page') page: number,@Query('perPage') perPage: number,@Query('nome_like') nome_like : string, @Res({ passthrough: true }) res) {
     page = page||1;
     perPage = perPage||await this.countAll();
     const cotacoes = await this.cotacoesService.findAllWithPagination(
+      +idInsumo,
       page,
       Number(perPage),
-      nome_like
+      nome_like,
+      +idFornecedor
     );
-    const total = await this.cotacoesService.countAllCotacaos(); 
+   
+    
+     const  total = await this.countById(+idInsumo); 
+   
+    
     res.header('x-total-count',total);
     return cotacoes
   }

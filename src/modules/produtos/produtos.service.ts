@@ -15,30 +15,24 @@ export class ProdutosService {
     private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
   ) {}
 
-  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(id:number,page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    console.log(titulo_like)
+  
     let  produtos = Produto[""];
-    if(titulo_like){
+   
       produtos = await this.prismaService.produto.findMany({
       skip,
       take: perPage,
       where:{
+        orcamentoId: id,
         OR: [{ titulo: { contains: titulo_like } },
-
            ],
       },
     });
-  }else{
-    produtos = await this.prismaService.produto.findMany({
-      skip,
-      take: perPage,
-    });
-  } 
-
-
     return  produtos ;
   }
+
+
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
       where: { titulo },
@@ -75,8 +69,12 @@ export class ProdutosService {
     });
   }
 
-  async countAll() {
-    return await this.prismaService.produto.count();
+  async countAll(id:number) {
+    return await this.prismaService.produto.count({
+      where:{
+        orcamentoId: id,
+      }
+    });
   }
 
   async findAll() {

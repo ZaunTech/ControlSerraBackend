@@ -29,8 +29,8 @@ export class ProdutosController {
   }
 
   @Get('count')
-  countAll() {
-    return this.produtosService.countAll();
+  countAll(id:number) {
+    return this.produtosService.countAll(id);
   }
 
   @UsePipes(ValidationPipe)
@@ -53,18 +53,19 @@ export class ProdutosController {
     return this.produtosService.findManyByTitle(buscaparam);
   }
 
-  @Get()
+  @Get(":id/produtos")
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+  async findAll( @Param('id') id: number,@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
     page = page||1;
-    perPage = perPage||await this.countAll();
+    perPage = perPage||await this.countAll(+id);
     const produtos = await this.produtosService.findAllWithPagination(
+      +id,
       page,
       Number(perPage),
       titulo_like
     );
-    const total = await this.produtosService.countAll(); 
+    const total = await this.produtosService.countAll(+id); 
     res.header('x-total-count',total);
     return produtos
   }
