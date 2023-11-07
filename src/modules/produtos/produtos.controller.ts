@@ -24,33 +24,33 @@ export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
   @Post('addProdutoBase')
-  createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
-    return this.produtosService.pullProdBase(addProdutoBaseDto);
+  async createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
+    return await this.produtosService.pullProdBase(addProdutoBaseDto);
   }
 
   @Get('count')
-  countAll(id:number) {
-    return this.produtosService.countAll(id);
+  async countAll(id:number) {
+    return await this.produtosService.countAll(id);
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtosService.create(createProdutoDto);
+  async create(@Body() createProdutoDto: CreateProdutoDto) {
+    return await this.produtosService.create(createProdutoDto);
   }
 
   @Get('prodOrc/:id')
-  findProdutoOrc(@Param('id') id: number) {
-    return this.produtosService.findProdutoOrc(+id);
+  async findProdutoOrc(@Param('id') id: number) {
+    return await this.produtosService.findProdutoOrc(+id);
   }
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.produtosService.findOne(+id);
   }
 
   @Get(':busca')
-  findManyByTitle(@Param('titulo') buscaparam: string) {
-    return this.produtosService.findManyByTitle(buscaparam);
+  async findManyByTitle(@Param('titulo') buscaparam: string) {
+    return await this.produtosService.findManyByTitle(buscaparam);
   }
 
   @Get(":id/produtos")
@@ -67,17 +67,17 @@ export class ProdutosController {
     );
     const total = await this.produtosService.countAll(+id); 
     res.header('x-total-count',total);
-    return produtos
+    return await produtos
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtosService.update(+id, updateProdutoDto);
+  async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
+    return await this.produtosService.update(+id, updateProdutoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.produtosService.remove(+id);
   }
 }
