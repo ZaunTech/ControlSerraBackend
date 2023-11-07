@@ -37,8 +37,11 @@ export class InsumosController {
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+    console.log(page)
+    console.log(perPage)
+    console.log(titulo_like)
     page = page||1;
-    perPage = perPage||await this.countAll();
+    perPage = perPage||await this.insumosService.countAll();
     const cotacoes = await this.insumosService.findAllWithPagination(
       page,
       Number(perPage),

@@ -37,13 +37,13 @@ export class PedidosController {
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') status_like : status, @Res({ passthrough: true }) res) {
+  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
     page = page || 1;
     perPage = perPage || await this.countAll();
     const pedidos = await this.pedidosService.findAllWithPagination(
       page,
       Number(perPage),
-      status_like
+      titulo_like
     );
     const total = await this.pedidosService.countAll(); 
     res.header('x-total-count',total);

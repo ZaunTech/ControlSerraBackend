@@ -28,15 +28,7 @@ export class CotacoesController {
     return await this.cotacoesService.recotar(+idCotacao, recotarDto);
   }
 
-  @Get('paginate')
-  async findAllWithPagination(@Query('page') page: number, @Query('perPage') perPage: number) {
-    page = page;
-    perPage = perPage;
-    const totalcount = await this.cotacoesService.countAllCotacaos();
 
-    res.set('x-total-count', totalcount.toString());
-    return await this.cotacoesService.findAllWithPagination(page, perPage);
-  }
 
   @Get('count')
   countAll() {

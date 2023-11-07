@@ -19,20 +19,43 @@ export class OrcamentosService {
     return await this.prismaService.cliente.findFirst({ where: { id } });
   }
 
-  async findAllWithPagination(page: number, perPage: number, titulo_like? : number) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
+  
     let  orcamentos = Orcamento[""];
     if(titulo_like){
+      
+      const isNumero = !isNaN(parseInt(titulo_like));
+    
+    if (isNumero) {
       orcamentos = await this.prismaService.orcamento.findMany({
-      skip,
-      take: perPage,
-      where:{
-        OR: [{id: {equals: titulo_like }},
-             {idCliente : {equals: titulo_like}}],
-      },
-    });
+        skip,
+        take: perPage,
+        where: {
+          OR: [
+            { id: { equals: parseInt(titulo_like) } },
+            { cliente: { nome: { contains: titulo_like } } },
+            { cliente: { nomeFantasia: { contains: titulo_like } } },
+            { cliente: { razaoSocial: { contains: titulo_like } } },
+          ],
+        },
+      });
+    }else{
+      orcamentos = await this.prismaService.orcamento.findMany({
+        skip,
+        take: perPage,
+        where: {
+          OR: [
+            { cliente: { nome: { contains: titulo_like } } },
+            { cliente: { nomeFantasia: { contains: titulo_like } } },
+            { cliente: { razaoSocial: { contains: titulo_like } } },
+          ],
+        },
+      });
+    }
+
   }else{
-    orcamentos = await this.prismaService.categoria.findMany({
+    orcamentos = await this.prismaService.orcamento.findMany({
       skip,
       take: perPage,
     });

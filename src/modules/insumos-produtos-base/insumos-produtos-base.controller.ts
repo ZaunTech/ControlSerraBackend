@@ -9,8 +9,8 @@ export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
   @Get('count')
-  countAll() {
-    return this.insumosProdutosBaseService.countAll();
+  countAll(idProdutobase: number) {
+    return this.insumosProdutosBaseService.countAll(idProdutobase);
   }
 
   @Get('insumoProd/:id')
@@ -25,18 +25,21 @@ export class InsumosProdutosBaseController {
     return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
 
-  @Get()
+  @Get(":id")
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+  async findAll(@Param('id') id: string,@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') busca : string, @Res({ passthrough: true }) res) {
+   
     page = page||1;
-    perPage = perPage||await this.countAll();
+    perPage = perPage||await this.countAll(+id);
     const insumosBase = await this.insumosProdutosBaseService.findAllWithPagination(
+      +id,
       page,
       Number(perPage),
-      titulo_like
+      busca,
+      
     );
-    const total = await this.insumosProdutosBaseService.countAll(); 
+    const total = await this.insumosProdutosBaseService.countAll(+id); 
     res.header('x-total-count',total);
     return insumosBase
   }

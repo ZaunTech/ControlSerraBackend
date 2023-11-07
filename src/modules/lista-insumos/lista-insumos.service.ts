@@ -3,6 +3,7 @@ import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { CotacoesService } from '../cotacoes/cotacoes.service';
+import { ListaInsumo } from './entities/lista-insumo.entity';
 
 @Injectable()
 export class ListaInsumosService {
@@ -11,18 +12,36 @@ export class ListaInsumosService {
     private readonly cotacaoServices: CotacoesService,
   ) {}
 
-  async findAllWithPagination(page: number, perPage: number) {
+  async findAllWithPagination(id:number,page: number, perPage: number, titulo_like: string) {
     const skip = (page - 1) * perPage;
-    const listaInsumos = await this.prismaService.listaInsumo.findMany({
+
+    let  listainsumos = ListaInsumo[""];
+  
+   
+      listainsumos = await this.prismaService.listaInsumo.findMany({
       skip,
       take: perPage,
+      where:{
+        idProduto:id,
+        OR: 
+        [{ insumo: {titulo:  { contains: titulo_like }} },
+          { cotacao: {fornecedor: { nome:{ contains: titulo_like }}} },
+          { cotacao: {fornecedor: { nomeFantasia:{ contains: titulo_like }}} },
+          { cotacao: {fornecedor: { razaoSocial:{ contains: titulo_like }}} },
+          { unidade: { contains: titulo_like } },
+          { insumo: {categoria:  { titulo: { contains: titulo_like }}} },
+        ],
+      },
     });
-
-    return { listaInsumos };
+    return  listainsumos ;
   }
 
-  async countAll() {
-    return await this.prismaService.insumoProdutoBase.count();
+  async countAll(id:number) {
+    return await this.prismaService.listaInsumo.count({
+      where:{
+        idProduto:id,
+      }
+    });
   }
 
   async create(createListaInsumoDto: CreateListaInsumoDto) {
@@ -49,21 +68,6 @@ export class ListaInsumosService {
       return { data: { message: 'Produto não existe' } };
     }
     return { data: { message: 'Insumo não existe' } };
-  }
-
-  async findInsumoProd(id: number) {
-    const listaInsumosProd = await this.prismaService.listaInsumo.findMany({
-      where: {
-        idProduto: id,
-      },
-    });
-
-    if (!listaInsumosProd) {
-      return {
-        data: { message: 'Não existem insumos cadastrados deste produto' },
-      };
-    }
-    return listaInsumosProd;
   }
 
   async findAll() {

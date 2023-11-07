@@ -59,8 +59,6 @@ export class CotacoesService {
       take: perPage,
     });
   } 
-
-
     return  cotacoes ;
   }
 
