@@ -30,8 +30,8 @@ export class PedidosController {
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createPedidoDto: CreatePedidoDto) {
-    return this.pedidosService.create(createPedidoDto);
+  async create(@Body() createPedidoDto: CreatePedidoDto) {
+    return await this.pedidosService.create(createPedidoDto);
   }
 
   @Get()
@@ -47,22 +47,22 @@ export class PedidosController {
     );
     const total = await this.pedidosService.countAll(); 
     res.header('x-total-count',total);
-    return pedidos
+    return await pedidos
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pedidosService.findOne(+id);
+   async findOne(@Param('id') id: string) {
+    return await this.pedidosService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
-    return this.pedidosService.update(+id, updatePedidoDto);
+  async update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
+    return await this.pedidosService.update(+id, updatePedidoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pedidosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.pedidosService.remove(+id);
   }
 }
