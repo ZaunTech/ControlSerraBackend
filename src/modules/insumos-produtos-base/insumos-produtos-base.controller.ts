@@ -9,20 +9,20 @@ export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
   @Get('count')
-  countAll(idProdutobase: number) {
-    return this.insumosProdutosBaseService.countAll(idProdutobase);
+  async countAll(idProdutobase: number) {
+    return await this.insumosProdutosBaseService.countAll(idProdutobase);
   }
 
   @Get('insumoProd/:id')
-  findProdutoOrc(@Param('id') id: number)
+  async findProdutoOrc(@Param('id') id: number)
   {
-    return this.insumosProdutosBaseService.findInsumoProdBase(+id);
+    return await this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
+  async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
 
   @Get(":id")
@@ -41,22 +41,22 @@ export class InsumosProdutosBaseController {
     );
     const total = await this.insumosProdutosBaseService.countAll(+id); 
     res.header('x-total-count',total);
-    return insumosBase
+    return await insumosBase
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
+  async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.remove(+id);
   }
 }
