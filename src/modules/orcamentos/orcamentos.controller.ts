@@ -28,32 +28,32 @@ export class OrcamentosController {
     );
     const total = await this.orcamentosService.countAll(); 
     res.header('x-total-count',total);
-    return orcamentos
+    return await orcamentos
   }
   
   @Post()
-  create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
+  async create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
    
-    return this.orcamentosService.create(createOrcamentoDto);
+    return await this.orcamentosService.create(createOrcamentoDto);
   }
 
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orcamentosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.orcamentosService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateOrcamentoDto: UpdateOrcamentoDto,
   ) {
-    return this.orcamentosService.update(+id, updateOrcamentoDto);
+    return await this.orcamentosService.update(+id, updateOrcamentoDto);
   }
  
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orcamentosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.orcamentosService.remove(+id);
   }
 }
