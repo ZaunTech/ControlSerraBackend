@@ -24,14 +24,14 @@ export class ProdutosBaseController {
 
 
   @Get('count')
-  countAll() {
-    return this.produtosBaseService.countAll();
+  async countAll() {
+    return await this.produtosBaseService.countAll();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
-    return this.produtosBaseService.create(createProdutosBaseDto);
+  async create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
+    return await this.produtosBaseService.create(createProdutosBaseDto);
   }
 
   @Get()
@@ -47,25 +47,25 @@ export class ProdutosBaseController {
     );
     const total = await this.produtosBaseService.countAll(); 
     res.header('x-total-count',total);
-    return produtos
+    return await produtos
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosBaseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.produtosBaseService.findOne(+id);
   }
   
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateProdutosBaseDto: UpdateProdutosBaseDto,
   ) {
-    return this.produtosBaseService.update(+id, updateProdutosBaseDto);
+    return await this.produtosBaseService.update(+id, updateProdutosBaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosBaseService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.produtosBaseService.remove(+id);
   }
 }
