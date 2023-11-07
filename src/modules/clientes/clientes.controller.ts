@@ -3,7 +3,7 @@ import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 @ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {

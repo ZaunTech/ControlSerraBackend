@@ -16,8 +16,6 @@ import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
-import { status } from '@prisma/client';
 @ApiTags('pedidos')
 @Controller('pedidos')
 export class PedidosController {

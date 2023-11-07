@@ -16,7 +16,6 @@ import { CotacoesService } from './cotacoes.service';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from "express";
 import { recotarDto } from './dto/recotar.dto';
 @ApiTags('cotacoes')
 @Controller('cotacoes')

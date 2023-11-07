@@ -16,7 +16,6 @@ import { InsumosService } from './insumos.service';
 import { CreateInsumoDto } from './dto/create-insumo.dto';
 import { UpdateInsumoDto } from './dto/update-insumo.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from "express";
 @ApiTags('insumos')
 @Controller('insumos')
 export class InsumosController {

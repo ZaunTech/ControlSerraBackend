@@ -16,7 +16,7 @@ import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 @ApiTags('produtos-base')
 @Controller('produtos-base')
 export class ProdutosBaseController {

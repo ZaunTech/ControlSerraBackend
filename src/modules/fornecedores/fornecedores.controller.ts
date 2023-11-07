@@ -16,7 +16,6 @@ import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedorDto } from './dto/create-fornecedor.dto';
 import { UpdateFornecedorDto } from './dto/update-fornecedor.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from "express";
 @ApiTags('fornecedores')
 @Controller('fornecedores')
 export class FornecedoresController {
