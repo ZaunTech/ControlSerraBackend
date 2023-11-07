@@ -24,8 +24,8 @@ export class ListaInsumosController {
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
-    return this.listaInsumosService.create(createListaInsumoDto);
+  async create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
+    return await this.listaInsumosService.create(createListaInsumoDto);
   }
 
   @Get('produtos/:id')
@@ -50,32 +50,32 @@ export class ListaInsumosController {
     );
     const total = await this.listaInsumosService.countAll(+id);
     res.header('x-total-count', total);
-    return listasinsumos;
+    return await listasinsumos;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listaInsumosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.listaInsumosService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
+   async update(
     @Param('id') id: string,
     @Body() updateListaInsumoDto: UpdateListaInsumoDto,
   ) {
-    return this.listaInsumosService.update(+id, updateListaInsumoDto);
+    return await this.listaInsumosService.update(+id, updateListaInsumoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.listaInsumosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.listaInsumosService.remove(+id);
   }
 
   @Post(':id/cotar')
   @ApiBody({})
-  selectCotacao(@Param('id') idItemListaInsumo: number, @Body() body) {
-    return this.listaInsumosService.selectCotacao(
+  async selectCotacao(@Param('id') idItemListaInsumo: number, @Body() body) {
+    return await this.listaInsumosService.selectCotacao(
       +idItemListaInsumo,
       +body.idCotacao,
     );
