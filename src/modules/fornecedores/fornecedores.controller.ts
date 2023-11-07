@@ -23,14 +23,14 @@ export class FornecedoresController {
   constructor(private readonly fornecedoresService: FornecedoresService) {}
 
   @Get('count')
-  countAll() {
-    return this.fornecedoresService.countAllFornecedor();
+  async countAll() {
+    return await this.fornecedoresService.countAllFornecedor();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
-    return this.fornecedoresService.create(CreateFornecedoresDto);
+  async create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
+    return await this.fornecedoresService.create(CreateFornecedoresDto);
   }
 
   @Get()
@@ -46,7 +46,7 @@ export class FornecedoresController {
     );
     const total = await this.fornecedoresService.countAllFornecedor(); 
     res.header('x-total-count',total);
-    return fornecedores
+    return await fornecedores
   }
 
   @Get(':id')
@@ -56,15 +56,15 @@ export class FornecedoresController {
   
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() UpdateFornecedoresDto: UpdateFornecedorDto,
   ) {
-    return this.fornecedoresService.update(+id, UpdateFornecedoresDto);
+    return await this.fornecedoresService.update(+id, UpdateFornecedoresDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fornecedoresService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.fornecedoresService.remove(+id);
   }
 }
