@@ -7,13 +7,16 @@ async function seedDatabase() {
   for (let i = 0; i < 10; i++) {
     await prisma.usuario.create({
       data: {
-        tipoUsuario: faker.helpers.arrayElement(['Serralheiro', 'Administrador', 'Vendedor']),
+        tipoUsuario: faker.helpers.arrayElement([
+          'Serralheiro',
+          'Administrador',
+          'Vendedor',
+        ]),
         nome: faker.person.firstName(),
         cpf: faker.string.numeric({ length: 11 }),
         email: faker.internet.email(),
         telefone: faker.phone.number(),
         senha: faker.internet.password(),
-        
       },
     });
   }
@@ -21,7 +24,11 @@ async function seedDatabase() {
   for (let i = 0; i < 10; i++) {
     await prisma.categoria.create({
       data: {
-        tipo: faker.helpers.arrayElement(['Material', 'Mão de obra', 'Serviço']),
+        tipo: faker.helpers.arrayElement([
+          'Material',
+          'Mão de obra',
+          'Serviço',
+        ]),
         titulo: faker.company.catchPhrase(),
         descricao: faker.lorem.paragraph(),
       },
@@ -33,7 +40,11 @@ async function seedDatabase() {
       data: {
         titulo: faker.commerce.productName(),
         descricao: faker.lorem.sentence(),
-        unidadeMedida: faker.helpers.arrayElement(['Unidade', 'Quilograma', 'Metro']),
+        unidadeMedida: faker.helpers.arrayElement([
+          'Unidade',
+          'Quilograma',
+          'Metro',
+        ]),
         idCategoria: faker.number.int({ min: 1, max: 10 }),
       },
     });
@@ -81,7 +92,6 @@ async function seedDatabase() {
     });
   }
 
-
   for (let i = 0; i < 10; i++) {
     await prisma.orcamento.create({
       data: {
@@ -89,7 +99,12 @@ async function seedDatabase() {
         dataOrcamento: faker.date.recent(),
         totalMaoObra: faker.number.float(),
         totalMateriais: faker.number.float(),
-        status: faker.helpers.arrayElement(['Pendente', 'Iniciado', 'Em_Processo', 'Concluido']),
+        status: faker.helpers.arrayElement([
+          'Pendente',
+          'Iniciado',
+          'Em_Processo',
+          'Concluido',
+        ]),
         prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
         observacoes: faker.lorem.sentence(),
         idCliente: faker.number.int({ min: 1, max: 10 }), // Gere um ID de cliente aleatório
@@ -121,7 +136,7 @@ async function seedDatabase() {
         quantidade: faker.number.int({ min: 1, max: 10 }),
         valorUnitario: faker.number.float(),
         observacoes: faker.lorem.sentence(),
-        orcamentoId: faker.number.int({ min: 1, max: 10 }), // Gere um ID de orçamento aleatório
+        idOrcamento: faker.number.int({ min: 1, max: 10 }), // Gere um ID de orçamento aleatório
       },
     });
   }

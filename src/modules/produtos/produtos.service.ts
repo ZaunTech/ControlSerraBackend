@@ -29,7 +29,7 @@ export class ProdutosService {
       skip,
       take: perPage,
       where: {
-        orcamentoId: id,
+        idOrcamento: id,
         OR: [{ titulo: { contains: titulo_like } }],
       },
     });
@@ -50,7 +50,7 @@ export class ProdutosService {
 
   async create(createProdutoDto: CreateProdutoDto) {
     const orcamentoExists = await this.prismaService.orcamento.findFirst({
-      where: { id: createProdutoDto.orcamentoId },
+      where: { id: createProdutoDto.idOrcamento },
     });
     if (orcamentoExists) {
       const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
@@ -67,7 +67,7 @@ export class ProdutosService {
   async findProdutoOrc(id: number) {
     return await this.prismaService.produto.findMany({
       where: {
-        OR: [{ orcamentoId: { equals: id } }],
+        OR: [{ idOrcamento: { equals: id } }],
       },
     });
   }
@@ -75,7 +75,7 @@ export class ProdutosService {
   async countAll(id: number) {
     return await this.prismaService.produto.count({
       where: {
-        orcamentoId: id,
+        idOrcamento: id,
       },
     });
   }
@@ -135,7 +135,7 @@ export class ProdutosService {
         const copyProd = await this.prismaService.produto.create({
           data: {
             titulo: prodBase.titulo,
-            orcamentoId: addProdutoBaseDto.orcamentoId,
+            idOrcamento: addProdutoBaseDto.orcamentoId,
             observacoes: addProdutoBaseDto.observacoes,
             quantidade: addProdutoBaseDto.quantidade,
           },

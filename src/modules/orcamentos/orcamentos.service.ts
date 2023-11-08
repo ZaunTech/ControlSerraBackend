@@ -115,7 +115,7 @@ export class OrcamentosService {
     if (orcamentoExists) {
       const produtos = await this.prismaService.produto.findMany({
         where: {
-          orcamentoId: id,
+          idOrcamento: id,
         },
       });
       for (const produto of produtos) {
