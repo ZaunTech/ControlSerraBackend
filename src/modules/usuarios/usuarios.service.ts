@@ -3,7 +3,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from '../../databases/prisma.service';
 import { Usuario } from './entities/usuario.entity';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsuariosService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -35,8 +35,13 @@ export class UsuariosService {
       !(await this.findExistingUsuario(undefined, createUsuarioDto.email)) &&
       !(await this.findExistingUsuario(undefined, createUsuarioDto.cpf))
     ) {
+      const hashedPassword = await bcrypt.hash(createUsuarioDto.senha, 10);
+      const usuarioDados = {
+        ...createUsuarioDto,
+        senha: hashedPassword,
+      };
       return await this.prismaService.usuario.create({
-        data: createUsuarioDto,
+        data: usuarioDados,
       });
     }
 
@@ -95,6 +100,8 @@ export class UsuariosService {
         !(await this.findExistingUsuario(id, updateUsuarioDto.email)) &&
         !(await this.findExistingUsuario(id, updateUsuarioDto.cpf))
       ) {
+        const hashedPassword = await bcrypt.hash(updateUsuarioDto.senha, 10);
+        updateUsuarioDto.senha = hashedPassword;
         return await this.prismaService.usuario.update({
           where: { id },
           data: updateUsuarioDto,
