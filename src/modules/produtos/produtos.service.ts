@@ -115,7 +115,7 @@ export class ProdutosService {
     return { data: { message: 'Produto não existe' } };
   }
 
-  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto,idOrc:) {
+  async pullProdBase(addProdutoBaseDto: addProdutoBaseDto) {
     const prodBase = await this.produtosBaseService.findOne(
       addProdutoBaseDto.id,
     );
