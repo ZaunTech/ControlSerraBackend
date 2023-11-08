@@ -17,11 +17,13 @@ import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { recotarDto } from './dto/recotar.dto';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('cotacoes')
 @Controller('cotacoes')
 export class CotacoesController {
   constructor(private readonly cotacoesService: CotacoesService) { }
 
+  @IsPublic()
   @Post('recotar/:id')
   async recotar(@Param('id') idCotacao: string, @Body() recotarDto: recotarDto) {
     return await this.cotacoesService.recotar(+idCotacao, recotarDto);
@@ -29,11 +31,13 @@ export class CotacoesController {
 
 
 
+  @IsPublic()
   @Get('count')
   async countAll() {
     return await this.cotacoesService.countAllCotacaos();
   }
 
+  @IsPublic()
   @Get('countbyId')
   async countById(id:number) {
     if(id){
@@ -42,12 +46,14 @@ export class CotacoesController {
     return await this.cotacoesService.countAllCotacaos();
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createCotacaoDto: CreateCotacaoDto) {
     return await this.cotacoesService.create(createCotacaoDto);
   }
 
+  @IsPublic()
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -70,27 +76,32 @@ export class CotacoesController {
     return await cotacoes
   }
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.cotacoesService.findOne(+id);
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
     return await this.cotacoesService.update(+id, updateCotacaoDto);
   }
 
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.cotacoesService.remove(+id);
   }
 
+  @IsPublic()
   @Get('findByFornecedor/:id')
   async findManyByFornecedor(@Param('id') id: string) {
     return await this.cotacoesService.findManyByFornecedor(+id);
   }
 
+  @IsPublic()
   @Get('findByInsumo/:id')
   async findManyByInsumo(@Param('id') id: string) {
     return await this.cotacoesService.findManyByInsumo(+id);

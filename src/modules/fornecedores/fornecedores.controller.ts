@@ -16,22 +16,26 @@ import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedorDto } from './dto/create-fornecedor.dto';
 import { UpdateFornecedorDto } from './dto/update-fornecedor.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('fornecedores')
 @Controller('fornecedores')
 export class FornecedoresController {
   constructor(private readonly fornecedoresService: FornecedoresService) {}
 
+  @IsPublic()
   @Get('count')
   async countAll() {
     return await this.fornecedoresService.countAllFornecedor();
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
     return await this.fornecedoresService.create(CreateFornecedoresDto);
   }
 
+  @IsPublic()
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -48,11 +52,13 @@ export class FornecedoresController {
     return await fornecedores
   }
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.fornecedoresService.findOne(+id);
   }
   
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(
@@ -62,6 +68,7 @@ export class FornecedoresController {
     return await this.fornecedoresService.update(+id, UpdateFornecedoresDto);
   }
 
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.fornecedoresService.remove(+id);

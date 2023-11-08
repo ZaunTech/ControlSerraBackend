@@ -17,6 +17,7 @@ import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 
 
 @ApiTags('categorias')
@@ -24,16 +25,20 @@ import { ApiTags } from '@nestjs/swagger';
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
+  @IsPublic()
   @Get('count')
   async countAll() {
     return await this.categoriasService.countAllCategorias();
   }
+
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createCategoriaDto: CreateCategoriaDto) {
     return await this.categoriasService.create(createCategoriaDto);
   }
 
+  @IsPublic()
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -50,15 +55,19 @@ export class CategoriasController {
     return await categorias
   }
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.categoriasService.findOne(+id);
   }
 
+  @IsPublic()
   @Get(':busca')
   async findManyByTitle(@Param('busca') buscaParam: string) {
     return await this.categoriasService.findManyByTitle(buscaParam);
   }
+
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(
@@ -68,6 +77,7 @@ export class CategoriasController {
     return await this.categoriasService.update(+id, updateCategoriaDto);
   }
 
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.categoriasService.remove(+id);

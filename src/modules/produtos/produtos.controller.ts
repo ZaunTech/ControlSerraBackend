@@ -17,11 +17,13 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('produtos')
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
+  @IsPublic()
   @Post('addProdutoBase')
   async createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
     return await this.produtosService.pullProdBase(addProdutoBaseDto);
@@ -32,16 +34,19 @@ export class ProdutosController {
     return await this.produtosService.countAll(id);
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createProdutoDto: CreateProdutoDto) {
     return await this.produtosService.create(createProdutoDto);
   }
 
+  @IsPublic()
   @Get('prodOrc/:id')
   async findProdutoOrc(@Param('id') id: number) {
     return await this.produtosService.findProdutoOrc(+id);
   }
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.produtosService.findOne(+id);

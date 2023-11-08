@@ -16,6 +16,7 @@ import { ProdutosBaseService } from './produtos-base.service';
 import { CreateProdutosBaseDto } from './dto/create-produtos-base.dto';
 import { UpdateProdutosBaseDto } from './dto/update-produtos-base.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 
 @ApiTags('produtos-base')
 @Controller('produtos-base')
@@ -28,12 +29,14 @@ export class ProdutosBaseController {
     return await this.produtosBaseService.countAll();
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
     return await this.produtosBaseService.create(createProdutosBaseDto);
   }
 
+  @IsPublic()
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -55,6 +58,7 @@ export class ProdutosBaseController {
     return await this.produtosBaseService.findOne(+id);
   }
   
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(
@@ -64,6 +68,7 @@ export class ProdutosBaseController {
     return await this.produtosBaseService.update(+id, updateProdutosBaseDto);
   }
 
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.produtosBaseService.remove(+id);

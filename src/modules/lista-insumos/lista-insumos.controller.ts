@@ -16,18 +16,21 @@ import { ListaInsumosService } from './lista-insumos.service';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 
 @ApiTags('lista-insumos')
 @Controller('lista-insumos')
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Post()
   async create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
     return await this.listaInsumosService.create(createListaInsumoDto);
   }
 
+  @IsPublic()
   @Get('produtos/:id')
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -53,11 +56,13 @@ export class ListaInsumosController {
     return await listasinsumos;
   }
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.listaInsumosService.findOne(+id);
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
    async update(
@@ -67,11 +72,13 @@ export class ListaInsumosController {
     return await this.listaInsumosService.update(+id, updateListaInsumoDto);
   }
 
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.listaInsumosService.remove(+id);
   }
 
+  @IsPublic()
   @Post(':id/cotar')
   @ApiBody({})
   async selectCotacao(@Param('id') idItemListaInsumo: number, @Body() body) {

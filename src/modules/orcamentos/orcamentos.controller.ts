@@ -3,16 +3,19 @@ import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 @ApiTags('orcamentos')
 @Controller('orcamentos')
 export class OrcamentosController {
   constructor(private readonly orcamentosService: OrcamentosService) {}
 
+  @IsPublic()
   @Get('count')
   async countAll() {
     return await this.orcamentosService.countAll();
   }
   
+  @IsPublic()
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -31,6 +34,7 @@ export class OrcamentosController {
     return await orcamentos
   }
   
+  @IsPublic()
   @Post()
   async create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
    
@@ -38,11 +42,13 @@ export class OrcamentosController {
   }
 
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.orcamentosService.findOne(+id);
   }
 
+  @IsPublic()
   @UsePipes(ValidationPipe)
   @Patch(':id')
   async update(
@@ -52,6 +58,7 @@ export class OrcamentosController {
     return await this.orcamentosService.update(+id, updateOrcamentoDto);
   }
  
+  @IsPublic()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.orcamentosService.remove(+id);
