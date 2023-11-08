@@ -13,7 +13,6 @@ async function seedDatabase() {
         email: faker.internet.email(),
         telefone: faker.phone.number(),
         senha: faker.internet.password(),
-        token: faker.string.alphanumeric({ length: 5 })
       },
     });
   }
