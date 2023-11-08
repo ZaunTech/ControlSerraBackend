@@ -3,7 +3,7 @@ import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 @ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {
@@ -12,14 +12,14 @@ export class ClientesController {
 
 
   @Get('count')
-  countAll(){
-    return this.clientesService.countAllCliente();
+  async countAll(){
+    return await this.clientesService.countAllCliente();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createClienteDto: CreateClienteDto) {
-    return this.clientesService.create(createClienteDto);
+  async create(@Body() createClienteDto: CreateClienteDto) {
+    return await this.clientesService.create(createClienteDto);
   }
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
@@ -34,29 +34,29 @@ export class ClientesController {
     );
     const total = await this.clientesService.countAllCliente(); 
     res.header('x-total-count',total);
-    return clientes
+    return await clientes
   }
 
   
   @Get('buscar/:termo')
   async buscarCliente(@Param('termo') termo: string) {
-    return this.clientesService.findManyCliente(termo);
+    return await this.clientesService.findManyCliente(termo);
   }
 
   
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.clientesService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
-    return this.clientesService.update(+id, updateClienteDto);
+  async update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
+    return await this.clientesService.update(+id, updateClienteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clientesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.clientesService.remove(+id);
   }
 }

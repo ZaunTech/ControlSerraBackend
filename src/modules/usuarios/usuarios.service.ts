@@ -22,7 +22,7 @@ export class UsuariosService {
       },
     });
   }else{
-    usuarios = await this.prismaService.categoria.findMany({
+    usuarios = await this.prismaService.usuario.findMany({
       skip,
       take: perPage,
     });

@@ -38,10 +38,39 @@ export class CotacoesService {
     return newQuotation;
   }
 
-  async findAllWithPagination(page: number, perPage: number, nome_like? : string) {
+  async findAllWithPagination(id:number,page: number, perPage: number, nome_like? : string,idfornecedor?:number) {
     const skip = (page - 1) * perPage;
     let  cotacoes = Cotacao[""];
-    if(nome_like){
+    
+    if(id && idfornecedor){
+      cotacoes = await this.prismaService.cotacao.findMany({
+        skip,
+        take: perPage,
+        where:{
+          idInsumo:id,
+          idFornecedor:idfornecedor,
+          OR: [{ insumo: { titulo: { contains: nome_like } }},
+               { fornecedor: {nome:  { contains: nome_like }} },
+               { fornecedor: {nomeFantasia:  { contains: nome_like }} },
+               { fornecedor: {razaoSocial:  { contains: nome_like }} },
+             ],
+        },
+      });
+    }else if(id){
+      cotacoes = await this.prismaService.cotacao.findMany({
+        skip,
+        take: perPage,
+        where:{
+          idInsumo:id,
+          
+          OR: [{ insumo: { titulo: { contains: nome_like } }},
+               { fornecedor: {nome:  { contains: nome_like }} },
+               { fornecedor: {nomeFantasia:  { contains: nome_like }} },
+               { fornecedor: {razaoSocial:  { contains: nome_like }} },
+             ],
+        },
+      });
+    }else{
       cotacoes = await this.prismaService.cotacao.findMany({
       skip,
       take: perPage,
@@ -53,14 +82,8 @@ export class CotacoesService {
            ],
       },
     });
-  }else{
-    cotacoes = await this.prismaService.cotacao.findMany({
-      skip,
-      take: perPage,
-    });
-  } 
-
-
+  }
+ 
     return  cotacoes ;
   }
 
@@ -68,6 +91,16 @@ export class CotacoesService {
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
   }
+
+  async countByIdInsumoCotacaos(id: number) {
+    return await this.prismaService.cotacao.count({
+      where:{
+        idInsumo : id
+      }
+    });
+  }
+
+
   async create(createCotacaoDto: CreateCotacaoDto) {
     const fornecedorExists = await this.prismaService.fornecedor.findFirst({
       where: { id: createCotacaoDto.idFornecedor },

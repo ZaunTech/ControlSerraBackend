@@ -9,51 +9,54 @@ export class InsumosProdutosBaseController {
   constructor(private readonly insumosProdutosBaseService: InsumosProdutosBaseService) {}
 
   @Get('count')
-  countAll() {
-    return this.insumosProdutosBaseService.countAll();
+  async countAll(idProdutobase: number) {
+    return await this.insumosProdutosBaseService.countAll(idProdutobase);
   }
 
   @Get('insumoProd/:id')
-  findProdutoOrc(@Param('id') id: number)
+  async findProdutoOrc(@Param('id') id: number)
   {
-    return this.insumosProdutosBaseService.findInsumoProdBase(+id);
+    return await this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
+  async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
 
-  @Get()
+  @Get(":id")
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
+  async findAll(@Param('id') id: string,@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') busca : string, @Res({ passthrough: true }) res) {
+   
     page = page||1;
-    perPage = perPage||await this.countAll();
+    perPage = perPage||await this.countAll(+id);
     const insumosBase = await this.insumosProdutosBaseService.findAllWithPagination(
+      +id,
       page,
       Number(perPage),
-      titulo_like
+      busca,
+      
     );
-    const total = await this.insumosProdutosBaseService.countAll(); 
+    const total = await this.insumosProdutosBaseService.countAll(+id); 
     res.header('x-total-count',total);
-    return insumosBase
+    return await insumosBase
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
-    return this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
+  async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
+    return await this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.insumosProdutosBaseService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.remove(+id);
   }
 }

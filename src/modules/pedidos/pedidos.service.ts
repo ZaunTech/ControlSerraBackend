@@ -12,15 +12,20 @@ export class PedidosService {
     return await this.prismaService.pedido.count({});
   }
 
-  async findAllWithPagination(page: number, perPage: number, status_like? : status) {
+  async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {
     const skip = (page - 1) * perPage;
     let  pedidos = Pedido[""];
-    if(status_like){
+    if(titulo_like){
       pedidos = await this.prismaService.pedido.findMany({
       skip,
       take: perPage,
       where:{
-        status: status_like
+        OR: [
+         
+          { orcamento:{ cliente: { nome: { contains: titulo_like } }} },
+          { orcamento:{ cliente: { razaoSocial: { contains: titulo_like } }} },
+          { orcamento:{ cliente: { nomeFantasia: { contains: titulo_like } }} },
+        ],
       },
     });
   }else{

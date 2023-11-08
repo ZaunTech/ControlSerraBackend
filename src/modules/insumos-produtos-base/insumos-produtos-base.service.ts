@@ -8,29 +8,21 @@ import { InsumoProdutosBase } from './entities/insumo-produtos-base.entity';
 export class InsumosProdutosBaseService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(idProdutobase: number,page: number, perPage: number, busca: string) {
     const skip = (page - 1) * perPage;
     let  insumosProdutoBase = InsumoProdutosBase[""];
-    if(titulo_like){
+   
       insumosProdutoBase = await this.prismaService.insumoProdutoBase.findMany({
       skip,
       take: perPage,
       where:{
-        OR: [ { insumos: {titulo:  { contains: titulo_like }} },
-            
-             { unidade: { contains: titulo_like } },
-             
-           ],
+        idProdutoBase:idProdutobase, 
+        OR: [ { insumos: {titulo:  { contains: busca }} },
+              { unidade: { contains: busca } },
+            ],
       },
+      
     });
-  }else{
-    insumosProdutoBase = await this.prismaService.insumoProdutoBase.findMany({
-      skip,
-      take: perPage,
-    });
-  } 
-
-
     return  insumosProdutoBase ;
   }
 
@@ -52,8 +44,10 @@ export class InsumosProdutosBaseService {
     return { data: { message: 'Insumo não existe' } };
   }
 
-  async countAll() {
-    return await this.prismaService.insumoProdutoBase.count();
+  async countAll(idProdutobase: number) {
+    return await this.prismaService.insumoProdutoBase.count({where:{
+      idProdutoBase: idProdutobase
+    }});
   }
 
   async findInsumoProdBase(id: number) {

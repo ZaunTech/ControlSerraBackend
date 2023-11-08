@@ -16,21 +16,21 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { response as res } from 'express';
+
 @ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Get('count')
-  countAll() {
-    return this.usuariosService.countAll();
+  async countAll() {
+    return await this.usuariosService.countAll();
   }
 
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
+    return await this.usuariosService.create(createUsuarioDto);
   }
 
   @Get()
@@ -46,22 +46,22 @@ export class UsuariosController {
     );
     const total = await this.usuariosService.countAll(); 
     res.header('x-total-count',total);
-    return usuarios
+    return await usuarios
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usuariosService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.usuariosService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+    return await this.usuariosService.update(+id, updateUsuarioDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuariosService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.usuariosService.remove(+id);
   }
 }
