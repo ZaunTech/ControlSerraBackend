@@ -8,7 +8,6 @@ export class Usuario {
   email: string;
   telefone: string;
   senha: string;
-  token: string;
   createdAt: Date;
   updatedAt: Date;
 }

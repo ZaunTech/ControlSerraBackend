@@ -56,12 +56,6 @@ export class CreateUsuarioDto {
   @IsString({message: 'A senha inserida não é válida'})
   senha: string;
   
-  @ApiProperty({
-    description:
-      'A token serve para autenticar o usuário dentro da aplicação',
-    example: '3213211312231',
-  })
-  @ValidateIf((object, value) => value !== undefined)
-  @IsString({message: 'O token inserido não é válido'})
-  token: string;
+  
+ 
 }

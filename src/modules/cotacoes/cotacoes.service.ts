@@ -49,9 +49,9 @@ export class CotacoesService {
         where:{
           idInsumo:id,
           idFornecedor:idfornecedor,
-          OR: [{ insumo: { titulo: { contains: nome_like } }},
-               { fornecedor: {nome:  { contains: nome_like }} },
-               { fornecedor: {nomeFantasia:  { contains: nome_like }} },
+          OR: [{ insumo:     { titulo:      { contains: nome_like }} },
+               { fornecedor: {nome:         { contains: nome_like }} },
+               { fornecedor: {nomeFantasia: { contains: nome_like }} },
                { fornecedor: {razaoSocial:  { contains: nome_like }} },
              ],
         },
