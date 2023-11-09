@@ -16,11 +16,9 @@ export class CotacoesService {
         obsoleta: true,
       },
     });
-
     if (!oldQuotation) {
       return { data: { message: 'Não foi possivel criar a nova cotação' } };
     }
-
     const newQuotation = await this.prismaService.cotacao.create({
       data: {
         idInsumo: oldQuotation.idInsumo,
@@ -30,7 +28,6 @@ export class CotacoesService {
         data: recotarDto.data,
       },
     });
-
     if (!newQuotation) {
       return { data: { message: 'Não foi possivel criar a nova cotação' } };
     }

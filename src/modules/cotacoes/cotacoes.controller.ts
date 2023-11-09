@@ -61,11 +61,7 @@ export class CotacoesController {
       nome_like,
       +idFornecedor
     );
-   
-    
-     const  total = await this.countById(+idInsumo); 
-   
-    
+    const  total = await this.countById(+idInsumo); 
     res.header('x-total-count',total);
     return await cotacoes
   }

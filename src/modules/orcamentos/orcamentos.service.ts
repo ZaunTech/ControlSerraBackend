@@ -10,7 +10,7 @@ export class OrcamentosService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly produtoService: ProdutosService,
-  ) { }
+  ) {}
   async countAll() {
     return await this.prismaService.cliente.count({});
   }
@@ -19,12 +19,15 @@ export class OrcamentosService {
     return await this.prismaService.cliente.findFirst({ where: { id } });
   }
 
-  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(
+    page: number,
+    perPage: number,
+    titulo_like: string,
+  ) {
     const skip = (page - 1) * perPage;
 
-    let orcamentos = Orcamento[""];
+    let orcamentos = Orcamento[''];
     if (titulo_like) {
-
       const isNumero = !isNaN(parseInt(titulo_like));
 
       if (isNumero) {
@@ -53,7 +56,6 @@ export class OrcamentosService {
           },
         });
       }
-
     } else {
       orcamentos = await this.prismaService.orcamento.findMany({
         skip,
@@ -82,8 +84,10 @@ export class OrcamentosService {
   }
 
   async findOneFull(id: number) {
-    const orcamento = await this.prismaService.orcamento.findFirst(where: { id },
-      include: { cliente });
+    const orcamento = await this.prismaService.orcamento.findFirst({
+      where: { id },
+      include: { cliente: true },
+    });
     return orcamento;
   }
 
