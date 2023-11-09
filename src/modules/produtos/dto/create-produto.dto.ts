@@ -49,5 +49,5 @@ export class CreateProdutoDto {
   })
   @IsNotEmpty({ message: 'O orçamento não pode estar vazio' })
   @IsNumber({}, { message: 'O orçamento inserido não é válido' })
-  orcamentoId: number;
+  idOrcamento: number;
 }

@@ -19,48 +19,50 @@ export class OrcamentosService {
     return await this.prismaService.cliente.findFirst({ where: { id } });
   }
 
-  async findAllWithPagination(page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(
+    page: number,
+    perPage: number,
+    titulo_like: string,
+  ) {
     const skip = (page - 1) * perPage;
-  
-    let  orcamentos = Orcamento[""];
-    if(titulo_like){
-      
+
+    let orcamentos = Orcamento[''];
+    if (titulo_like) {
       const isNumero = !isNaN(parseInt(titulo_like));
-    
-    if (isNumero) {
+
+      if (isNumero) {
+        orcamentos = await this.prismaService.orcamento.findMany({
+          skip,
+          take: perPage,
+          where: {
+            OR: [
+              { id: { equals: parseInt(titulo_like) } },
+              { cliente: { nome: { contains: titulo_like } } },
+              { cliente: { nomeFantasia: { contains: titulo_like } } },
+              { cliente: { razaoSocial: { contains: titulo_like } } },
+            ],
+          },
+        });
+      } else {
+        orcamentos = await this.prismaService.orcamento.findMany({
+          skip,
+          take: perPage,
+          where: {
+            OR: [
+              { cliente: { nome: { contains: titulo_like } } },
+              { cliente: { nomeFantasia: { contains: titulo_like } } },
+              { cliente: { razaoSocial: { contains: titulo_like } } },
+            ],
+          },
+        });
+      }
+    } else {
       orcamentos = await this.prismaService.orcamento.findMany({
         skip,
         take: perPage,
-        where: {
-          OR: [
-            { id: { equals: parseInt(titulo_like) } },
-            { cliente: { nome: { contains: titulo_like } } },
-            { cliente: { nomeFantasia: { contains: titulo_like } } },
-            { cliente: { razaoSocial: { contains: titulo_like } } },
-          ],
-        },
-      });
-    }else{
-      orcamentos = await this.prismaService.orcamento.findMany({
-        skip,
-        take: perPage,
-        where: {
-          OR: [
-            { cliente: { nome: { contains: titulo_like } } },
-            { cliente: { nomeFantasia: { contains: titulo_like } } },
-            { cliente: { razaoSocial: { contains: titulo_like } } },
-          ],
-        },
       });
     }
-
-  }else{
-    orcamentos = await this.prismaService.orcamento.findMany({
-      skip,
-      take: perPage,
-    });
-  } 
-    return  orcamentos ;
+    return orcamentos;
   }
 
   async create(createOrcamentoDto: CreateOrcamentoDto) {
@@ -79,6 +81,14 @@ export class OrcamentosService {
       return orcamentos;
     }
     return { data: { message: 'Não há orçamentos' } };
+  }
+
+  async findOneFull(id: number) {
+    const orcamento = await this.prismaService.orcamento.findFirst({
+      where: { id },
+      include: { cliente: true, produtos: true },
+    });
+    return orcamento;
   }
 
   async findOne(id: number) {
@@ -115,7 +125,7 @@ export class OrcamentosService {
     if (orcamentoExists) {
       const produtos = await this.prismaService.produto.findMany({
         where: {
-          orcamentoId: id,
+          idOrcamento: id,
         },
       });
       for (const produto of produtos) {

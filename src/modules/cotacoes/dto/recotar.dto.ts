@@ -2,11 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class recotarDto {
-    @ApiProperty({
-        description:
-            'A data serve para descrever quando esta cotação foi realizada',
-        example: '2023-10-23T17:30:44.382Z',
-    })
     @IsNotEmpty({ message: 'A data não pode estar vazia' })
     @IsDateString({}, { message: 'A data inserida não é válida' })
     data: Date;

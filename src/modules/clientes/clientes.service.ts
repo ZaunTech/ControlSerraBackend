@@ -8,30 +8,35 @@ import { Cliente } from './entities/cliente.entity';
 export class ClientesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(page: number, perPage: number, nome_like? : string) {
+  async findAllWithPagination(
+    page: number,
+    perPage: number,
+    nome_like?: string,
+  ) {
     const skip = (page - 1) * perPage;
-    let  clientes = Cliente[""];
-    if(nome_like){
+    let clientes = Cliente[''];
+    if (nome_like) {
       clientes = await this.prismaService.cliente.findMany({
-      skip,
-      take: perPage,
-      where:{
-        OR: [{ nome: { contains: nome_like } },
-             { email: { contains: nome_like } },
-             { rua: { contains: nome_like } },
-             { nomeFantasia: { contains: nome_like } },
-             { razaoSocial: { contains: nome_like } },],
-      },
-    });
-  }else{
-    clientes = await this.prismaService.cliente.findMany({
-      skip,
-      take: perPage,
-    });
-  } 
+        skip,
+        take: perPage,
+        where: {
+          OR: [
+            { nome: { contains: nome_like } },
+            { email: { contains: nome_like } },
+            { rua: { contains: nome_like } },
+            { nomeFantasia: { contains: nome_like } },
+            { razaoSocial: { contains: nome_like } },
+          ],
+        },
+      });
+    } else {
+      clientes = await this.prismaService.cliente.findMany({
+        skip,
+        take: perPage,
+      });
+    }
 
-
-    return  clientes ;
+    return clientes;
   }
 
   async findExistingCliente(id: number, termo: string) {

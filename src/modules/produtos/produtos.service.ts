@@ -15,23 +15,26 @@ export class ProdutosService {
     private readonly insumosProdutosBaseService: InsumosProdutosBaseService,
   ) {}
 
-  async findAllWithPagination(id:number,page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(
+    id: number,
+    page: number,
+    perPage: number,
+    titulo_like: string,
+  ) {
     const skip = (page - 1) * perPage;
-  
-    let  produtos = Produto[""];
-   
-      produtos = await this.prismaService.produto.findMany({
+
+    let produtos = Produto[''];
+
+    produtos = await this.prismaService.produto.findMany({
       skip,
       take: perPage,
-      where:{
-        orcamentoId: id,
-        OR: [{ titulo: { contains: titulo_like } },
-           ],
+      where: {
+        idOrcamento: id,
+        OR: [{ titulo: { contains: titulo_like } }],
       },
     });
-    return  produtos ;
+    return produtos;
   }
-
 
   async findOneByTitle(titulo: string) {
     return await this.prismaService.produto.findFirst({
@@ -47,7 +50,7 @@ export class ProdutosService {
 
   async create(createProdutoDto: CreateProdutoDto) {
     const orcamentoExists = await this.prismaService.orcamento.findFirst({
-      where: { id: createProdutoDto.orcamentoId },
+      where: { id: createProdutoDto.idOrcamento },
     });
     if (orcamentoExists) {
       const produtoExiste = await this.findOneByTitle(createProdutoDto.titulo);
@@ -64,16 +67,16 @@ export class ProdutosService {
   async findProdutoOrc(id: number) {
     return await this.prismaService.produto.findMany({
       where: {
-        OR: [{ orcamentoId: { equals: id } }],
+        OR: [{ idOrcamento: { equals: id } }],
       },
     });
   }
 
-  async countAll(id:number) {
+  async countAll(id: number) {
     return await this.prismaService.produto.count({
-      where:{
-        orcamentoId: id,
-      }
+      where: {
+        idOrcamento: id,
+      },
     });
   }
 
@@ -132,7 +135,7 @@ export class ProdutosService {
         const copyProd = await this.prismaService.produto.create({
           data: {
             titulo: prodBase.titulo,
-            orcamentoId: addProdutoBaseDto.orcamentoId,
+            idOrcamento: addProdutoBaseDto.orcamentoId,
             observacoes: addProdutoBaseDto.observacoes,
             quantidade: addProdutoBaseDto.quantidade,
           },
