@@ -86,7 +86,7 @@ export class OrcamentosService {
   async findOneFull(id: number) {
     const orcamento = await this.prismaService.orcamento.findFirst({
       where: { id },
-      include: { cliente: true },
+      include: { cliente: true, produtos: true },
     });
     return orcamento;
   }
