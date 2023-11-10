@@ -5,4 +5,6 @@ export class Variante {
   variante: string;
   idInsumo: number;
   insumo?: Insumo;
+  createdAt: Date;
+  updatedAt: Date;
 }
