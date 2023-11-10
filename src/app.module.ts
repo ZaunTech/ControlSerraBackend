@@ -13,6 +13,7 @@ import { ListaInsumosModule } from './modules/lista-insumos/lista-insumos.module
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { ProdutosBaseModule } from './modules/produtos-base/produtos-base.module';
 import { InsumosProdutosBaseModule } from './modules/insumos-produtos-base/insumos-produtos-base.module';
+import { VariantesModule } from './modules/variantes/variantes.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { InsumosProdutosBaseModule } from './modules/insumos-produtos-base/insum
     UsuariosModule,
     ProdutosBaseModule,
     InsumosProdutosBaseModule,
+    VariantesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -31,6 +31,7 @@ model Insumo {
   insumoProdutoBase InsumoProdutoBase[]
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
+  Variante          Variante[]
 
   @@map("Insumos")
 }
@@ -180,6 +181,15 @@ model Usuario {
   updatedAt   DateTime    @updatedAt
 
   @@map("Usuarios")
+}
+
+model Variante {
+  id       Int    @id @default(autoincrement())
+  variante String
+  idInsumo Int
+  insumo   Insumo @relation(fields: [idInsumo], references: [id])
+
+  @@map("Variantes")
 }
 
 model ProdutoBase {
