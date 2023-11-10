@@ -25,6 +25,11 @@ export class InsumosProdutosBaseController {
     return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
   }
 
+  @Get('insumo/:id')
+  async findOne(@Param('id') id: string) {
+    return await this.insumosProdutosBaseService.findOne(+id);
+  }
+
   @Get(":id")
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -42,11 +47,6 @@ export class InsumosProdutosBaseController {
     const total = await this.insumosProdutosBaseService.countAll(+id); 
     res.header('x-total-count',total);
     return await insumosBase
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.insumosProdutosBaseService.findOne(+id);
   }
 
   @UsePipes(ValidationPipe)
