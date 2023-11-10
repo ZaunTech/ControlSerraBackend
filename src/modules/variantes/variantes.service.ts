@@ -25,7 +25,7 @@ export class VariantesService {
         skip,
         take: perPage,
         where: {
-          idInsumo:idInsumo
+          idInsumo: idInsumo,
           //OR: [
           /*
             { nome: { contains: titulo_like } },
@@ -40,7 +40,7 @@ export class VariantesService {
       variantes = await this.prismaService.variante.findMany({
         skip,
         take: perPage,
-        where:{idInsumo: idInsumo},
+        where: { idInsumo: idInsumo },
         include: { insumo: true },
       });
     }
@@ -49,7 +49,7 @@ export class VariantesService {
 
   async findAll() {
     return await this.prismaService.variante.findMany({
-      include:{insumo:true}
+      include: { insumo: true },
     });
   }
 
@@ -73,5 +73,8 @@ export class VariantesService {
 
   async countAll() {
     return await this.prismaService.variante.count();
+  }
+  async countAllById(idInsumo: number) {
+    return await this.prismaService.variante.count({ where: { idInsumo:idInsumo } });
   }
 }

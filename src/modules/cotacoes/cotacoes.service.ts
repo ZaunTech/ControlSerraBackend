@@ -110,7 +110,7 @@ export class CotacoesService {
       where: { id: createCotacaoDto.idFornecedor },
     });
     if (fornecedorExists) {
-      const insumoExists = await this.prismaService.insumo.findFirst({
+      const insumoExists = await this.prismaService.variante.findFirst({
         where: { id: createCotacaoDto.idVariante },
       });
       if (insumoExists) {

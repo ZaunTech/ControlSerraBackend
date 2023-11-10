@@ -64,7 +64,7 @@ export class VariantesController {
       Number(perPage),
       titulo_like,
     );
-    const total = await this.variantesService.countAll();
+    const total = await this.variantesService.countAllById(+idInsumo);
     res.header('x-total-count', total);
     return await variantes;
   }
