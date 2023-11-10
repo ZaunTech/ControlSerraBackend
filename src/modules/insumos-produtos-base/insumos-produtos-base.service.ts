@@ -79,7 +79,7 @@ export class InsumosProdutosBaseService {
     id: number,
     updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto,
   ) {
-    const insumoExists = await this.prismaService.insumo.findFirst({
+    const insumoExists = await this.prismaService.variante.findFirst({
       where: { id: updateInsumosProdutosBaseDto.idVariante },
     });
     if (insumoExists) {

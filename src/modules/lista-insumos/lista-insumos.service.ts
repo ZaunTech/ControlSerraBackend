@@ -59,7 +59,7 @@ export class ListaInsumosService {
   }
 
   async create(createListaInsumoDto: CreateListaInsumoDto) {
-    const insumoExists = await this.prismaService.insumo.findFirst({
+    const insumoExists = await this.prismaService.variante.findFirst({
       where: { id: createListaInsumoDto.idVariante },
     });
     if (insumoExists) {
@@ -95,7 +95,7 @@ export class ListaInsumosService {
   }
 
   async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
-    const insumoExists = await this.prismaService.insumo.findFirst({
+    const insumoExists = await this.prismaService.variante.findFirst({
       where: { id: updateListaInsumoDto.idVariante },
     });
     if (insumoExists) {
