@@ -1,14 +1,14 @@
 import { ProdutoBase } from '@prisma/client';
-import { Insumo } from 'src/modules/insumos/entities/insumo.entity';
+import { Variante } from 'src/modules/variantes/entities/variante.entity';
 
 export class InsumoProdutosBase {
   id: number;
   quantidade: number;
   idProdutoBase: number;
-  idInsumo: number;
+  idVariante: number;
   unidade: string;
   produtoBase: ProdutoBase;
-  insumo: Insumo;
+  variante: Variante;
   createdAt: Date;
   updatedAt: Date;
 }

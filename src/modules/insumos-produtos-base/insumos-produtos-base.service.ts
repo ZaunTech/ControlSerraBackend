@@ -8,27 +8,32 @@ import { InsumoProdutosBase } from './entities/insumo-produtos-base.entity';
 export class InsumosProdutosBaseService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAllWithPagination(idProdutobase: number,page: number, perPage: number, busca: string) {
+  async findAllWithPagination(
+    idProdutobase: number,
+    page: number,
+    perPage: number,
+    busca: string,
+  ) {
     const skip = (page - 1) * perPage;
-    let  insumosProdutoBase = InsumoProdutosBase[""];
-   
-      insumosProdutoBase = await this.prismaService.insumoProdutoBase.findMany({
+    let insumosProdutoBase = InsumoProdutosBase[''];
+
+    insumosProdutoBase = await this.prismaService.insumoProdutoBase.findMany({
       skip,
       take: perPage,
-      where:{
-        idProdutoBase:idProdutobase, 
-        OR: [ { insumos: {titulo:  { contains: busca }} },
-              { unidade: { contains: busca } },
-            ],
+      where: {
+        idProdutoBase: idProdutobase,
+        OR: [
+          { variantes: { insumo: { titulo: { contains: busca } } } },
+          { unidade: { contains: busca } },
+        ],
       },
-      
     });
-    return  insumosProdutoBase ;
+    return insumosProdutoBase;
   }
 
   async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     const insumoExists = await this.prismaService.insumo.findFirst({
-      where: { id: createInsumosProdutosBaseDto.idInsumo },
+      where: { id: createInsumosProdutosBaseDto.idVariante },
     });
     if (insumoExists) {
       const produtoBaseExists = await this.prismaService.produtoBase.findFirst({
@@ -45,9 +50,11 @@ export class InsumosProdutosBaseService {
   }
 
   async countAll(idProdutobase: number) {
-    return await this.prismaService.insumoProdutoBase.count({where:{
-      idProdutoBase: idProdutobase
-    }});
+    return await this.prismaService.insumoProdutoBase.count({
+      where: {
+        idProdutoBase: idProdutobase,
+      },
+    });
   }
 
   async findInsumoProdBase(id: number) {
@@ -73,7 +80,7 @@ export class InsumosProdutosBaseService {
     updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto,
   ) {
     const insumoExists = await this.prismaService.insumo.findFirst({
-      where: { id: updateInsumosProdutosBaseDto.idInsumo },
+      where: { id: updateInsumosProdutosBaseDto.idVariante },
     });
     if (insumoExists) {
       const produtoBaseExists = await this.prismaService.produtoBase.findFirst({

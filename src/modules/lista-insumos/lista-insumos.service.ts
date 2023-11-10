@@ -12,41 +12,55 @@ export class ListaInsumosService {
     private readonly cotacaoServices: CotacoesService,
   ) {}
 
-  async findAllWithPagination(id:number,page: number, perPage: number, titulo_like: string) {
+  async findAllWithPagination(
+    id: number,
+    page: number,
+    perPage: number,
+    titulo_like: string,
+  ) {
     const skip = (page - 1) * perPage;
 
-    let  listainsumos = ListaInsumo[""];
-  
-   
-      listainsumos = await this.prismaService.listaInsumo.findMany({
+    let listainsumos = ListaInsumo[''];
+
+    listainsumos = await this.prismaService.listaInsumo.findMany({
       skip,
       take: perPage,
-      where:{
-        idProduto:id,
-        OR: 
-        [{ insumo: {titulo:  { contains: titulo_like }} },
-          { cotacao: {fornecedor: { nome:{ contains: titulo_like }}} },
-          { cotacao: {fornecedor: { nomeFantasia:{ contains: titulo_like }}} },
-          { cotacao: {fornecedor: { razaoSocial:{ contains: titulo_like }}} },
+      where: {
+        idProduto: id,
+        OR: [
+          { variante: { insumo: { titulo: { contains: titulo_like } } } },
+          { cotacao: { fornecedor: { nome: { contains: titulo_like } } } },
+          {
+            cotacao: {
+              fornecedor: { nomeFantasia: { contains: titulo_like } },
+            },
+          },
+          {
+            cotacao: { fornecedor: { razaoSocial: { contains: titulo_like } } },
+          },
           { unidade: { contains: titulo_like } },
-          { insumo: {categoria:  { titulo: { contains: titulo_like }}} },
+          {
+            variante: {
+              insumo: { categoria: { titulo: { contains: titulo_like } } },
+            },
+          },
         ],
       },
     });
-    return  listainsumos ;
+    return listainsumos;
   }
 
-  async countAll(id:number) {
+  async countAll(id: number) {
     return await this.prismaService.listaInsumo.count({
-      where:{
-        idProduto:id,
-      }
+      where: {
+        idProduto: id,
+      },
     });
   }
 
   async create(createListaInsumoDto: CreateListaInsumoDto) {
     const insumoExists = await this.prismaService.insumo.findFirst({
-      where: { id: createListaInsumoDto.idInsumo },
+      where: { id: createListaInsumoDto.idVariante },
     });
     if (insumoExists) {
       const produtoExists = await this.prismaService.produto.findFirst({
@@ -75,14 +89,14 @@ export class ListaInsumosService {
   }
 
   async findOne(id: number) {
-    console.log(id)
+    console.log(id);
     console.log(this.prismaService.listaInsumo.findFirst({ where: { id } }));
     return await this.prismaService.listaInsumo.findFirst({ where: { id } });
   }
 
   async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
     const insumoExists = await this.prismaService.insumo.findFirst({
-      where: { id: updateListaInsumoDto.idInsumo },
+      where: { id: updateListaInsumoDto.idVariante },
     });
     if (insumoExists) {
       const produtoExists = await this.prismaService.produto.findFirst({
@@ -126,7 +140,7 @@ export class ListaInsumosService {
       return { data: { message: 'Essa cotação não existe' } };
     }
 
-    const listaInsumoExists = await this.findOne(idItemListaInsumo)
+    const listaInsumoExists = await this.findOne(idItemListaInsumo);
     if (!listaInsumoExists) {
       return { data: { message: 'Esse insumo não existe' } };
     }

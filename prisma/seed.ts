@@ -50,6 +50,15 @@ async function seedDatabase() {
     });
   }
 
+  for (let i = 0; i < 20; i++) {
+    await prisma.variante.create({
+      data: {
+        variante: faker.commerce.productName(),
+        idInsumo: faker.number.int({ min: 1, max: 20 }),
+      },
+    });
+  }
+
   for (let i = 0; i < 10; i++) {
     await prisma.fornecedor.create({
       data: {
@@ -148,7 +157,7 @@ async function seedDatabase() {
         valor: faker.number.float(),
         unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
         idFornecedor: faker.number.int({ min: 1, max: 10 }), // Gere um ID de fornecedor aleatório
-        idInsumo: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
+        idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
       },
     });
   }
@@ -158,7 +167,7 @@ async function seedDatabase() {
       data: {
         quantidade: faker.number.int(),
         idProduto: faker.number.int({ min: 1, max: 20 }), // Gere um ID de produto aleatório
-        idInsumo: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
+        idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
         idCotacao: faker.number.int({ min: 1, max: 10 }), // Gere um ID de cotação aleatório
         unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
         valorUnitario: faker.number.float(),
@@ -180,7 +189,7 @@ async function seedDatabase() {
       data: {
         quantidade: faker.number.float(),
         idProdutoBase: faker.number.int({ min: 1, max: 10 }), // Gere um ID de produto base aleatório
-        idInsumo: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
+        idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
         unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
       },
     });

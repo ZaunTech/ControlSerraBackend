@@ -21,7 +21,7 @@ export class CotacoesService {
     }
     const newQuotation = await this.prismaService.cotacao.create({
       data: {
-        idInsumo: oldQuotation.idInsumo,
+        idVariante: oldQuotation.idVariante,
         idFornecedor: oldQuotation.idFornecedor,
         unidade: oldQuotation.unidade,
         valor: recotarDto.valor,
@@ -35,55 +35,63 @@ export class CotacoesService {
     return newQuotation;
   }
 
-  async findAllWithPagination(id:number,page: number, perPage: number, nome_like? : string,idfornecedor?:number) {
+  async findAllWithPagination(
+    id: number,
+    page: number,
+    perPage: number,
+    nome_like?: string,
+    idfornecedor?: number,
+  ) {
     const skip = (page - 1) * perPage;
-    let  cotacoes = Cotacao[""];
-    
-    if(id && idfornecedor){
-      cotacoes = await this.prismaService.cotacao.findMany({
-        skip,
-        take: perPage,
-        where:{
-          idInsumo:id,
-          idFornecedor:idfornecedor,
-          OR: [{ insumo:     { titulo:      { contains: nome_like }} },
-               { fornecedor: {nome:         { contains: nome_like }} },
-               { fornecedor: {nomeFantasia: { contains: nome_like }} },
-               { fornecedor: {razaoSocial:  { contains: nome_like }} },
-             ],
-        },
-      });
-    }else if(id){
-      cotacoes = await this.prismaService.cotacao.findMany({
-        skip,
-        take: perPage,
-        where:{
-          idInsumo:id,
-          
-          OR: [{ insumo: { titulo: { contains: nome_like } }},
-               { fornecedor: {nome:  { contains: nome_like }} },
-               { fornecedor: {nomeFantasia:  { contains: nome_like }} },
-               { fornecedor: {razaoSocial:  { contains: nome_like }} },
-             ],
-        },
-      });
-    }else{
-      cotacoes = await this.prismaService.cotacao.findMany({
-      skip,
-      take: perPage,
-      where:{
-        OR: [{ insumo: { titulo: { contains: nome_like } }},
-             { fornecedor: {nome:  { contains: nome_like }} },
-             { fornecedor: {nomeFantasia:  { contains: nome_like }} },
-             { fornecedor: {razaoSocial:  { contains: nome_like }} },
-           ],
-      },
-    });
-  }
- 
-    return  cotacoes ;
-  }
+    let cotacoes = Cotacao[''];
 
+    if (id && idfornecedor) {
+      cotacoes = await this.prismaService.cotacao.findMany({
+        skip,
+        take: perPage,
+        where: {
+          idVariante: id,
+          idFornecedor: idfornecedor,
+          OR: [
+            { variante: { insumo: { titulo: { contains: nome_like } } } },
+            { fornecedor: { nome: { contains: nome_like } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like } } },
+            { fornecedor: { razaoSocial: { contains: nome_like } } },
+          ],
+        },
+      });
+    } else if (id) {
+      cotacoes = await this.prismaService.cotacao.findMany({
+        skip,
+        take: perPage,
+        where: {
+          idVariante: id,
+
+          OR: [
+            { variante: { insumo: { titulo: { contains: nome_like } } } },
+            { fornecedor: { nome: { contains: nome_like } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like } } },
+            { fornecedor: { razaoSocial: { contains: nome_like } } },
+          ],
+        },
+      });
+    } else {
+      cotacoes = await this.prismaService.cotacao.findMany({
+        skip,
+        take: perPage,
+        where: {
+          OR: [
+            { variante: { insumo: { titulo: { contains: nome_like } } } },
+            { fornecedor: { nome: { contains: nome_like } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like } } },
+            { fornecedor: { razaoSocial: { contains: nome_like } } },
+          ],
+        },
+      });
+    }
+
+    return cotacoes;
+  }
 
   async countAllCotacaos() {
     return await this.prismaService.cotacao.count({});
@@ -91,12 +99,11 @@ export class CotacoesService {
 
   async countByIdInsumoCotacaos(id: number) {
     return await this.prismaService.cotacao.count({
-      where:{
-        idInsumo : id
-      }
+      where: {
+        idVariante: id,
+      },
     });
   }
-
 
   async create(createCotacaoDto: CreateCotacaoDto) {
     const fornecedorExists = await this.prismaService.fornecedor.findFirst({
@@ -104,7 +111,7 @@ export class CotacoesService {
     });
     if (fornecedorExists) {
       const insumoExists = await this.prismaService.insumo.findFirst({
-        where: { id: createCotacaoDto.idInsumo },
+        where: { id: createCotacaoDto.idVariante },
       });
       if (insumoExists) {
         return await this.prismaService.cotacao.create({
@@ -128,7 +135,7 @@ export class CotacoesService {
 
   async findManyByInsumo(id: number) {
     return await this.prismaService.cotacao.findMany({
-      where: { idInsumo: id },
+      where: { idVariante: id },
     });
   }
 
@@ -150,7 +157,7 @@ export class CotacoesService {
         });
         if (fornecedorExists) {
           const insumoExists = await this.prismaService.insumo.findFirst({
-            where: { id: updateCotacaoDto.idInsumo },
+            where: { id: updateCotacaoDto.idVariante },
           });
           if (insumoExists) {
             return await this.prismaService.cotacao.update({

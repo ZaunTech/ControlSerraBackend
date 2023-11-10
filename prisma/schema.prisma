@@ -20,18 +20,15 @@ model Categoria {
 }
 
 model Insumo {
-  id                Int                 @id @default(autoincrement())
-  titulo            String
-  descricao         String?
-  unidadeMedida     String?
-  idCategoria       Int?
-  categoria         Categoria?          @relation(fields: [idCategoria], references: [id])
-  cotacoes          Cotacao[]
-  listaInsumo       ListaInsumo[]
-  insumoProdutoBase InsumoProdutoBase[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  Variante          Variante[]
+  id            Int        @id @default(autoincrement())
+  titulo        String
+  descricao     String?
+  unidadeMedida String?
+  idCategoria   Int?
+  categoria     Categoria? @relation(fields: [idCategoria], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  variante      Variante[]
 
   @@map("Insumos")
 }
@@ -141,10 +138,10 @@ model Cotacao {
   valor        Float
   unidade      String
   idFornecedor Int
-  idInsumo     Int
+  idVariante   Int
   obsoleta     Boolean?      @default(false)
   fornecedor   Fornecedor    @relation(fields: [idFornecedor], references: [id])
-  insumo       Insumo        @relation(fields: [idInsumo], references: [id])
+  variante     Variante      @relation(fields: [idVariante], references: [id])
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   ListaInsumo  ListaInsumo[]
@@ -153,18 +150,18 @@ model Cotacao {
 }
 
 model ListaInsumo {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   quantidade    Float
   idProduto     Int
-  idInsumo      Int
+  idVariante    Int
   idCotacao     Int?
   unidade       String?
   valorUnitario Float?
-  produto       Produto? @relation(fields: [idProduto], references: [id])
-  insumo        Insumo?  @relation(fields: [idInsumo], references: [id])
-  cotacao       Cotacao? @relation(fields: [idCotacao], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  produto       Produto?  @relation(fields: [idProduto], references: [id])
+  variante      Variante? @relation(fields: [idVariante], references: [id])
+  cotacao       Cotacao?  @relation(fields: [idCotacao], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@map("ListaInsumos")
 }
@@ -184,10 +181,13 @@ model Usuario {
 }
 
 model Variante {
-  id       Int    @id @default(autoincrement())
-  variante String
-  idInsumo Int
-  insumo   Insumo @relation(fields: [idInsumo], references: [id])
+  id                Int                 @id @default(autoincrement())
+  variante          String
+  idInsumo          Int
+  insumo            Insumo              @relation(fields: [idInsumo], references: [id])
+  listaInsumo       ListaInsumo[]
+  insumoProdutoBase InsumoProdutoBase[]
+  Cotacao           Cotacao[]
 
   @@map("Variantes")
 }
@@ -207,10 +207,10 @@ model InsumoProdutoBase {
   id            Int         @id @default(autoincrement())
   quantidade    Float       @default(1)
   idProdutoBase Int
-  idInsumo      Int
+  idVariante    Int
   unidade       String?
   produtoBase   ProdutoBase @relation(fields: [idProdutoBase], references: [id])
-  insumos       Insumo      @relation(fields: [idInsumo], references: [id])
+  variantes     Variante    @relation(fields: [idVariante], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 

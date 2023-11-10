@@ -4,7 +4,7 @@ export class Cotacao {
   obsoleta: boolean;
   valor: number;
   idFornecedor: number;
-  idInsumo: number;
+  idVariante: number;
   unidade: string;
   createdAt: Date;
   updatedAt: Date;

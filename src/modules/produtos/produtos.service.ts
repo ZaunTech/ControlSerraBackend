@@ -145,7 +145,7 @@ export class ProdutosService {
           await this.prismaService.listaInsumo.create({
             data: {
               quantidade: insumoBase.quantidade,
-              idInsumo: insumoBase.idInsumo,
+              idVariante: insumoBase.idVariante,
               idProduto: copyProd.id,
               unidade: insumoBase.unidade,
             },

@@ -54,7 +54,7 @@ export class UpdateCotacaoDto extends PartialType(CreateCotacaoDto) {
   })
   @IsNotEmpty({ message: 'O insumo não pode estar vazio' })
   @IsNumber({}, { message: 'O insumo inserido não é válido' })
-  idInsumo?: number;
+  idVariante?: number;
 
   @ApiProperty({
     description: 'A unidade serve para descrever as dimensões do insumo',
