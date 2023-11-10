@@ -32,7 +32,7 @@ export class InsumosProdutosBaseService {
   }
 
   async create(createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
-    const insumoExists = await this.prismaService.insumo.findFirst({
+    const insumoExists = await this.prismaService.variante.findFirst({
       where: { id: createInsumosProdutosBaseDto.idVariante },
     });
     if (insumoExists) {

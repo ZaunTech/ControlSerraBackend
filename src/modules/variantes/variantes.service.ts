@@ -12,7 +12,7 @@ export class VariantesService {
     return this.prismaService.variante.create({ data: createVarianteDto });
   }
 
-  async findAll(
+  async findAllWithId(
     idInsumo: number,
     page: number,
     perPage: number,
@@ -25,7 +25,7 @@ export class VariantesService {
         skip,
         take: perPage,
         where: {
-          idInsumo,
+          idInsumo:idInsumo
           //OR: [
           /*
             { nome: { contains: titulo_like } },
@@ -40,10 +40,17 @@ export class VariantesService {
       variantes = await this.prismaService.variante.findMany({
         skip,
         take: perPage,
+        where:{idInsumo: idInsumo},
         include: { insumo: true },
       });
     }
     return variantes;
+  }
+
+  async findAll() {
+    return await this.prismaService.variante.findMany({
+      include:{insumo:true}
+    });
   }
 
   async findOne(id: number) {
