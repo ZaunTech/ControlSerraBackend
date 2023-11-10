@@ -12,7 +12,12 @@ export class VariantesService {
     return this.prismaService.variante.create({ data: createVarianteDto });
   }
 
-  async findAll(page: number, perPage: number, titulo_like?: string) {
+  async findAll(
+    idInsumo: number,
+    page: number,
+    perPage: number,
+    titulo_like?: string,
+  ) {
     const skip = (page - 1) * perPage;
     let variantes = Variante[''];
     if (titulo_like) {
@@ -20,13 +25,14 @@ export class VariantesService {
         skip,
         take: perPage,
         where: {
-          OR: [
-            /*
+          idInsumo,
+          //OR: [
+          /*
             { nome: { contains: titulo_like } },
             { email: { contains: titulo_like } },
             { cpf: { contains: titulo_like } },
             */
-          ],
+          //],
         },
         include: { insumo: true },
       });
@@ -34,13 +40,17 @@ export class VariantesService {
       variantes = await this.prismaService.variante.findMany({
         skip,
         take: perPage,
+        include: { insumo: true },
       });
     }
     return variantes;
   }
 
   async findOne(id: number) {
-    return await this.prismaService.variante.findFirst({ where: { id } });
+    return await this.prismaService.variante.findFirst({
+      where: { id },
+      include: { insumo: true },
+    });
   }
 
   async update(id: number, updateVarianteDto: UpdateVarianteDto) {

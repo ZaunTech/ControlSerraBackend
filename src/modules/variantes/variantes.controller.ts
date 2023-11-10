@@ -32,6 +32,7 @@ export class VariantesController {
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async findAll(
+    @Param('idInsumo') idInsumo: number,
     @Query('page') page: number,
     @Query('perPage') perPage: number,
     @Query('titulo_like') titulo_like: string,
@@ -40,6 +41,7 @@ export class VariantesController {
     page = page || 1;
     perPage = perPage || (await this.countAll());
     const variantes = await this.variantesService.findAll(
+      +idInsumo,
       page,
       Number(perPage),
       titulo_like,
