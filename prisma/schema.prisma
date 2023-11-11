@@ -23,7 +23,7 @@ model Insumo {
   id            Int        @id @default(autoincrement())
   titulo        String
   descricao     String?
-  unidadeMedida String?
+  
   idCategoria   Int?
   categoria     Categoria? @relation(fields: [idCategoria], references: [id])
   createdAt     DateTime   @default(now())
@@ -136,7 +136,7 @@ model Cotacao {
   id           Int           @id @default(autoincrement())
   data         DateTime
   valor        Float
-  unidade      String
+  
   idFornecedor Int
   idVariante   Int
   obsoleta     Boolean?      @default(false)
@@ -155,7 +155,7 @@ model ListaInsumo {
   idProduto     Int
   idVariante    Int
   idCotacao     Int?
-  unidade       String?
+  
   valorUnitario Float?
   produto       Produto?  @relation(fields: [idProduto], references: [id])
   variante      Variante? @relation(fields: [idVariante], references: [id])
@@ -210,7 +210,7 @@ model InsumoProdutoBase {
   quantidade    Float       @default(1)
   idProdutoBase Int
   idVariante    Int
-  unidade       String?
+  
   produtoBase   ProdutoBase @relation(fields: [idProdutoBase], references: [id])
   variantes     Variante    @relation(fields: [idVariante], references: [id])
   createdAt     DateTime    @default(now())

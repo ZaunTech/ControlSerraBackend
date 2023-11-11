@@ -9,7 +9,7 @@ export class ListaInsumo {
   idProduto: number;
   idVariante: number;
   idCotacao?: number;
-  unidade?: string;
+ 
   valorUnitario?: number;
   produto?: Produto;
   variante?: Variante;

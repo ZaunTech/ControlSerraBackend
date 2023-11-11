@@ -24,7 +24,8 @@ export class InsumosProdutosBaseService {
         idProdutoBase: idProdutobase,
         OR: [
           { variantes: { insumo: { titulo: { contains: busca } } } },
-          { unidade: { contains: busca } },
+          
+         
         ],
       },
     });

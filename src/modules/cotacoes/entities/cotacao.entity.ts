@@ -5,7 +5,7 @@ export class Cotacao {
   valor: number;
   idFornecedor: number;
   idVariante: number;
-  unidade: string;
+ 
   createdAt: Date;
   updatedAt: Date;
 }

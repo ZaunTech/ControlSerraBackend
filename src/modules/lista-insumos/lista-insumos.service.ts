@@ -38,7 +38,7 @@ export class ListaInsumosService {
           {
             cotacao: { fornecedor: { razaoSocial: { contains: titulo_like } } },
           },
-          { unidade: { contains: titulo_like } },
+       
           {
             variante: {
               insumo: { categoria: { titulo: { contains: titulo_like } } },

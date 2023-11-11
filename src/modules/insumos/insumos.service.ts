@@ -21,8 +21,7 @@ export class InsumosService {
         take: perPage,
         where: {
           OR: [
-            { titulo: { contains: titulo_like } },
-            { unidadeMedida: { contains: titulo_like } },
+            { titulo: { contains: titulo_like } },        
             { descricao: { contains: titulo_like } },
             { categoria: { titulo: { contains: titulo_like } } },
           ],

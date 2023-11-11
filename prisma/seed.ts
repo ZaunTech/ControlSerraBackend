@@ -40,11 +40,6 @@ async function seedDatabase() {
       data: {
         titulo: faker.commerce.productName(),
         descricao: faker.lorem.sentence(),
-        unidadeMedida: faker.helpers.arrayElement([
-          'Unidade',
-          'Quilograma',
-          'Metro',
-        ]),
         idCategoria: faker.number.int({ min: 1, max: 10 }),
       },
     });
@@ -155,7 +150,7 @@ async function seedDatabase() {
       data: {
         data: faker.date.past(),
         valor: faker.number.float(),
-        unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
+       
         idFornecedor: faker.number.int({ min: 1, max: 10 }), // Gere um ID de fornecedor aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
       },
@@ -169,7 +164,7 @@ async function seedDatabase() {
         idProduto: faker.number.int({ min: 1, max: 20 }), // Gere um ID de produto aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
         idCotacao: faker.number.int({ min: 1, max: 10 }), // Gere um ID de cotação aleatório
-        unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
+        
         valorUnitario: faker.number.float(),
       },
     });
@@ -190,7 +185,7 @@ async function seedDatabase() {
         quantidade: faker.number.float(),
         idProdutoBase: faker.number.int({ min: 1, max: 10 }), // Gere um ID de produto base aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
-        unidade: faker.helpers.arrayElement(['Kg', 'Unidade', 'M', 'L']),
+       
       },
     });
   }

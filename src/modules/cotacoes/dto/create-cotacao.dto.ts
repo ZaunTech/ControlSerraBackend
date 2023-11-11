@@ -38,12 +38,5 @@ export class CreateCotacaoDto {
   @IsNumber({}, { message: 'O insumo inserido não é válido' })
   idVariante: number;
   
-  @ApiProperty({
-    description:
-      'A unidade serve para descrever as dimensões do insumo',
-    example: '1M',
-  })
-  @IsNotEmpty({ message: 'A unidade não pode estar vazia' })
-  @IsString({ message: 'A unidade inserida não é válida' })
-  unidade: string;
+  
 }

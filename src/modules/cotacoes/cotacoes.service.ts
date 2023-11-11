@@ -23,7 +23,7 @@ export class CotacoesService {
       data: {
         idVariante: oldQuotation.idVariante,
         idFornecedor: oldQuotation.idFornecedor,
-        unidade: oldQuotation.unidade,
+        
         valor: recotarDto.valor,
         data: recotarDto.data,
       },

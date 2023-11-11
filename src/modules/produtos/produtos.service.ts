@@ -147,7 +147,7 @@ export class ProdutosService {
               quantidade: insumoBase.quantidade,
               idVariante: insumoBase.idVariante,
               idProduto: copyProd.id,
-              unidade: insumoBase.unidade,
+              
             },
           });
         }

@@ -6,7 +6,7 @@ export class InsumoProdutosBase {
   quantidade: number;
   idProdutoBase: number;
   idVariante: number;
-  unidade: string;
+ 
   produtoBase: ProdutoBase;
   variante: Variante;
   createdAt: Date;
