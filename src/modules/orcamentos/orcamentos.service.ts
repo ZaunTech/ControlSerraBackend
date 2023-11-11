@@ -12,7 +12,7 @@ export class OrcamentosService {
     private readonly produtoService: ProdutosService,
   ) {}
   async countAll() {
-    return await this.prismaService.cliente.count({});
+    return await this.prismaService.orcamento.count({});
   }
 
   async findCliente(id: number) {
