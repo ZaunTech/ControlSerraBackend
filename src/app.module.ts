@@ -14,6 +14,8 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { ProdutosBaseModule } from './modules/produtos-base/produtos-base.module';
 import { InsumosProdutosBaseModule } from './modules/insumos-produtos-base/insumos-produtos-base.module';
 import { VariantesModule } from './modules/variantes/variantes.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { VariantesModule } from './modules/variantes/variantes.module';
     ProdutosBaseModule,
     InsumosProdutosBaseModule,
     VariantesModule,
+    PrismaModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
