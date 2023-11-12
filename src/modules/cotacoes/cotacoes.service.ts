@@ -23,7 +23,6 @@ export class CotacoesService {
       data: {
         idVariante: oldQuotation.idVariante,
         idFornecedor: oldQuotation.idFornecedor,
-        
         valor: recotarDto.valor,
         data: recotarDto.data,
       },
@@ -44,7 +43,7 @@ export class CotacoesService {
   ) {
     const skip = (page - 1) * perPage;
     let cotacoes = Cotacao[''];
-
+   
     if (id && idfornecedor) {
       cotacoes = await this.prismaService.cotacao.findMany({
         skip,
@@ -52,6 +51,7 @@ export class CotacoesService {
         where: {
           idVariante: id,
           idFornecedor: idfornecedor,
+          obsoleta:false,
           OR: [
             { variante: { insumo: { titulo: { contains: nome_like } } } },
             { fornecedor: { nome: { contains: nome_like } } },
@@ -66,7 +66,7 @@ export class CotacoesService {
         take: perPage,
         where: {
           idVariante: id,
-
+          obsoleta:false,
           OR: [
             { variante: { insumo: { titulo: { contains: nome_like } } } },
             { fornecedor: { nome: { contains: nome_like } } },

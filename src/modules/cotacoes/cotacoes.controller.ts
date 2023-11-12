@@ -54,6 +54,7 @@ export class CotacoesController {
   async findAll(@Query('fornecedor') idFornecedor: number,@Query('insumo') idInsumo: number, @Query('page') page: number,@Query('perPage') perPage: number,@Query('nome_like') nome_like : string, @Res({ passthrough: true }) res) {
     page = page||1;
     perPage = perPage||await this.countAll();
+   
     const cotacoes = await this.cotacoesService.findAllWithPagination(
       +idInsumo,
       page,

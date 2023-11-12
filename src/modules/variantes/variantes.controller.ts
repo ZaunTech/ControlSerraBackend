@@ -55,7 +55,7 @@ export class VariantesController {
     @Query('titulo_like') titulo_like: string,
     @Res({ passthrough: true }) res,
   ) {
-    console.log(idInsumo)
+    
     page = page || 1;
     perPage = perPage || (await this.countAll());
     const variantes = await this.variantesService.findAllWithId(
@@ -71,6 +71,7 @@ export class VariantesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+   
     return this.variantesService.findOne(+id);
   }
 
