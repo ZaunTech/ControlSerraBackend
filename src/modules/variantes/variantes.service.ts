@@ -8,8 +8,8 @@ import { Variante } from './entities/variante.entity';
 export class VariantesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createVarianteDto: CreateVarianteDto) {
-    return this.prismaService.variante.create({ data: createVarianteDto });
+  async create(createVarianteDto: CreateVarianteDto) {
+    return await this.prismaService.variante.create({ data: createVarianteDto });
   }
 
   async findAllWithId(
