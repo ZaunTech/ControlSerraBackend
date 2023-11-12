@@ -231,7 +231,6 @@ enum produtoTipo {
 
 enum status {
   Pendente
-  Iniciado
   Em_Processo @map("Em Processo")
   Concluido
 }
