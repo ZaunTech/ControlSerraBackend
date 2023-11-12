@@ -41,6 +41,7 @@ export class OrcamentosService {
               { cliente: { nomeFantasia: { contains: titulo_like } } },
               { cliente: { razaoSocial: { contains: titulo_like } } },
             ],
+            pedido: null,
           },
         });
       } else {
@@ -53,6 +54,7 @@ export class OrcamentosService {
               { cliente: { nomeFantasia: { contains: titulo_like } } },
               { cliente: { razaoSocial: { contains: titulo_like } } },
             ],
+            pedido: null,
           },
         });
       }
@@ -60,6 +62,9 @@ export class OrcamentosService {
       orcamentos = await this.prismaService.orcamento.findMany({
         skip,
         take: perPage,
+        where:{
+          pedido: null,
+        }
       });
     }
     return orcamentos;
@@ -75,12 +80,20 @@ export class OrcamentosService {
     return { data: { message: 'Cliente não existe' } };
   }
 
-  async findAll() {
-    const orcamentos = await this.prismaService.orcamento.findMany();
-    if (orcamentos) {
+  async findAllconcluded() {
+    const orcamentos = await this.prismaService.orcamento.findMany({
+      where: {
+        status: "Concluido",
+        pedido: null,
+      },
+      include:{cliente:true}
+    });
+  
+    if (orcamentos.length > 0) {
       return orcamentos;
     }
-    return { data: { message: 'Não há orçamentos' } };
+  
+    return { data: { message: 'Não há orçamentos concluídos sem pedidos' } };
   }
 
   async findOneFull(id: number) {

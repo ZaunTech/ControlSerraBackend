@@ -16,6 +16,7 @@ export class PedidosService {
     const skip = (page - 1) * perPage;
     let  pedidos = Pedido[""];
     if(titulo_like){
+
       pedidos = await this.prismaService.pedido.findMany({
       skip,
       take: perPage,

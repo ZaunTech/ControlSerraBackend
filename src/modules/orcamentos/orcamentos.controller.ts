@@ -43,7 +43,7 @@ export class OrcamentosController {
       Number(perPage),
       titulo_like,
     );
-    const total = await this.orcamentosService.countAll();
+    const total = orcamentos.length;
     res.header('x-total-count', total);
     return await orcamentos;
   }
@@ -56,6 +56,10 @@ export class OrcamentosController {
   @Get('full/:id')
   async findOneFull(@Param('id') id: string) {
     return await this.orcamentosService.findOneFull(+id);
+  }
+  @Get('concluded')
+  async findAllconcluded() {
+    return await this.orcamentosService.findAllconcluded();
   }
 
   @Get(':id')
