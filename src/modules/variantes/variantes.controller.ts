@@ -24,8 +24,8 @@ export class VariantesController {
   }
 
   @Post()
-  create(@Body() createVarianteDto: CreateVarianteDto) {
-    return this.variantesService.create(createVarianteDto);
+  async create(@Body() createVarianteDto: CreateVarianteDto) {
+    return await this.variantesService.create(createVarianteDto);
   }
 
   @Get()
@@ -70,20 +70,20 @@ export class VariantesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.variantesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.variantesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateVarianteDto: UpdateVarianteDto,
   ) {
-    return this.variantesService.update(+id, updateVarianteDto);
+    return await this.variantesService.update(+id, updateVarianteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.variantesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.variantesService.remove(+id);
   }
 }
