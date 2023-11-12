@@ -33,7 +33,7 @@ import { AuthModule } from './auth/auth.module';
     InsumosProdutosBaseModule,
     VariantesModule,
     PrismaModule,
-
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
