@@ -41,19 +41,20 @@ export class UsuariosService {
   async create(createUsuarioDto: CreateUsuarioDto) {
     if (true) {
       createUsuarioDto.senha = await bcrypt.hash(createUsuarioDto.senha, 10);
-      const user = await this.prismaService.usuario.create({
+      const usuario = await this.prismaService.usuario.create({
         data: createUsuarioDto,
       });
-      user.senha = undefined;
-      return user;
+      usuario.senha = undefined;
+      return usuario;
     }
     return { data: { message: 'Cpf ja cadastrado' } };
   }
 
   async findByEmail(email: string) {
-    return await this.prismaService.usuario.findFirst({
+    const usuario = await this.prismaService.usuario.findFirst({
       where: { email },
     });
+    return usuario;
   }
 
   async countAll() {
