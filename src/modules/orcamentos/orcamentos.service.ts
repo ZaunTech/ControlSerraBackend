@@ -4,6 +4,7 @@ import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { ProdutosService } from '../produtos/produtos.service';
 import { Orcamento } from './entities/orcamento.entity';
+import { Usuario } from '../usuarios/entities/usuario.entity';
 
 @Injectable()
 export class OrcamentosService {
@@ -62,15 +63,16 @@ export class OrcamentosService {
       orcamentos = await this.prismaService.orcamento.findMany({
         skip,
         take: perPage,
-        where:{
+        where: {
           pedido: null,
-        }
+        },
       });
     }
     return orcamentos;
   }
 
-  async create(createOrcamentoDto: CreateOrcamentoDto) {
+  async create(createOrcamentoDto: CreateOrcamentoDto, usuario: Usuario) {
+    console.log(usuario);
     const clienteExists = await this.findCliente(createOrcamentoDto.idCliente);
     if (clienteExists) {
       return await this.prismaService.orcamento.create({
@@ -83,16 +85,16 @@ export class OrcamentosService {
   async findAllconcluded() {
     const orcamentos = await this.prismaService.orcamento.findMany({
       where: {
-        status: "Concluido",
+        status: 'Concluido',
         pedido: null,
       },
-      include:{cliente:true}
+      include: { cliente: true },
     });
-  
+
     if (orcamentos.length > 0) {
       return orcamentos;
     }
-  
+
     return { data: { message: 'Não há orçamentos concluídos sem pedidos' } };
   }
 

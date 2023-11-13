@@ -16,6 +16,8 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { Usuario } from './entities/usuario.entity';
 
 @ApiTags('usuarios')
 @Controller('usuarios')
@@ -27,7 +29,6 @@ export class UsuariosController {
     return await this.usuariosService.countAll();
   }
 
-  
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return await this.usuariosService.create(createUsuarioDto);
@@ -36,17 +37,26 @@ export class UsuariosController {
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
-  async findAll(@Query('page') page: number,@Query('perPage') perPage: number,@Query('titulo_like') titulo_like : string, @Res({ passthrough: true }) res) {
-    page = page||1;
-    perPage = perPage|| await this.countAll();
+  async findAll(
+    @CurrentUser() usuario: Usuario,
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+    @Query('titulo_like') titulo_like: string,
+    @Res({ passthrough: true }) res,
+  ) {
+    if (usuario.tipoUsuario !== 'Administrador') {
+      return { data: { message: 'Não autorizado' } };
+    }
+    page = page || 1;
+    perPage = perPage || (await this.countAll());
     const usuarios = await this.usuariosService.findAllWithPagination(
       page,
       Number(perPage),
-      titulo_like
+      titulo_like,
     );
-    const total = await this.usuariosService.countAll(); 
-    res.header('x-total-count',total);
-    return await usuarios
+    const total = await this.usuariosService.countAll();
+    res.header('x-total-count', total);
+    return await usuarios;
   }
 
   @Get(':id')
@@ -54,9 +64,11 @@ export class UsuariosController {
     return await this.usuariosService.findOne(+id);
   }
 
- 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUsuarioDto: UpdateUsuarioDto,
+  ) {
     return await this.usuariosService.update(+id, updateUsuarioDto);
   }
 
