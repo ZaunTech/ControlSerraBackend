@@ -13,7 +13,7 @@ import {
 } from 'class-validator';
 import { Usuario } from '../entities/usuario.entity';
 
-export class CreateUsuarioDto extends Usuario {
+export class CreateUsuarioDto {
   @IsNotEmpty({ message: 'O tipo do usuário não poder estar vazio' })
   @IsEnum(tipoUsuario, { message: 'O tipo de usuário inserido não é válido' })
   tipoUsuario: tipoUsuario;

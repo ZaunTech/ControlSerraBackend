@@ -2,14 +2,24 @@ import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { UsuariosService } from '../src/modules/usuarios/usuarios.service';
 import { PrismaService } from '../src/databases/prisma.service';
+import { CreateUsuarioDto } from 'src/modules/usuarios/dto/create-usuario.dto';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function seedDatabase() {
-  const prismaService = new PrismaService();
-  const usuarioService = new UsuariosService(prismaService);
+  const createUser = async (createUsuarioDto: CreateUsuarioDto) => {
+    if (true) {
+      createUsuarioDto.senha = await bcrypt.hash(createUsuarioDto.senha, 10);
+      const usuario = await prisma.usuario.create({
+        data: createUsuarioDto,
+      });
+      usuario.senha = undefined;
+      return usuario;
+    }
+  };
 
-  await usuarioService.create({
+  await createUser({
     tipoUsuario: 'Administrador',
     nome: 'Admin',
     cpf: '99999999999',
@@ -19,7 +29,7 @@ async function seedDatabase() {
   });
 
   for (let i = 0; i < 10; i++) {
-    await usuarioService.create({
+    await createUser({
       tipoUsuario: faker.helpers.arrayElement([
         'Serralheiro',
         'Administrador',
