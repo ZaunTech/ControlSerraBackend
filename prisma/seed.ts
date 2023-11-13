@@ -1,23 +1,35 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { UsuariosService } from '../src/modules/usuarios/usuarios.service';
+import { PrismaService } from '../src/databases/prisma.service';
 
 const prisma = new PrismaClient();
 
 async function seedDatabase() {
+  const prismaService = new PrismaService();
+  const usuarioService = new UsuariosService(prismaService);
+
+  await usuarioService.create({
+    tipoUsuario: 'Administrador',
+    nome: 'Admin',
+    cpf: '99999999999',
+    email: 'admin@admin.com',
+    telefone: '1511111111',
+    senha: 'admin',
+  });
+
   for (let i = 0; i < 10; i++) {
-    await prisma.usuario.create({
-      data: {
-        tipoUsuario: faker.helpers.arrayElement([
-          'Serralheiro',
-          'Administrador',
-          'Vendedor',
-        ]),
-        nome: faker.person.firstName(),
-        cpf: faker.string.numeric({ length: 11 }),
-        email: faker.internet.email(),
-        telefone: faker.phone.number(),
-        senha: faker.internet.password(),
-      },
+    await usuarioService.create({
+      tipoUsuario: faker.helpers.arrayElement([
+        'Serralheiro',
+        'Administrador',
+        'Vendedor',
+      ]),
+      nome: faker.person.firstName(),
+      cpf: faker.string.numeric({ length: 11 }),
+      email: faker.internet.email(),
+      telefone: faker.phone.number(),
+      senha: faker.internet.password(),
     });
   }
 
@@ -39,7 +51,7 @@ async function seedDatabase() {
     await prisma.insumo.create({
       data: {
         titulo: faker.commerce.productName(),
-       
+
         idCategoria: faker.number.int({ min: 1, max: 10 }),
       },
     });
@@ -105,7 +117,7 @@ async function seedDatabase() {
         totalMateriais: faker.number.float(),
         status: faker.helpers.arrayElement([
           'Pendente',
-          
+
           'Em_Processo',
           'Concluido',
         ]),
@@ -150,7 +162,7 @@ async function seedDatabase() {
       data: {
         data: faker.date.past(),
         valor: faker.number.float(),
-       
+
         idFornecedor: faker.number.int({ min: 1, max: 10 }), // Gere um ID de fornecedor aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
       },
@@ -164,7 +176,7 @@ async function seedDatabase() {
         idProduto: faker.number.int({ min: 1, max: 20 }), // Gere um ID de produto aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
         idCotacao: faker.number.int({ min: 1, max: 10 }), // Gere um ID de cotação aleatório
-        
+
         valorUnitario: faker.number.float(),
       },
     });
@@ -185,7 +197,6 @@ async function seedDatabase() {
         quantidade: faker.number.float(),
         idProdutoBase: faker.number.int({ min: 1, max: 10 }), // Gere um ID de produto base aleatório
         idVariante: faker.number.int({ min: 1, max: 20 }), // Gere um ID de insumo aleatório
-       
       },
     });
   }
