@@ -39,12 +39,7 @@ export class UsuariosService {
   }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
-    const userExists = this.prismaService.usuario.findUnique({
-      where: {
-        cpf: createUsuarioDto.cpf,
-      },
-    });
-    if (!userExists) {
+    if (true) {
       createUsuarioDto.senha = await bcrypt.hash(createUsuarioDto.senha, 10);
       const user = await this.prismaService.usuario.create({
         data: createUsuarioDto,
