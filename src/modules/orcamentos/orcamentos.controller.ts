@@ -11,15 +11,20 @@ import {
   Query,
   Res,
   Header,
+  Request,
 } from '@nestjs/common';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthRequest } from 'src/auth/models/AuthRequest';
+import { Usuario } from '../usuarios/entities/usuario.entity';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+
 @ApiTags('orcamentos')
 @Controller('orcamentos')
 export class OrcamentosController {
-  constructor(private readonly orcamentosService: OrcamentosService) { }
+  constructor(private readonly orcamentosService: OrcamentosService) {}
 
   @Get('count')
   async countAll() {
@@ -49,8 +54,11 @@ export class OrcamentosController {
   }
 
   @Post()
-  async create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
-    return await this.orcamentosService.create(createOrcamentoDto);
+  async create(
+    @CurrentUser() usuario: Usuario,
+    @Body() createOrcamentoDto: CreateOrcamentoDto,
+  ) {
+    return await this.orcamentosService.create(createOrcamentoDto, usuario);
   }
 
   @Get('full/:id')
