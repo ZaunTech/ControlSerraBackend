@@ -28,7 +28,7 @@ export class CategoriasController {
   async countAll() {
     return await this.categoriasService.countAllCategorias();
   }
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createCategoriaDto: CreateCategoriaDto) {
     return await this.categoriasService.create(createCategoriaDto);
@@ -59,7 +59,7 @@ export class CategoriasController {
   async findManyByTitle(@Param('busca') buscaParam: string) {
     return await this.categoriasService.findManyByTitle(buscaParam);
   }
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(
     @Param('id') id: string,

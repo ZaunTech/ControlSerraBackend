@@ -22,7 +22,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 export class ListaInsumosController {
   constructor(private readonly listaInsumosService: ListaInsumosService) {}
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createListaInsumoDto: CreateListaInsumoDto) {
     return await this.listaInsumosService.create(createListaInsumoDto);
@@ -58,7 +58,7 @@ export class ListaInsumosController {
     return await this.listaInsumosService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
    async update(
     @Param('id') id: string,

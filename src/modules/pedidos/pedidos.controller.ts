@@ -26,7 +26,7 @@ export class PedidosController {
     return await this.pedidosService.countAll();
   }
 
-  @UsePipes(ValidationPipe)
+ 
   @Post()
   async create(@Body() createPedidoDto: CreatePedidoDto) {
     return await this.pedidosService.create(createPedidoDto);
@@ -53,7 +53,7 @@ export class PedidosController {
     return await this.pedidosService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
     return await this.pedidosService.update(+id, updatePedidoDto);

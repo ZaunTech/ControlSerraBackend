@@ -42,7 +42,7 @@ export class CotacoesController {
     return await this.cotacoesService.countAllCotacaos();
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createCotacaoDto: CreateCotacaoDto) {
     return await this.cotacoesService.create(createCotacaoDto);
@@ -72,7 +72,7 @@ export class CotacoesController {
     return await this.cotacoesService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCotacaoDto: UpdateCotacaoDto) {
     return await this.cotacoesService.update(+id, updateCotacaoDto);

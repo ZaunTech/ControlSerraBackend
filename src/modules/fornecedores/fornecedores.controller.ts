@@ -26,7 +26,7 @@ export class FornecedoresController {
     return await this.fornecedoresService.countAllFornecedor();
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() CreateFornecedoresDto: CreateFornecedorDto) {
     return await this.fornecedoresService.create(CreateFornecedoresDto);
@@ -53,7 +53,7 @@ export class FornecedoresController {
     return await this.fornecedoresService.findOne(+id);
   }
   
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(
     @Param('id') id: string,

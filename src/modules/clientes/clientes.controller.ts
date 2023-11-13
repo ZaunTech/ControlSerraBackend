@@ -16,7 +16,7 @@ export class ClientesController {
     return await this.clientesService.countAllCliente();
   }
 
-  @UsePipes(ValidationPipe)
+
   @Post()
   async create(@Body() createClienteDto: CreateClienteDto) {
     return await this.clientesService.create(createClienteDto);
@@ -49,7 +49,7 @@ export class ClientesController {
     return await this.clientesService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
     return await this.clientesService.update(+id, updateClienteDto);

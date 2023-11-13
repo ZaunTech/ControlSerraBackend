@@ -27,7 +27,7 @@ export class UsuariosController {
     return await this.usuariosService.countAll();
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return await this.usuariosService.create(createUsuarioDto);
@@ -54,7 +54,7 @@ export class UsuariosController {
     return await this.usuariosService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+ 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return await this.usuariosService.update(+id, updateUsuarioDto);

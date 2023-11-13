@@ -28,7 +28,7 @@ export class ProdutosBaseController {
     return await this.produtosBaseService.countAll();
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createProdutosBaseDto: CreateProdutosBaseDto) {
     return await this.produtosBaseService.create(createProdutosBaseDto);
@@ -55,7 +55,7 @@ export class ProdutosBaseController {
     return await this.produtosBaseService.findOne(+id);
   }
   
-  @UsePipes(ValidationPipe)
+  
   @Patch(':id')
   async update(
     @Param('id') id: string,

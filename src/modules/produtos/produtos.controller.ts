@@ -32,7 +32,7 @@ export class ProdutosController {
     return await this.produtosService.countAll(id);
   }
 
-  @UsePipes(ValidationPipe)
+  
   @Post()
   async create(@Body() createProdutoDto: CreateProdutoDto) {
     return await this.produtosService.create(createProdutoDto);
@@ -69,7 +69,7 @@ export class ProdutosController {
     return await produtos
   }
 
-  @UsePipes(ValidationPipe)
+ 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
     return await this.produtosService.update(+id, updateProdutoDto);

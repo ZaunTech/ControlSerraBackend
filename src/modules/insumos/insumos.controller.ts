@@ -26,7 +26,7 @@ export class InsumosController {
     return await this.insumosService.countAll();
   }
 
-  @UsePipes(ValidationPipe)
+
   @Post()
   async create(@Body() createInsumoDto: CreateInsumoDto) {
     return await this.insumosService.create(createInsumoDto);
@@ -53,7 +53,7 @@ export class InsumosController {
     return await this.insumosService.findOne(+id);
   }
 
-  @UsePipes(ValidationPipe)
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateInsumoDto: UpdateInsumoDto) {
     return await this.insumosService.update(+id, updateInsumoDto);

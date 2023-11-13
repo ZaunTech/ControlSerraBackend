@@ -19,7 +19,7 @@ export class InsumosProdutosBaseController {
     return await this.insumosProdutosBaseService.findInsumoProdBase(+id);
   }
 
-  @UsePipes(ValidationPipe)
+ 
   @Post()
   async create(@Body() createInsumosProdutosBaseDto: CreateInsumosProdutosBaseDto) {
     return await this.insumosProdutosBaseService.create(createInsumosProdutosBaseDto);
@@ -49,7 +49,7 @@ export class InsumosProdutosBaseController {
     return await insumosBase
   }
 
-  @UsePipes(ValidationPipe)
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateInsumosProdutosBaseDto: UpdateInsumosProdutosBaseDto) {
     return await this.insumosProdutosBaseService.update(+id, updateInsumosProdutosBaseDto);
