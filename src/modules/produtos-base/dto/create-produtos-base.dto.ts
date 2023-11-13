@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, ValidateIf } from "class-validator";
 
 export class CreateProdutosBaseDto {
   @ApiProperty({
@@ -16,7 +16,7 @@ export class CreateProdutosBaseDto {
       'As observações servem para descrever caracteristicas relevantes sobre o produto base',
     example: '2" x 6 m',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'A observação inserida não é válida' })
   observacoes?: string;
 }

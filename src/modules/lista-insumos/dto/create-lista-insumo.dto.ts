@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsNumberString,
+  IsOptional,
   IsString,
   ValidateIf,
 } from 'class-validator';
@@ -40,7 +41,7 @@ export class CreateListaInsumoDto {
       'O id da cotação serve para descrever qual a cotação que determinará o custo do insumo',
     example: '5',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumber({}, { message: 'A cotação inserida não é válida' })
   idCotacao?: number;
 
@@ -51,7 +52,7 @@ export class CreateListaInsumoDto {
       'O valor unitario serve para descrever qual é o valor do insumo',
     example: '100,00',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumberString({}, { message: 'O valor unitário inserido não é válido' })
   valorUnitario?: number;
 }

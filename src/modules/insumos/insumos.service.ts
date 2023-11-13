@@ -22,7 +22,7 @@ export class InsumosService {
         where: {
           OR: [
             { titulo: { contains: titulo_like } },        
-            { descricao: { contains: titulo_like } },
+           
             { categoria: { titulo: { contains: titulo_like } } },
           ],
         },

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { contaTipo } from '@prisma/client';
-import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString, Matches, ValidateIf } from 'class-validator';
 
 export class CreateFornecedorDto {
   @ApiProperty({
@@ -35,7 +35,7 @@ export class CreateFornecedorDto {
       'O nome serve para identificar o fornecedor, caso seja pessoa fisica',
     example: 'João Pedro',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Fisica" )
   @IsString({ message: 'O nome inserido não é válido' })
   nome?: string;
 
@@ -44,7 +44,7 @@ export class CreateFornecedorDto {
       'O CPF serve para identificar o fornecedor, caso seja pessoa fisica',
     example: '02370334029',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Fisica" )
   @IsNumberString({}, { message: 'O CPF inserido não é válido' })
   cpf?: string;
 
@@ -53,7 +53,7 @@ export class CreateFornecedorDto {
       'O RG serve para identificar o fornecedor, caso seja pessoa fisica',
     example: '114421225',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Fisica" )
   @IsNumberString({}, { message: 'O RG inserido não é válido' })
   rg?: string;
 
@@ -62,7 +62,7 @@ export class CreateFornecedorDto {
       'O nome fantasia serve para identificar o fornecedor, caso seja pessoa juridica',
     example: 'ZawnTech',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Juridica" )
   @IsString({ message: 'O nome fantasia inserido não é válido' })
   nomeFantasia?: string;
 
@@ -71,7 +71,7 @@ export class CreateFornecedorDto {
       'A razão social serve para identificar o fornecedor, caso seja pessoa juridica',
     example: 'Industria mecanica modelo Ltda.',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Juridica" )
   @IsString({ message: 'A razão social inserida não é válida' })
   razaoSocial?: string;
 
@@ -80,7 +80,7 @@ export class CreateFornecedorDto {
       'O CNPJ serve para identificar o fornecedor, caso seja pessoa juridica',
     example: '31895255000193',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @ValidateIf(o => o.contaTipo == "Juridica" )
   @IsNumberString({}, { message: 'O CNPJ inserido não é válido' })
   cnpj?: string;
 
@@ -89,7 +89,7 @@ export class CreateFornecedorDto {
       'O pais serve para identificar a região onde o fornecedor se encontra',
     example: 'Brasil',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'O país inserido não é válido' })
   pais?: string;
 
@@ -98,7 +98,7 @@ export class CreateFornecedorDto {
       'O CEP serve para identificar a região onde o fornecedor se encontra',
     example: '69918170',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumberString({}, { message: 'O CEP inserido não é válido' })
   cep?: string;
 
@@ -107,7 +107,7 @@ export class CreateFornecedorDto {
       'O estado serve para identificar a região onde o fornecedor se encontra',
     example: 'SP',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'O estado inserido não é válido' })
   estado?: string;
 
@@ -116,7 +116,7 @@ export class CreateFornecedorDto {
       'A cidade serve para identificar a região onde o fornecedor se encontra',
     example: 'Sorocaba',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'A cidade inserida não é válida' })
   cidade?: string;
 
@@ -125,7 +125,7 @@ export class CreateFornecedorDto {
       'O bairro serve para identificar o local onde o fornecedor se encontra',
     example: 'Vila Barão',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'O bairro inserido não é válido' })
   bairro?: string;
 
@@ -134,7 +134,7 @@ export class CreateFornecedorDto {
       'A rua serve para identificar o local onde o fornecedor se encontra',
     example: 'Rua Manuel Lourenço Rodrigues',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'A rua inserida não é válida' })
   rua?: string;
 
@@ -143,7 +143,7 @@ export class CreateFornecedorDto {
       'O numero serve para identificar o local onde o fornecedor se encontra',
     example: '44',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumberString({}, { message: 'O numero inserido não é válido' })
   numero?: string;
 
@@ -152,7 +152,7 @@ export class CreateFornecedorDto {
       'O complemento serve para dar informações adicionais para identificar o local onde o fornecedor se encontra',
     example: 'apt. 42',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'O complemento inserido não é válido' })
   complemento?: string;
 }

@@ -4,7 +4,7 @@ import { Orcamento } from 'src/modules/orcamentos/entities/orcamento.entity';
 export class Produto {
   id: number;
   titulo: string;
-  quantidade?: number;
+  quantidade: number;
   valorUnitario?: number;
   observacoes?: string;
   listaInsumos: ListaInsumo[];

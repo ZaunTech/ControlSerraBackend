@@ -29,7 +29,7 @@ export class UpdateInsumosProdutosBaseDto extends PartialType(
       'O id do insumo serve para descrever para qual insumo este insumo produto base aponta',
     example: '1',
   })
-  @IsNotEmpty({message: 'O insumo não pode estar vazio'})
+  @IsNotEmpty({message: 'Selecione um insumo'})
   @IsNumber({},{message: 'O insumo inserido não é válido'})
   idVariante?: number;
 

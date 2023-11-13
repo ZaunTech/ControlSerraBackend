@@ -39,7 +39,7 @@ async function seedDatabase() {
     await prisma.insumo.create({
       data: {
         titulo: faker.commerce.productName(),
-        descricao: faker.lorem.sentence(),
+       
         idCategoria: faker.number.int({ min: 1, max: 10 }),
       },
     });
@@ -105,7 +105,7 @@ async function seedDatabase() {
         totalMateriais: faker.number.float(),
         status: faker.helpers.arrayElement([
           'Pendente',
-          'Iniciado',
+          
           'Em_Processo',
           'Concluido',
         ]),
@@ -127,7 +127,7 @@ async function seedDatabase() {
     await prisma.pedido.create({
       data: {
         pagamento: faker.number.float(),
-        status: faker.helpers.arrayElement(['Pendente', 'Iniciado']),
+        status: faker.helpers.arrayElement(['Pendente']),
         idOrcamento: generateUniqueOrcamentoId(), // Gere um ID de orçamento aleatório
       },
     });

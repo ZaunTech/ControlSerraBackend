@@ -5,8 +5,10 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateIf,
+  isNotEmpty,
 } from 'class-validator';
 
 export class CreateOrcamentoDto {
@@ -15,7 +17,7 @@ export class CreateOrcamentoDto {
       'A validade serve para descrever até qual data o orçamento será valido',
     example: '2023-10-23T17:30:44.382Z',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsDateString({},{ message: 'A validade inserida não é válida' })
   validade?: Date;
 
@@ -24,7 +26,7 @@ export class CreateOrcamentoDto {
       'O total mão de obra serve para descrever o custo total de mão de obra para produzir os itens do orçamento',
     example: '750',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumber({}, { message: 'O valor de mão de obra inserido não é válido' })
   totalMaoObra?: number;
 
@@ -33,7 +35,7 @@ export class CreateOrcamentoDto {
       'O total materiais serve para descrever o custo total das compras do materiais para produzir os itens do orçamento',
     example: '700',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsNumber({}, { message: 'O valor total de materiais inserido não é válido' })
   totalMateriais?: number;
 
@@ -50,7 +52,7 @@ export class CreateOrcamentoDto {
       'O prazo estimado de produção serve para descrever uma estimativa de quanto tempo será necessário para concluir o orçamento, descrito em dias',
     example: '90',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsNotEmpty({ message: 'Informe uma Valor em Dias' })
   @IsNumber({}, { message: 'O prazo estimado inserido não é válido' })
   prazoEstimadoProducao: number;
 
@@ -59,7 +61,7 @@ export class CreateOrcamentoDto {
       'As observações servem para descrever caracteristicas relevantes obre o orçamento',
     example: '2 portões e 1 grade para janela',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({ message: 'A observação inserida não é válida' })
   observacoes?: string;
 

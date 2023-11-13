@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCategoriaDto } from './create-categoria.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class UpdateCategoriaDto extends PartialType(CreateCategoriaDto) {
   @ApiProperty({
@@ -24,7 +24,7 @@ export class UpdateCategoriaDto extends PartialType(CreateCategoriaDto) {
     description: 'A descrição serve para detalhar a categoria',
     example: 'Grupo de materiais de aço, ferro e aluminio',
   })
-  @ValidateIf((object, value) => value !== undefined)
+  @IsOptional()
   @IsString({message: 'A descrição deve ser uma string'})
   descricao?: string;
 }
