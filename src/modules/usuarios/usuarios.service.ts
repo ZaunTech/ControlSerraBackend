@@ -59,7 +59,7 @@ export class UsuariosService {
   }
 
   async changePassword(id: number, changePasswordDto: ChangePasswordDto) {
-    console.log(id);
+ 
     const pass = await bcrypt.hash(changePasswordDto.password, 10);
 
     const usuario = await this.prismaService.usuario.update({
