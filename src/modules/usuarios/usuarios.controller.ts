@@ -18,6 +18,7 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Usuario } from './entities/usuario.entity';
+import { ChangePasswordDto } from './dto/changePassword.dto';
 
 @ApiTags('usuarios')
 @Controller('usuarios')
@@ -34,6 +35,14 @@ export class UsuariosController {
     return await this.usuariosService.create(createUsuarioDto);
   }
 
+  @Post(':id')
+  async changePassword(
+    @Param('id') id: string,
+    @Body() changePassword: ChangePasswordDto,
+  ) {
+    return await this.usuariosService.changePassword(+id, changePassword);
+  }
+
   @Get()
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -45,7 +54,7 @@ export class UsuariosController {
     @Res({ passthrough: true }) res,
   ) {
     if (usuario.tipoUsuario !== 'Administrador') {
-      return { data: { message: 'Não autorizado' } };
+      return await this.usuariosService.findManyByEmail(usuario.email);
     }
     page = page || 1;
     perPage = perPage || (await this.countAll());

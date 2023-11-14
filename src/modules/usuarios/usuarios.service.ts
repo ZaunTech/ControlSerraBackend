@@ -5,6 +5,7 @@ import { Usuario } from './entities/usuario.entity';
 
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ChangePasswordDto } from './dto/changePassword.dto';
 
 @Injectable()
 export class UsuariosService {
@@ -55,6 +56,26 @@ export class UsuariosService {
       where: { email },
     });
     return usuario;
+  }
+
+  async changePassword(id: number, changePasswordDto: ChangePasswordDto) {
+    console.log(id);
+    const pass = await bcrypt.hash(changePasswordDto.password, 10);
+
+    const usuario = await this.prismaService.usuario.update({
+      where: { id },
+      data: {
+        senha: pass,
+      },
+    });
+    return usuario;
+  }
+
+  async findManyByEmail(email: string) {
+    const usuarios = await this.prismaService.usuario.findMany({
+      where: { email },
+    });
+    return usuarios;
   }
 
   async countAll() {
