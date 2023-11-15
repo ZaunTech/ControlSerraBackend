@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCotacaoDto } from './dto/create-cotacao.dto';
 import { UpdateCotacaoDto } from './dto/update-cotacao.dto';
-import { PrismaService } from 'src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { recotarDto } from './dto/recotar.dto';
 import { Cotacao } from './entities/cotacao.entity';
 

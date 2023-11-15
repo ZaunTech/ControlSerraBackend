@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateListaInsumoDto } from './dto/create-lista-insumo.dto';
 import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
-import { PrismaService } from 'src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { CotacoesService } from '../cotacoes/cotacoes.service';
 import { ListaInsumo } from './entities/lista-insumo.entity';
 import { ProdutosService } from '../produtos/produtos.service';

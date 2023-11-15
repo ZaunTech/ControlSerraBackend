@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVarianteDto } from './dto/create-variante.dto';
 import { UpdateVarianteDto } from './dto/update-variante.dto';
-import { PrismaService } from 'src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { Variante } from './entities/variante.entity';
 
 @Injectable()

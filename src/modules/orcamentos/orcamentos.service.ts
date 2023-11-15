@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
-import { PrismaService } from 'src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { ProdutosService } from '../produtos/produtos.service';
 import { Orcamento } from './entities/orcamento.entity';
 import { Usuario } from '../usuarios/entities/usuario.entity';

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInsumosProdutosBaseDto } from './dto/create-insumo-produtos-base.dto';
 import { UpdateInsumosProdutosBaseDto } from './dto/update-insumo-produtos-base.dto';
-import { PrismaService } from '../../databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { InsumoProdutosBase } from './entities/insumo-produtos-base.entity';
 
 @Injectable()

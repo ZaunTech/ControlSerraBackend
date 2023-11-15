@@ -3,7 +3,7 @@ import { ListaInsumosService } from './lista-insumos.service';
 import { ListaInsumosController } from './lista-insumos.controller';
 import { ProdutosModule } from '../produtos/produtos.module';
 import { CotacoesModule } from '../cotacoes/cotacoes.module';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from 'src/databases/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule, ProdutosModule, CotacoesModule],

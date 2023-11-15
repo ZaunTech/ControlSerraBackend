@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { ProdutosController } from './produtos.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from 'src/databases/prisma/prisma.module';
 import { ProdutosBaseModule } from '../produtos-base/produtos-base.module';
 import { InsumosProdutosBaseModule } from '../insumos-produtos-base/insumos-produtos-base.module';
 import { OrcamentosModule } from '../orcamentos/orcamentos.module';

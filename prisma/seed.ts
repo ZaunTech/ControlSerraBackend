@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { UsuariosService } from '../src/modules/usuarios/usuarios.service';
-import { PrismaService } from '../src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { CreateUsuarioDto } from 'src/modules/usuarios/dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
 

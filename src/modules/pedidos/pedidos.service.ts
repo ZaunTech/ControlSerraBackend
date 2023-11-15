@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
-import { PrismaService } from 'src/databases/prisma.service';
+import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { Pedido } from './entities/pedido.entity';
-import { status } from '@prisma/client';
 
 @Injectable()
 export class PedidosService {
