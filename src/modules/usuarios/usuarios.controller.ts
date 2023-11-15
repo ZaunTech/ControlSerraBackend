@@ -54,7 +54,11 @@ export class UsuariosController {
     @Query('titulo_like') titulo_like: string,
     @Res({ passthrough: true }) res,
   ) {
-    if (usuario.tipoUsuario !== 'Administrador') {
+    
+
+    const user:Usuario = await this.findOne(""+usuario.id)
+
+    if (user.tipoUsuario != "Administrador") {
       return await this.usuariosService.findManyByEmail(usuario.email);
     }
     page = page || 1;

@@ -118,7 +118,7 @@ async function seedDatabase() {
     });
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     await prisma.orcamento.create({
       data: {
         validade: faker.date.future(),
