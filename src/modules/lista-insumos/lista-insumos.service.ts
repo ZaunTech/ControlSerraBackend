@@ -4,12 +4,15 @@ import { UpdateListaInsumoDto } from './dto/update-lista-insumo.dto';
 import { PrismaService } from 'src/databases/prisma.service';
 import { CotacoesService } from '../cotacoes/cotacoes.service';
 import { ListaInsumo } from './entities/lista-insumo.entity';
+import { ProdutosService } from '../produtos/produtos.service';
 
 @Injectable()
 export class ListaInsumosService {
   constructor(
     private readonly prismaService: PrismaService,
+    private readonly produtosServices: ProdutosService,
     private readonly cotacaoServices: CotacoesService,
+   
   ) {}
 
   async findAllWithPagination(
@@ -148,6 +151,9 @@ export class ListaInsumosService {
 
     listaInsumoExists.idCotacao = cotacao.id;
 
-    return await this.update(listaInsumoExists.id, listaInsumoExists);
+    const salvo = await this.update(listaInsumoExists.id, listaInsumoExists);
+
+    this.produtosServices.recalcularValor(listaInsumoExists.idProduto);
+    return salvo;
   }
 }

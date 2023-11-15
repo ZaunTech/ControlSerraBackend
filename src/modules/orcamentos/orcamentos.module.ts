@@ -1,13 +1,20 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { OrcamentosService } from './orcamentos.service';
 import { OrcamentosController } from './orcamentos.controller';
-import { PrismaService } from 'src/databases/prisma.service';
-import { ProdutosService } from '../produtos/produtos.service';
-import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
-import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { ProdutosModule } from '../produtos/produtos.module';
+import { ProdutosBaseModule } from '../produtos-base/produtos-base.module';
+import { InsumosProdutosBaseModule } from '../insumos-produtos-base/insumos-produtos-base.module';
 
 @Module({
+  imports: [
+    PrismaModule,
+    forwardRef(() => ProdutosModule),
+    ProdutosBaseModule,
+    InsumosProdutosBaseModule,
+  ],
   controllers: [OrcamentosController],
-  providers: [OrcamentosService, PrismaService, ProdutosService, ProdutosBaseService, InsumosProdutosBaseService],
+  providers: [OrcamentosService],
+  exports: [OrcamentosService],
 })
 export class OrcamentosModule {}

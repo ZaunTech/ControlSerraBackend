@@ -19,7 +19,7 @@ export class UpdateProdutoDto extends PartialType(CreateProdutoDto) {
   })
   @IsNotEmpty({ message: 'Informe a Quantidade' })
   @IsNumber({}, { message: 'A quantidade inserida não é válida' })
-  quantidade: number;
+  quantidade?: number;
 
   @ApiProperty({
     description:
@@ -46,5 +46,12 @@ export class UpdateProdutoDto extends PartialType(CreateProdutoDto) {
   })
   @IsNotEmpty({ message: 'O orçamento não pode estar vazio' })
   @IsNumber({}, { message: 'O orçamento inserido não é válido' })
-  orcamentoId?: number;
+  idOrcamento?: number;
+
+  @IsOptional()
+  valorMaterial?:  number;
+
+
+  @IsOptional()
+  valorMaoDeObra?: number;
 }

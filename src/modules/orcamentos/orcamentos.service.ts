@@ -153,4 +153,21 @@ export class OrcamentosService {
     }
     return { data: { message: 'Orçamento não existe' } };
   }
+
+
+  async recalcular(id: number){
+
+   const produtos = await this.produtoService.findProdutoOrc(id);
+
+   const valorTotalMaterial = produtos.reduce(
+    (total, produto) => total + produto.valorMaterial * produto.quantidade,
+    0
+   )
+   const valorTotalMaoDeObra = produtos.reduce(
+    (total, produto) => total + produto.valorMaoDeObra * produto.quantidade,
+    0
+   )
+    this.update(id,{totalMateriais:valorTotalMaterial,totalMaoObra:valorTotalMaoDeObra})
+
+  }
 }

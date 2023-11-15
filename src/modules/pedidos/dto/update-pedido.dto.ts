@@ -29,4 +29,6 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
   @IsNotEmpty({ message: 'O orçamento não pode estar vazio' })
   @IsNumber({}, { message: 'O orçamento inserido não é válido' })
   idOrcamento: number;
+
+  
 }

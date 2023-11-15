@@ -6,6 +6,7 @@ import { ProdutosBaseService } from '../produtos-base/produtos-base.service';
 import { InsumosProdutosBaseService } from '../insumos-produtos-base/insumos-produtos-base.service';
 import { addProdutoBaseDto } from './dto/addProdutoBase.dto';
 import { Produto } from './entities/produto.entity';
+import { OrcamentosService } from '../orcamentos/orcamentos.service';
 
 @Injectable()
 export class ProdutosService {
@@ -90,7 +91,7 @@ export class ProdutosService {
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
     const orcamentoExists = await this.prismaService.orcamento.findFirst({
-      where: { id: updateProdutoDto.orcamentoId },
+      where: { id: updateProdutoDto.idOrcamento },
     });
     if (orcamentoExists) {
       return await this.prismaService.produto.update({
@@ -157,5 +158,46 @@ export class ProdutosService {
       return { data: { message: 'Orçamento não existe' } };
     }
     return { data: { message: 'Produto base não existe' } };
+  }
+
+  async recalcularValor(id: number)
+  {
+    const listaInsumosMeterial = await this.prismaService.listaInsumo.findMany({
+      where: {
+        variante: { insumo: { categoria: { tipo: "Insumo" } } },
+        idProduto: id,
+      },
+      select: {
+        valorUnitario: true,
+        quantidade: true,
+      },
+    });
+
+  const ValorTotalMaterial  = listaInsumosMeterial.reduce(
+    (total, insumo) => total + insumo.valorUnitario * insumo.quantidade,
+    0
+  );
+
+    const listaInsumosServico = await this.prismaService.listaInsumo.findMany({
+      where: {
+        variante: { insumo: { categoria: { tipo: "Mão de Obra" } } },
+        idProduto: id,
+      },
+      select: {
+        valorUnitario: true,
+        quantidade: true,
+      },
+    });
+    
+    const ValorTotalMaoDeObra = listaInsumosServico.reduce(
+      (total, insumo) => total + insumo.valorUnitario * insumo.quantidade,
+      0
+    );
+
+     this.update(id,{valorMaoDeObra:ValorTotalMaoDeObra, valorMaterial:ValorTotalMaterial, valorUnitario: ValorTotalMaterial + ValorTotalMaoDeObra})
+
+    const produto = await this.findOne(id);
+
+
   }
 }

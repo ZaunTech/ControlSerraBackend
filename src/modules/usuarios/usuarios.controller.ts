@@ -57,7 +57,7 @@ export class UsuariosController {
     
 
     const user:Usuario = await this.findOne(""+usuario.id)
-
+   
     if (user.tipoUsuario != "Administrador") {
       return await this.usuariosService.findManyByEmail(usuario.email);
     }

@@ -6,6 +6,8 @@ export class Produto {
   titulo: string;
   quantidade: number;
   valorUnitario?: number;
+  valorMaterial?:  number;
+  valorMaoDeObra?: number;
   observacoes?: string;
   listaInsumos: ListaInsumo[];
   createdAt: Date;

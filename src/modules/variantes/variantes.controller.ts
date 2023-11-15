@@ -25,6 +25,7 @@ export class VariantesController {
 
   @Post()
   async create(@Body() createVarianteDto: CreateVarianteDto) {
+   
     return await this.variantesService.create(createVarianteDto);
   }
 
@@ -70,7 +71,6 @@ export class VariantesController {
   }
 
   @Get(':id')
-
   async findOne(@Param('id') id: string) {
     return await this.variantesService.findOne(+id);
 

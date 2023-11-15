@@ -116,16 +116,18 @@ model Pedido {
 }
 
 model Produto {
-  id            Int           @id @default(autoincrement())
-  titulo        String
-  quantidade    Float
-  valorUnitario Float?
-  observacoes   String?
-  listaInsumos  ListaInsumo[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  Orcamento     Orcamento     @relation(fields: [idOrcamento], references: [id])
-  idOrcamento   Int
+  id             Int           @id @default(autoincrement())
+  titulo         String
+  quantidade     Float
+  valorUnitario  Float?
+  observacoes    String?
+  valorMaterial  Float         @default(0)
+  valorMaoDeObra Float         @default(0)
+  listaInsumos   ListaInsumo[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  Orcamento      Orcamento     @relation(fields: [idOrcamento], references: [id])
+  idOrcamento    Int
 
   @@map("Produtos")
 }
@@ -133,8 +135,7 @@ model Produto {
 model Cotacao {
   id           Int           @id @default(autoincrement())
   data         DateTime
-  valor        Float
-  
+  valor        Float 
   idFornecedor Int
   idVariante   Int
   obsoleta     Boolean?      @default(false)
@@ -221,12 +222,6 @@ enum contaTipo {
   Fisica
   Juridica
 }
-
-enum produtoTipo {
-  Base
-  Customizado
-}
-
 enum status {
   Pendente
   Em_Processo @map("Em Processo")

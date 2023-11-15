@@ -24,6 +24,7 @@ export class ProdutosController {
 
   @Post('addProdutoBase')
   async createProdFromBase(@Body() addProdutoBaseDto: addProdutoBaseDto) {
+     console.log(addProdutoBaseDto)
     return await this.produtosService.pullProdBase(addProdutoBaseDto);
   }
 
@@ -35,6 +36,7 @@ export class ProdutosController {
   
   @Post()
   async create(@Body() createProdutoDto: CreateProdutoDto) {
+    
     return await this.produtosService.create(createProdutoDto);
   }
 
@@ -72,6 +74,7 @@ export class ProdutosController {
  
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
+    console.log(updateProdutoDto)
     return await this.produtosService.update(+id, updateProdutoDto);
   }
 
@@ -79,4 +82,6 @@ export class ProdutosController {
   async remove(@Param('id') id: string) {
     return await this.produtosService.remove(+id);
   }
+
+ 
 }
