@@ -94,6 +94,7 @@ model Orcamento {
   observacoes           String?
   idCliente             Int
   idPedido              Int?
+  idVendedor            Int?
   pedido                Pedido?
   cliente               Cliente   @relation(fields: [idCliente], references: [id])
   createdAt             DateTime  @default(now())

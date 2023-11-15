@@ -12,8 +12,22 @@ export class OrcamentosService {
     private readonly prismaService: PrismaService,
     private readonly produtoService: ProdutosService,
   ) {}
-  async countAll() {
-    return await this.prismaService.orcamento.count({where:{pedido: null}});
+  async countAll(titulo_like: string = '') {
+    return await this.prismaService.orcamento.count({
+      where: {
+        OR: [
+          {
+            id: isNaN(parseInt(titulo_like))
+              ? undefined
+              : parseInt(titulo_like),
+          },
+          { cliente: { nome: { contains: titulo_like } } },
+          { cliente: { nomeFantasia: { contains: titulo_like } } },
+          { cliente: { razaoSocial: { contains: titulo_like } } },
+        ],
+        pedido: null,
+      },
+    });
   }
 
   async findCliente(id: number) {
@@ -23,49 +37,26 @@ export class OrcamentosService {
   async findAllWithPagination(
     page: number,
     perPage: number,
-    titulo_like: string,
+    titulo_like: string = '',
   ) {
     const skip = (page - 1) * perPage;
 
-    let orcamentos = Orcamento[''];
-    if (titulo_like) {
-      const isNumero = !isNaN(parseInt(titulo_like));
+    let orcamentos;
 
-      if (isNumero) {
-        return   orcamentos = await this.prismaService.orcamento.findMany({
-          skip,
-          take: perPage,
-          where: {
-            OR: [
-              { id: { equals: parseInt(titulo_like) } },
-              { cliente: { nome: { contains: titulo_like } } },
-              { cliente: { nomeFantasia: { contains: titulo_like } } },
-              { cliente: { razaoSocial: { contains: titulo_like } } },
-            ],
-            pedido: null,
-          },
-        });
-      } else {
-       return orcamentos = await this.prismaService.orcamento.findMany({
-          skip,
-          take: perPage,
-          where: {
-            OR: [
-              { cliente: { nome: { contains: titulo_like } } },
-              { cliente: { nomeFantasia: { contains: titulo_like } } },
-              { cliente: { razaoSocial: { contains: titulo_like } } },
-            ],
-            pedido: null,
-          },
-        });
-      }
-    }
-    
-    
     orcamentos = await this.prismaService.orcamento.findMany({
       skip,
       take: perPage,
       where: {
+        OR: [
+          {
+            id: isNaN(parseInt(titulo_like))
+              ? undefined
+              : parseInt(titulo_like),
+          },
+          { cliente: { nome: { contains: titulo_like } } },
+          { cliente: { nomeFantasia: { contains: titulo_like } } },
+          { cliente: { razaoSocial: { contains: titulo_like } } },
+        ],
         pedido: null,
       },
     });
@@ -157,7 +148,9 @@ export class OrcamentosService {
   }
 
   async recalcular(idOrcamento: number, idProduto: number) {
-   await this.produtoService.recalcularValor(idProduto);
+
+    console.log("Entrou na funçao ", idOrcamento )
+    await this.produtoService.recalcularValor(idProduto);
     const produtos = await this.produtoService.findProdutoOrc(idOrcamento);
 
     const valorTotalMaterial = produtos.reduce(
@@ -168,7 +161,8 @@ export class OrcamentosService {
       (total, produto) => total + produto.valorMaoDeObra * produto.quantidade,
       0,
     );
-   await this.update(idOrcamento, {
+    
+    await this.update(idOrcamento, {
       totalMateriais: valorTotalMaterial,
       totalMaoObra: valorTotalMaoDeObra,
     });

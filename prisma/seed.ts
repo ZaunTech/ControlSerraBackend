@@ -46,10 +46,9 @@ async function seedDatabase() {
   for (let i = 0; i < 10; i++) {
     await prisma.categoria.create({
       data: {
-        tipo: faker.helpers.arrayElement([
-          'Material',
-          'Mão de obra',
-          'Serviço',
+        tipo: faker.helpers.arrayElement([         
+          'Mão de Obra',
+          'Insumo',
         ]),
         titulo: faker.company.catchPhrase(),
         descricao: faker.lorem.paragraph(),
@@ -162,7 +161,9 @@ async function seedDatabase() {
         quantidade: faker.number.int({ min: 1, max: 10 }),
         valorUnitario: faker.number.float(),
         observacoes: faker.lorem.sentence(),
-        idOrcamento: faker.number.int({ min: 1, max: 30 }), // Gere um ID de orçamento aleatório
+        idOrcamento: faker.number.int({ min: 1, max: 30 }),
+        valorMaoDeObra:faker.number.int({min:1, max: 10}),
+        valorMaterial:faker.number.int({min:1, max: 10}),
       },
     });
   }

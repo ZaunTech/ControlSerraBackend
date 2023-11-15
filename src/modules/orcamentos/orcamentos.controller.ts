@@ -48,7 +48,7 @@ export class OrcamentosController {
       Number(perPage),
       titulo_like,
     );
-    const total = orcamentos.length;
+    const total = await this.orcamentosService.countAll(titulo_like);
     res.header('x-total-count', total);
     return await orcamentos;
   }
