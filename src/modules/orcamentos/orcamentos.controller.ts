@@ -35,6 +35,7 @@ export class OrcamentosController {
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async findAll(
+   
     @Query('page') page: number,
     @Query('perPage') perPage: number,
     @Query('titulo_like') titulo_like: string,
@@ -58,6 +59,7 @@ export class OrcamentosController {
     @CurrentUser() usuario: Usuario,
     @Body() createOrcamentoDto: CreateOrcamentoDto,
   ) {
+    console.log(usuario)
     return await this.orcamentosService.create(createOrcamentoDto, usuario);
   }
 

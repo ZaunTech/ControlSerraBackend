@@ -94,7 +94,8 @@ model Orcamento {
   observacoes           String?
   idCliente             Int
   idPedido              Int?
-  idVendedor            Int?
+  criadorPor         Int?
+  usuario               Usuario?  @relation(fields: [criadorPor], references: [id])
   pedido                Pedido?
   cliente               Cliente   @relation(fields: [idCliente], references: [id])
   createdAt             DateTime  @default(now())
@@ -174,6 +175,7 @@ model Usuario {
   email       String      @unique
   telefone    String
   senha       String
+  orcamentos  Orcamento[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 

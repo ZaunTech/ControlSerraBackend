@@ -73,4 +73,8 @@ export class CreateOrcamentoDto {
   @IsNotEmpty({ message: 'O cliente não pode estar vazio' })
   @IsNumber({}, { message: 'O cliente inserido não é válido' })
   idCliente: number;
+
+  @IsOptional()
+  @IsNumber({}, { message: 'O vendedor inserido não é válido' })
+  criadorPor?: number;
 }

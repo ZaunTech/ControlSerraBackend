@@ -65,9 +65,11 @@ export class OrcamentosService {
   }
 
   async create(createOrcamentoDto: CreateOrcamentoDto, usuario: Usuario) {
-    console.log(usuario);
+    
     const clienteExists = await this.findCliente(createOrcamentoDto.idCliente);
     if (clienteExists) {
+      createOrcamentoDto.criadorPor = usuario.id;
+      console.log(createOrcamentoDto)
       return await this.prismaService.orcamento.create({
         data: createOrcamentoDto,
       });
@@ -161,7 +163,7 @@ export class OrcamentosService {
       (total, produto) => total + produto.valorMaoDeObra * produto.quantidade,
       0,
     );
-    
+
     await this.update(idOrcamento, {
       totalMateriais: valorTotalMaterial,
       totalMaoObra: valorTotalMaoDeObra,

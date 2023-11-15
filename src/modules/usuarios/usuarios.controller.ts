@@ -30,6 +30,7 @@ export class UsuariosController {
     return await this.usuariosService.countAll();
   }
 
+  
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return await this.usuariosService.create(createUsuarioDto);
