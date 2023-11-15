@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { PrismaService } from 'src/databases/prisma/prisma.service';
@@ -13,7 +13,7 @@ export class OrcamentosService {
     private readonly produtoService: ProdutosService,
   ) {}
   async countAll() {
-    return await this.prismaService.orcamento.count({});
+    return await this.prismaService.orcamento.count({where:{pedido: null}});
   }
 
   async findCliente(id: number) {
@@ -32,7 +32,7 @@ export class OrcamentosService {
       const isNumero = !isNaN(parseInt(titulo_like));
 
       if (isNumero) {
-        orcamentos = await this.prismaService.orcamento.findMany({
+        return   orcamentos = await this.prismaService.orcamento.findMany({
           skip,
           take: perPage,
           where: {
@@ -46,7 +46,7 @@ export class OrcamentosService {
           },
         });
       } else {
-        orcamentos = await this.prismaService.orcamento.findMany({
+       return orcamentos = await this.prismaService.orcamento.findMany({
           skip,
           take: perPage,
           where: {
@@ -59,15 +59,17 @@ export class OrcamentosService {
           },
         });
       }
-    } else {
-      orcamentos = await this.prismaService.orcamento.findMany({
-        skip,
-        take: perPage,
-        where: {
-          pedido: null,
-        },
-      });
     }
+    
+    
+    orcamentos = await this.prismaService.orcamento.findMany({
+      skip,
+      take: perPage,
+      where: {
+        pedido: null,
+      },
+    });
+
     return orcamentos;
   }
 
@@ -154,20 +156,21 @@ export class OrcamentosService {
     return { data: { message: 'Orçamento não existe' } };
   }
 
+  async recalcular(idOrcamento: number, idProduto: number) {
+   await this.produtoService.recalcularValor(idProduto);
+    const produtos = await this.produtoService.findProdutoOrc(idOrcamento);
 
-  async recalcular(id: number){
-
-   const produtos = await this.produtoService.findProdutoOrc(id);
-
-   const valorTotalMaterial = produtos.reduce(
-    (total, produto) => total + produto.valorMaterial * produto.quantidade,
-    0
-   )
-   const valorTotalMaoDeObra = produtos.reduce(
-    (total, produto) => total + produto.valorMaoDeObra * produto.quantidade,
-    0
-   )
-    this.update(id,{totalMateriais:valorTotalMaterial,totalMaoObra:valorTotalMaoDeObra})
-
+    const valorTotalMaterial = produtos.reduce(
+      (total, produto) => total + produto.valorMaterial * produto.quantidade,
+      0,
+    );
+    const valorTotalMaoDeObra = produtos.reduce(
+      (total, produto) => total + produto.valorMaoDeObra * produto.quantidade,
+      0,
+    );
+   await this.update(idOrcamento, {
+      totalMateriais: valorTotalMaterial,
+      totalMaoObra: valorTotalMaoDeObra,
+    });
   }
 }

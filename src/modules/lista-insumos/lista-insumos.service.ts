@@ -5,12 +5,14 @@ import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { CotacoesService } from '../cotacoes/cotacoes.service';
 import { ListaInsumo } from './entities/lista-insumo.entity';
 import { ProdutosService } from '../produtos/produtos.service';
+import { OrcamentosService } from '../orcamentos/orcamentos.service';
 
 @Injectable()
 export class ListaInsumosService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly produtosServices: ProdutosService,
+    private readonly orcamentoService: OrcamentosService,
     private readonly cotacaoServices: CotacoesService,
    
   ) {}
@@ -92,9 +94,8 @@ export class ListaInsumosService {
   }
 
   async findOne(id: number) {
-    console.log(id);
-    console.log(this.prismaService.listaInsumo.findFirst({ where: { id } }));
-    return await this.prismaService.listaInsumo.findFirst({ where: { id } });
+    
+    return await this.prismaService.listaInsumo.findFirst({ where: { id }});
   }
 
   async update(id: number, updateListaInsumoDto: UpdateListaInsumoDto) {
@@ -153,7 +154,9 @@ export class ListaInsumosService {
 
     const salvo = await this.update(listaInsumoExists.id, listaInsumoExists);
 
-    this.produtosServices.recalcularValor(listaInsumoExists.idProduto);
+   const codOrc = await this.produtosServices.findOne(listaInsumoExists.idProduto)
+
+    this.orcamentoService.recalcular(codOrc.idOrcamento, listaInsumoExists.idProduto);
     return salvo;
   }
 }

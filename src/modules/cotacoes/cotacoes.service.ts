@@ -144,6 +144,7 @@ export class CotacoesService {
       where: {
         id,
       },
+      
     });
   }
 

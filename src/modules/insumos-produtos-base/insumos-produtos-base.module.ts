@@ -7,5 +7,6 @@ import { PrismaModule } from 'src/databases/prisma/prisma.module';
   imports: [PrismaModule],
   controllers: [InsumosProdutosBaseController],
   providers: [InsumosProdutosBaseService],
+  exports: [InsumosProdutosBaseService],
 })
 export class InsumosProdutosBaseModule {}
