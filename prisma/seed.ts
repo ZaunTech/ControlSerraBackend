@@ -155,19 +155,19 @@ async function seedDatabase() {
     });
   }
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 50; i++) {
     await prisma.produto.create({
       data: {
         titulo: faker.commerce.productName(),
         quantidade: faker.number.int({ min: 1, max: 10 }),
         valorUnitario: faker.number.float(),
         observacoes: faker.lorem.sentence(),
-        idOrcamento: faker.number.int({ min: 1, max: 10 }), // Gere um ID de orçamento aleatório
+        idOrcamento: faker.number.int({ min: 1, max: 30 }), // Gere um ID de orçamento aleatório
       },
     });
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     await prisma.cotacao.create({
       data: {
         data: faker.date.past(),
@@ -179,7 +179,7 @@ async function seedDatabase() {
     });
   }
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 40; i++) {
     await prisma.listaInsumo.create({
       data: {
         quantidade: faker.number.int(),
@@ -192,7 +192,7 @@ async function seedDatabase() {
     });
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     await prisma.produtoBase.create({
       data: {
         titulo: faker.commerce.productName(),
@@ -201,7 +201,7 @@ async function seedDatabase() {
     });
   }
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 40; i++) {
     await prisma.insumoProdutoBase.create({
       data: {
         quantidade: faker.number.float(),
