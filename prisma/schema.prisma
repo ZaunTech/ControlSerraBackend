@@ -121,7 +121,7 @@ model Produto {
   id             Int           @id @default(autoincrement())
   titulo         String
   quantidade     Float
-  valorUnitario  Float?
+  valorUnitario  Float?        @default(0)
   observacoes    String?
   valorMaterial  Float         @default(0)
   valorMaoDeObra Float         @default(0)
@@ -157,7 +157,7 @@ model ListaInsumo {
   idVariante    Int
   idCotacao     Int?
   
-  valorUnitario Float?
+  valorUnitario Float?    @default(0)
   produto       Produto?  @relation(fields: [idProduto], references: [id])
   variante      Variante? @relation(fields: [idVariante], references: [id])
   cotacao       Cotacao?  @relation(fields: [idCotacao], references: [id])
