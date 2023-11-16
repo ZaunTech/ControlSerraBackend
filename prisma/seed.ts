@@ -624,8 +624,93 @@ async function seedDatabase() {
     data: {
       validade: faker.date.future(),
       dataOrcamento: faker.date.recent(),
-      totalMaoObra: 14000,
-      totalMateriais: 17224.9,
+      totalMaoObra: 710,
+      totalMateriais: 890.20,
+      status: faker.helpers.arrayElement([
+        'Pendente',
+        'Em_Processo',
+        'Concluido',
+      ]),
+      prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
+      observacoes: '',
+      idCliente: faker.number.int({ min: 1, max: 6 }), // Gere um ID de cliente aleatório
+    },
+  });
+
+  await prisma.orcamento.create({
+    data: {
+      validade: faker.date.future(),
+      dataOrcamento: faker.date.recent(),
+      totalMaoObra: 1260,
+      totalMateriais: 990,
+      status: faker.helpers.arrayElement([
+        'Pendente',
+        'Em_Processo',
+        'Concluido',
+      ]),
+      prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
+      observacoes: '',
+      idCliente: faker.number.int({ min: 1, max: 6 }), // Gere um ID de cliente aleatório
+    },
+  });
+
+  await prisma.orcamento.create({
+    data: {
+      validade: faker.date.future(),
+      dataOrcamento: faker.date.recent(),
+      totalMaoObra: 5432,
+      totalMateriais: 2345,
+      status: faker.helpers.arrayElement([
+        'Pendente',
+        'Em_Processo',
+        'Concluido',
+      ]),
+      prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
+      observacoes: '',
+      idCliente: faker.number.int({ min: 1, max: 6 }), // Gere um ID de cliente aleatório
+    },
+  });
+
+  await prisma.orcamento.create({
+    data: {
+      validade: faker.date.future(),
+      dataOrcamento: faker.date.recent(),
+      totalMaoObra: 3455,
+      totalMateriais: 1200.50,
+      status: faker.helpers.arrayElement([
+        'Pendente',
+        'Em_Processo',
+        'Concluido',
+      ]),
+      prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
+      observacoes: '',
+      idCliente: faker.number.int({ min: 1, max: 6 }), // Gere um ID de cliente aleatório
+    },
+  });
+
+  await prisma.orcamento.create({
+    data: {
+      validade: faker.date.future(),
+      dataOrcamento: faker.date.recent(),
+      totalMaoObra: 504,
+      totalMateriais: 943.50,
+      status: faker.helpers.arrayElement([
+        'Pendente',
+        'Em_Processo',
+        'Concluido',
+      ]),
+      prazoEstimadoProducao: faker.number.int({ min: 1, max: 30 }),
+      observacoes: '',
+      idCliente: faker.number.int({ min: 1, max: 6 }), // Gere um ID de cliente aleatório
+    },
+  });
+
+  await prisma.orcamento.create({
+    data: {
+      validade: faker.date.future(),
+      dataOrcamento: faker.date.recent(),
+      totalMaoObra: 253,
+      totalMateriais: 449.70,
       status: faker.helpers.arrayElement([
         'Pendente',
         'Em_Processo',
@@ -646,7 +731,7 @@ async function seedDatabase() {
   }
 
   //PEDIDOS
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     await prisma.pedido.create({
       data: {
         pagamento: faker.number.int({min: 30, max: 20000}),
@@ -681,7 +766,7 @@ async function seedDatabase() {
   });
   await prisma.produto.create({
     data: {
-      titulo: 'QUADRO  EM GRAU P/ VIDRO BANHEIRO',
+      titulo: 'QUADRO EM GRAU P/ VIDRO BANHEIRO',
       quantidade: 1,
       valorUnitario: 100,
       observacoes: '',
