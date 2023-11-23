@@ -3,6 +3,7 @@ import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { Pedido } from './entities/pedido.entity';
+import { Orcamento } from '../orcamentos/entities/orcamento.entity';
 
 @Injectable()
 export class PedidosService {
@@ -63,7 +64,7 @@ export class PedidosService {
   }
 
   async findOne(id: number) {
-    return await this.prismaService.pedido.findFirst({ where: { id } });
+    return await this.prismaService.pedido.findFirst({ where: { id }, include: {orcamento: true} });
   }
 
   async update(id: number, updatePedidoDto: UpdatePedidoDto) {
@@ -73,7 +74,7 @@ export class PedidosService {
       },
     });
     if (orcamentoExists) {
-      const pedidoExists = await this.findOne(updatePedidoDto.idOrcamento);
+      const pedidoExists = await this.findOne(id);
       if (pedidoExists) {
         return await this.prismaService.pedido.update({
           where: { id },
