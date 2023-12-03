@@ -41,7 +41,6 @@ export class UsuariosController {
     @Param('id') id: string,
     @Body() changePassword: ChangePasswordDto,
   ) {
-    console.log(changePassword)
     return await this.usuariosService.changePassword(+id, changePassword);
   }
 
