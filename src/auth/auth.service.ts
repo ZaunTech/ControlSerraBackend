@@ -22,7 +22,7 @@ export class AuthService {
 
     const jwtToken = this.jwtService.sign(payload);
 
-    return { accessToken: jwtToken };
+    return { accessToken: jwtToken, usuario: usuario };
   }
 
   async validateUser(
