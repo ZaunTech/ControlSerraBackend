@@ -55,10 +55,28 @@ export class ListaInsumosService {
     return listainsumos;
   }
 
-  async countAll(id: number) {
+  async countAll(id: number, titulo_like: string = '') {
     return await this.prismaService.listaInsumo.count({
       where: {
         idProduto: id,
+        OR: [
+          { variante: { insumo: { titulo: { contains: titulo_like, mode: 'insensitive' } } } },
+          { cotacao: { fornecedor: { nome: { contains: titulo_like , mode: 'insensitive'} } } },
+          {
+            cotacao: {
+              fornecedor: { nomeFantasia: { contains: titulo_like, mode: 'insensitive' } },
+            },
+          },
+          {
+            cotacao: { fornecedor: { razaoSocial: { contains: titulo_like, mode: 'insensitive' } } },
+          },
+       
+          {
+            variante: {
+              insumo: { categoria: { titulo: { contains: titulo_like, mode: 'insensitive' } } },
+            },
+          },
+        ],
       },
     });
   }

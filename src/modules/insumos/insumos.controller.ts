@@ -43,7 +43,7 @@ export class InsumosController {
       Number(perPage),
       titulo_like
     );
-    const total = await this.insumosService.countAll(); 
+    const total = await this.insumosService.countAll(titulo_like); 
     res.header('x-total-count',total);
     return await cotacoes
   }

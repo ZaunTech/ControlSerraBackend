@@ -48,7 +48,7 @@ export class ListaInsumosController {
       Number(perPage),
       titulo_like,
     );
-    const total = await this.listaInsumosService.countAll(+id);
+    const total = await this.listaInsumosService.countAll(+id,titulo_like);
     res.header('x-total-count', total);
     return await listasinsumos;
   }

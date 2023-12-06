@@ -44,7 +44,7 @@ export class InsumosProdutosBaseController {
       busca,
       
     );
-    const total = await this.insumosProdutosBaseService.countAll(+id); 
+    const total = await this.insumosProdutosBaseService.countAll(+id,busca); 
     res.header('x-total-count',total);
     return await insumosBase
   }

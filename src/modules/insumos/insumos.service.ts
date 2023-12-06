@@ -74,8 +74,14 @@ export class InsumosService {
     });
   }
 
-  async countAll() {
-    return await this.prismaService.insumo.count();
+  async countAll(titulo_like: string = '') {
+    return await this.prismaService.insumo.count({where: {
+      OR: [
+        { titulo: { contains: titulo_like, mode: 'insensitive' } },        
+       
+        { categoria: { titulo: { contains: titulo_like, mode: 'insensitive' } } },
+      ],
+    },});
   }
 
   async update(id: number, updateInsumoDto: UpdateInsumoDto) {

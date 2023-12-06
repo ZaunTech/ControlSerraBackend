@@ -26,13 +26,10 @@ export class VariantesService {
         take: perPage,
         where: {
           idInsumo: idInsumo,
-          //OR: [
-          /*
-            { nome: { contains: titulo_like } },
-            { email: { contains: titulo_like } },
-            { cpf: { contains: titulo_like } },
-            */
-          //],
+          OR: [
+          
+            { variante: { contains: titulo_like } },
+          ],
         },
         include: { insumo: true },
       });
@@ -74,7 +71,13 @@ export class VariantesService {
   async countAll() {
     return await this.prismaService.variante.count();
   }
-  async countAllById(idInsumo: number) {
-    return await this.prismaService.variante.count({ where: { idInsumo:idInsumo } });
+  async countAllById(idInsumo: number, titulo_like: string = '') {
+    return await this.prismaService.variante.count({
+      where: { idInsumo:idInsumo,
+        OR: [
+          
+          { variante: { contains: titulo_like, mode: 'insensitive' } },
+        ], },
+       });
   }
 }

@@ -28,14 +28,19 @@ export class CategoriasService {
     return  categorias ;
   }
 
-  async findOneByTitle(titulo: string) {
+  async findOneByTitle(titulo: string ) {
     return await this.prismaService.categoria.findFirst({
       where: { titulo },
     });
   }
 
-  async countAllCategorias() {
-    return await this.prismaService.categoria.count({});
+  async countAllCategorias(titulo_like : string = '') {
+    return await this.prismaService.categoria.count({
+      where:{
+        OR: [{ titulo: { contains: titulo_like } },
+             { tipo: { contains: titulo_like } },],
+      },
+      });
   }
 
   async findManyByTitle(titulo: string) {

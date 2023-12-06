@@ -44,8 +44,14 @@ export class FornecedoresService {
       where: { nome, email, telefone },
     });
   }
-  async countAllFornecedor() {
-    return await this.prismaService.fornecedor.count({});
+  async countAllFornecedor(nome_like: string = '') {
+    return await this.prismaService.fornecedor.count({where:{
+      OR: [{ nome: { contains: nome_like, mode: 'insensitive' } },
+           { email: { contains: nome_like , mode: 'insensitive'} },
+           { rua: { contains: nome_like , mode: 'insensitive'} },
+           { nomeFantasia: { contains: nome_like, mode: 'insensitive' } },
+           { razaoSocial: { contains: nome_like , mode: 'insensitive'} },],
+    },});
   }
 
   async findExistingFornecedor(id: number, termo: string) {

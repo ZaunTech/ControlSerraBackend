@@ -8,8 +8,15 @@ import { Orcamento } from '../orcamentos/entities/orcamento.entity';
 @Injectable()
 export class PedidosService {
   constructor(private readonly prismaService: PrismaService) {}
-  async countAll() {
-    return await this.prismaService.pedido.count({});
+  async countAll(titulo_like: string = '') {
+    return await this.prismaService.pedido.count({ where:{
+      OR: [
+       
+        { orcamento:{ cliente: { nome: { contains: titulo_like, mode: 'insensitive' } }} },
+        { orcamento:{ cliente: { razaoSocial: { contains: titulo_like , mode: 'insensitive'} }} },
+        { orcamento:{ cliente: { nomeFantasia: { contains: titulo_like , mode: 'insensitive'} }} },
+      ],
+    },});
   }
 
   async findAllWithPagination(page: number, perPage: number, titulo_like? : string) {

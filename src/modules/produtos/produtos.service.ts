@@ -72,10 +72,11 @@ export class ProdutosService {
     });
   }
 
-  async countAll(id: number) {
+  async countAll(id: number, titulo_like: string = '') {
     return await this.prismaService.produto.count({
       where: {
         idOrcamento: id,
+        OR: [{ titulo: { contains: titulo_like, mode: 'insensitive' } }],
       },
     });
   }

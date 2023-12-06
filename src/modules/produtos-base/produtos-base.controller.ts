@@ -45,7 +45,7 @@ export class ProdutosBaseController {
       Number(perPage),
       titulo_like
     );
-    const total = await this.produtosBaseService.countAll(); 
+    const total = await this.produtosBaseService.countAll(titulo_like); 
     res.header('x-total-count',total);
     return await produtos
   }

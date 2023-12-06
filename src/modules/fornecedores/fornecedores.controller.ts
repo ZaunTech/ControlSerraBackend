@@ -43,7 +43,7 @@ export class FornecedoresController {
       Number(perPage),
       nome_like
     );
-    const total = await this.fornecedoresService.countAllFornecedor(); 
+    const total = await this.fornecedoresService.countAllFornecedor(nome_like); 
     res.header('x-total-count',total);
     return await fornecedores
   }

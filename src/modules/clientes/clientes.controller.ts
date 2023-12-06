@@ -32,7 +32,7 @@ export class ClientesController {
       Number(perPage),
       nome_like
     );
-    const total = await this.clientesService.countAllCliente(); 
+    const total = await this.clientesService.countAllCliente(nome_like); 
     res.header('x-total-count',total);
     return await clientes
   }

@@ -50,10 +50,15 @@ export class InsumosProdutosBaseService {
     return { data: { message: 'Insumo não existe' } };
   }
 
-  async countAll(idProdutobase: number) {
+  async countAll(idProdutobase: number,busca : string = '') {
     return await this.prismaService.insumoProdutoBase.count({
       where: {
         idProdutoBase: idProdutobase,
+        OR: [
+          { variantes: { insumo: { titulo: { contains: busca , mode: 'insensitive'} } } },
+          
+         
+        ],
       },
     });
   }

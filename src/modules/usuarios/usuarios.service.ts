@@ -78,8 +78,14 @@ export class UsuariosService {
     return usuarios;
   }
 
-  async countAll() {
-    return await this.prismaService.usuario.count();
+  async countAll(titulo_like: string = '') {
+    return await this.prismaService.usuario.count({where: {
+      OR: [
+        { nome: { contains: titulo_like, mode: 'insensitive' } },
+        { email: { contains: titulo_like, mode: 'insensitive' } },
+        { cpf: { contains: titulo_like , mode: 'insensitive'} },
+      ],
+    },});
   }
 
   async findAll() {

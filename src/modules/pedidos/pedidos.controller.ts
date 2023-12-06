@@ -43,7 +43,7 @@ export class PedidosController {
       Number(perPage),
       titulo_like
     );
-    const total = await this.pedidosService.countAll(); 
+    const total = await this.pedidosService.countAll(titulo_like); 
     res.header('x-total-count',total);
     return await pedidos
   }

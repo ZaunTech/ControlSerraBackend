@@ -45,7 +45,7 @@ export class CategoriasController {
       Number(perPage),
       titulo_like
     );
-    const total = await this.categoriasService.countAllCategorias(); 
+    const total = await this.categoriasService.countAllCategorias(titulo_like); 
     res.header('x-total-count',total);
     return await categorias
   }

@@ -68,7 +68,7 @@ export class UsuariosController {
       Number(perPage),
       titulo_like,
     );
-    const total = await this.usuariosService.countAll();
+    const total = await this.usuariosService.countAll(titulo_like);
     res.header('x-total-count', total);
     return await usuarios;
   }

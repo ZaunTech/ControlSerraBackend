@@ -114,8 +114,16 @@ export class ClientesService {
     });
   }
 
-  async countAllCliente() {
-    return await this.prismaService.cliente.count({});
+  async countAllCliente(nome_like: string = '') {
+    return await this.prismaService.cliente.count({ where: {
+      OR: [
+        { nome: { contains: nome_like , mode: 'insensitive' } },
+        { email: { contains: nome_like , mode: 'insensitive'} },
+        { rua: { contains: nome_like , mode: 'insensitive'} },
+        { nomeFantasia: { contains: nome_like, mode: 'insensitive' } },
+        { razaoSocial: { contains: nome_like , mode: 'insensitive'} },
+      ],
+    },});
   }
 
   async create(createClienteDto: CreateClienteDto) {

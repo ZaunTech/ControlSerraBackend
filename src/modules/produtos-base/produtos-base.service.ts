@@ -51,8 +51,13 @@ export class ProdutosBaseService {
     return { data: { message: 'Titulo ja cadastrado' } };
   }
 
-  async countAll() {
-    return await this.prismaService.produtoBase.count();
+  async countAll(titulo_like: string = '') {
+    return await this.prismaService.produtoBase.count({where:{
+      OR: [{ titulo: { contains: titulo_like , mode: 'insensitive'} },
+           { observacoes: { contains: titulo_like, mode: 'insensitive' } },
+           
+         ],
+    },});
   }
 
   async findAll() {
