@@ -23,7 +23,7 @@ export class InsumosProdutosBaseService {
       where: {
         idProdutoBase: idProdutobase,
         OR: [
-          { variantes: { insumo: { titulo: { contains: busca } } } },
+          { variantes: { insumo: { titulo: { contains: busca , mode: 'insensitive'} } } },
           
          
         ],

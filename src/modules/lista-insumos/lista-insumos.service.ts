@@ -33,20 +33,20 @@ export class ListaInsumosService {
       where: {
         idProduto: id,
         OR: [
-          { variante: { insumo: { titulo: { contains: titulo_like } } } },
-          { cotacao: { fornecedor: { nome: { contains: titulo_like } } } },
+          { variante: { insumo: { titulo: { contains: titulo_like, mode: 'insensitive' } } } },
+          { cotacao: { fornecedor: { nome: { contains: titulo_like , mode: 'insensitive'} } } },
           {
             cotacao: {
-              fornecedor: { nomeFantasia: { contains: titulo_like } },
+              fornecedor: { nomeFantasia: { contains: titulo_like, mode: 'insensitive' } },
             },
           },
           {
-            cotacao: { fornecedor: { razaoSocial: { contains: titulo_like } } },
+            cotacao: { fornecedor: { razaoSocial: { contains: titulo_like, mode: 'insensitive' } } },
           },
        
           {
             variante: {
-              insumo: { categoria: { titulo: { contains: titulo_like } } },
+              insumo: { categoria: { titulo: { contains: titulo_like, mode: 'insensitive' } } },
             },
           },
         ],

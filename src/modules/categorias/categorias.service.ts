@@ -15,8 +15,8 @@ export class CategoriasService {
       skip,
       take: perPage,
       where:{
-        OR: [{ titulo: { contains: titulo_like } },
-             { tipo: { contains: titulo_like } },],
+        OR: [{ titulo: { contains: titulo_like, mode: 'insensitive' } },
+             { tipo: { contains: titulo_like , mode: 'insensitive'} },],
       },
     });
   }else{

@@ -30,7 +30,7 @@ export class ProdutosService {
       take: perPage,
       where: {
         idOrcamento: id,
-        OR: [{ titulo: { contains: titulo_like } }],
+        OR: [{ titulo: { contains: titulo_like, mode: 'insensitive' } }],
       },
     });
     return produtos;

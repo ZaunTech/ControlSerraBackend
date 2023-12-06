@@ -21,11 +21,11 @@ export class ClientesService {
         take: perPage,
         where: {
           OR: [
-            { nome: { contains: nome_like } },
-            { email: { contains: nome_like } },
-            { rua: { contains: nome_like } },
-            { nomeFantasia: { contains: nome_like } },
-            { razaoSocial: { contains: nome_like } },
+            { nome: { contains: nome_like , mode: 'insensitive' } },
+            { email: { contains: nome_like , mode: 'insensitive'} },
+            { rua: { contains: nome_like , mode: 'insensitive'} },
+            { nomeFantasia: { contains: nome_like, mode: 'insensitive' } },
+            { razaoSocial: { contains: nome_like , mode: 'insensitive'} },
           ],
         },
       });

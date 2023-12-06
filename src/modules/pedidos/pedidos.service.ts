@@ -23,9 +23,9 @@ export class PedidosService {
       where:{
         OR: [
          
-          { orcamento:{ cliente: { nome: { contains: titulo_like } }} },
-          { orcamento:{ cliente: { razaoSocial: { contains: titulo_like } }} },
-          { orcamento:{ cliente: { nomeFantasia: { contains: titulo_like } }} },
+          { orcamento:{ cliente: { nome: { contains: titulo_like, mode: 'insensitive' } }} },
+          { orcamento:{ cliente: { razaoSocial: { contains: titulo_like , mode: 'insensitive'} }} },
+          { orcamento:{ cliente: { nomeFantasia: { contains: titulo_like , mode: 'insensitive'} }} },
         ],
       },
     });

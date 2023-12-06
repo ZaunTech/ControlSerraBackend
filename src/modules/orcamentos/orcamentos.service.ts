@@ -53,9 +53,9 @@ export class OrcamentosService {
               ? undefined
               : parseInt(titulo_like),
           },
-          { cliente: { nome: { contains: titulo_like } } },
-          { cliente: { nomeFantasia: { contains: titulo_like } } },
-          { cliente: { razaoSocial: { contains: titulo_like } } },
+          { cliente: { nome: { contains: titulo_like, mode: 'insensitive' } } },
+          { cliente: { nomeFantasia: { contains: titulo_like, mode: 'insensitive' } } },
+          { cliente: { razaoSocial: { contains: titulo_like , mode: 'insensitive'} } },
         ],
         pedido: null,
       },

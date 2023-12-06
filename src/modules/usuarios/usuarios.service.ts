@@ -24,9 +24,9 @@ export class UsuariosService {
         take: perPage,
         where: {
           OR: [
-            { nome: { contains: titulo_like } },
-            { email: { contains: titulo_like } },
-            { cpf: { contains: titulo_like } },
+            { nome: { contains: titulo_like, mode: 'insensitive' } },
+            { email: { contains: titulo_like, mode: 'insensitive' } },
+            { cpf: { contains: titulo_like , mode: 'insensitive'} },
           ],
         },
       });

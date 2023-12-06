@@ -16,8 +16,8 @@ export class ProdutosBaseService {
       skip,
       take: perPage,
       where:{
-        OR: [{ titulo: { contains: titulo_like } },
-             { observacoes: { contains: titulo_like } },
+        OR: [{ titulo: { contains: titulo_like , mode: 'insensitive'} },
+             { observacoes: { contains: titulo_like, mode: 'insensitive' } },
              
            ],
       },

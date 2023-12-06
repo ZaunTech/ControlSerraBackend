@@ -53,10 +53,10 @@ export class CotacoesService {
           idFornecedor: idfornecedor,
           obsoleta:false,
           OR: [
-            { variante: { insumo: { titulo: { contains: nome_like } } } },
-            { fornecedor: { nome: { contains: nome_like } } },
-            { fornecedor: { nomeFantasia: { contains: nome_like } } },
-            { fornecedor: { razaoSocial: { contains: nome_like } } },
+            { variante: { insumo: { titulo: { contains: nome_like, mode: 'insensitive' } } } },
+            { fornecedor: { nome: { contains: nome_like, mode: 'insensitive' } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like, mode: 'insensitive' } } },
+            { fornecedor: { razaoSocial: { contains: nome_like, mode: 'insensitive' } } },
           ],
         },
       });
@@ -68,10 +68,10 @@ export class CotacoesService {
           idVariante: id,
           obsoleta:false,
           OR: [
-            { variante: { insumo: { titulo: { contains: nome_like } } } },
-            { fornecedor: { nome: { contains: nome_like } } },
-            { fornecedor: { nomeFantasia: { contains: nome_like } } },
-            { fornecedor: { razaoSocial: { contains: nome_like } } },
+            { variante: { insumo: { titulo: { contains: nome_like, mode: 'insensitive' } } } },
+            { fornecedor: { nome: { contains: nome_like, mode: 'insensitive' } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like, mode: 'insensitive' } } },
+            { fornecedor: { razaoSocial: { contains: nome_like, mode: 'insensitive' } } },
           ],
         },
       });
@@ -81,10 +81,10 @@ export class CotacoesService {
         take: perPage,
         where: {
           OR: [
-            { variante: { insumo: { titulo: { contains: nome_like } } } },
-            { fornecedor: { nome: { contains: nome_like } } },
-            { fornecedor: { nomeFantasia: { contains: nome_like } } },
-            { fornecedor: { razaoSocial: { contains: nome_like } } },
+            { variante: { insumo: { titulo: { contains: nome_like, mode: 'insensitive' } }  } },
+            { fornecedor: { nome: { contains: nome_like, mode: 'insensitive' } } },
+            { fornecedor: { nomeFantasia: { contains: nome_like , mode: 'insensitive'} } },
+            { fornecedor: { razaoSocial: { contains: nome_like , mode: 'insensitive'} } },
           ],
         },
       });
