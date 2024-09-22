@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { UsuariosService } from '../src/modules/usuarios/usuarios.service';
-import { PrismaService } from 'src/databases/prisma/prisma.service';
 import { CreateUsuarioDto } from 'src/modules/usuarios/dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -21,9 +19,9 @@ async function seedDatabase() {
   //USUARIOS
   await createUser({
     tipoUsuario: 'Administrador',
-    nome: 'Nivaldo Tavares',
-    cpf: '890982450649',
-    email: 'admin@admin.com',
+    nome: 'Convidado',
+    cpf: '99999999999',
+    email: 'Convidado@Convidado.com',
     telefone: '8138225561',
     senha: 'admin',
   });

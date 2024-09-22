@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: controlserra
+    restart: always
+    environment:
+      POSTGRES_USER: controlserra
+      POSTGRES_PASSWORD: controlserra
+      POSTGRES_DB: controlserra
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: controlserra_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: controlserra
+      PGADMIN_DEFAULT_PASSWORD: controlserra
+    ports:
+      - "5056:80"
+    depends_on:
+      - postgres
+
+
+volumes:
+  postgres_data:
