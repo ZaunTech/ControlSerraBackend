@@ -623,7 +623,7 @@ async function seedDatabase() {
       validade: faker.date.future(),
       dataOrcamento: faker.date.recent(),
       totalMaoObra: 710,
-      totalMateriais: 890.20,
+      totalMateriais: 890.2,
       status: faker.helpers.arrayElement([
         'Pendente',
         'Em_Processo',
@@ -674,7 +674,7 @@ async function seedDatabase() {
       validade: faker.date.future(),
       dataOrcamento: faker.date.recent(),
       totalMaoObra: 3455,
-      totalMateriais: 1200.50,
+      totalMateriais: 1200.5,
       status: faker.helpers.arrayElement([
         'Pendente',
         'Em_Processo',
@@ -691,7 +691,7 @@ async function seedDatabase() {
       validade: faker.date.future(),
       dataOrcamento: faker.date.recent(),
       totalMaoObra: 504,
-      totalMateriais: 943.50,
+      totalMateriais: 943.5,
       status: faker.helpers.arrayElement([
         'Pendente',
         'Em_Processo',
@@ -708,7 +708,7 @@ async function seedDatabase() {
       validade: faker.date.future(),
       dataOrcamento: faker.date.recent(),
       totalMaoObra: 253,
-      totalMateriais: 449.70,
+      totalMateriais: 449.7,
       status: faker.helpers.arrayElement([
         'Pendente',
         'Em_Processo',
@@ -732,7 +732,7 @@ async function seedDatabase() {
   for (let i = 0; i < 6; i++) {
     await prisma.pedido.create({
       data: {
-        pagamento: faker.number.int({min: 30, max: 20000}),
+        pagamento: faker.number.int({ min: 30, max: 20000 }),
         status: faker.helpers.arrayElement(['Pendente']),
         idOrcamento: generateUniqueOrcamentoId(), // Gere um ID de orçamento aleatório
       },
@@ -1049,7 +1049,7 @@ async function seedDatabase() {
       idProduto: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto aleatório
       idVariante: 1, // Gere um ID de insumo aleatório
       idCotacao: 1, // Gere um ID de cotação aleatório
-      valorUnitario: faker.number.int({min:50, max:500}),
+      valorUnitario: faker.number.int({ min: 50, max: 500 }),
     },
   });
   await prisma.listaInsumo.create({
@@ -1058,7 +1058,7 @@ async function seedDatabase() {
       idProduto: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto aleatório
       idVariante: 1, // Gere um ID de insumo aleatório
       idCotacao: 2, // Gere um ID de cotação aleatório
-      valorUnitario: faker.number.int({min:50, max:500}),
+      valorUnitario: faker.number.int({ min: 50, max: 500 }),
     },
   });
   await prisma.listaInsumo.create({
@@ -1067,7 +1067,7 @@ async function seedDatabase() {
       idProduto: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto aleatório
       idVariante: 1, // Gere um ID de insumo aleatório
       idCotacao: 3, // Gere um ID de cotação aleatório
-      valorUnitario: faker.number.int({min:50, max:500}),
+      valorUnitario: faker.number.int({ min: 50, max: 500 }),
     },
   });
   await prisma.listaInsumo.create({
@@ -1076,7 +1076,7 @@ async function seedDatabase() {
       idProduto: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto aleatório
       idVariante: 6, // Gere um ID de insumo aleatório
       idCotacao: 1, // Gere um ID de cotação aleatório
-      valorUnitario: faker.number.int({min:50, max:500}),
+      valorUnitario: faker.number.int({ min: 50, max: 500 }),
     },
   });
   await prisma.listaInsumo.create({
@@ -1085,58 +1085,58 @@ async function seedDatabase() {
       idProduto: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto aleatório
       idVariante: 5, // Gere um ID de insumo aleatório
       idCotacao: 2, // Gere um ID de cotação aleatório
-      valorUnitario: faker.number.int({min:50, max:500}),
+      valorUnitario: faker.number.int({ min: 50, max: 500 }),
     },
   });
 
   //PRODUTOS BASE
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'Portão 2 x 2m',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'Portão 2 x 2m',
+      observacoes: '',
+    },
+  });
 
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'Portão 3 x 3m',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'Portão 3 x 3m',
+      observacoes: '',
+    },
+  });
 
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'Portão 4 x 4m',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'Portão 4 x 4m',
+      observacoes: '',
+    },
+  });
 
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'Janela 1 x 2m',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'Janela 1 x 2m',
+      observacoes: '',
+    },
+  });
 
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'Suporte para espelho 20 x 20cm',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'Suporte para espelho 20 x 20cm',
+      observacoes: '',
+    },
+  });
 
-    await prisma.produtoBase.create({
-      data: {
-        titulo: 'telha 2 x 2',
-        observacoes: '',
-      },
-    });
+  await prisma.produtoBase.create({
+    data: {
+      titulo: 'telha 2 x 2',
+      observacoes: '',
+    },
+  });
 
   //INSUMOS BASE
   for (let i = 0; i < 12; i++) {
     await prisma.insumoProdutoBase.create({
       data: {
-        quantidade: faker.number.int({min: 1, max: 6}),
+        quantidade: faker.number.int({ min: 1, max: 6 }),
         idProdutoBase: faker.number.int({ min: 1, max: 6 }), // Gere um ID de produto base aleatório
         idVariante: faker.number.int({ min: 1, max: 12 }), // Gere um ID de insumo aleatório
       },
@@ -1146,10 +1146,12 @@ async function seedDatabase() {
   console.log('Dados populados com sucesso');
 }
 
+console.log('Populando a database...');
 seedDatabase()
   .catch((error) => {
     console.error('Erro ao popular o banco de dados:', error);
   })
   .finally(async () => {
     await prisma.$disconnect();
+    console.log('Processo finalizado');
   });
