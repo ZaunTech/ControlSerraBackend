@@ -20,8 +20,8 @@ async function seedDatabase() {
   await createUser({
     tipoUsuario: 'Administrador',
     nome: 'Convidado',
-    cpf: '99999999999',
-    email: 'Convidado@Convidado.com',
+    cpf: '51960443967',
+    email: 'admin@admin.com',
     telefone: '8138225561',
     senha: 'admin',
   });

@@ -59,7 +59,6 @@ export class OrcamentosController {
     @CurrentUser() usuario: Usuario,
     @Body() createOrcamentoDto: CreateOrcamentoDto,
   ) {
-    console.log(usuario)
     return await this.orcamentosService.create(createOrcamentoDto, usuario);
   }
 

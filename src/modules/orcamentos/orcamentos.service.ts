@@ -69,7 +69,6 @@ export class OrcamentosService {
     const clienteExists = await this.findCliente(createOrcamentoDto.idCliente);
     if (clienteExists) {
       createOrcamentoDto.criadorPor = usuario.id;
-      console.log(createOrcamentoDto)
       return await this.prismaService.orcamento.create({
         data: createOrcamentoDto,
       });
@@ -151,7 +150,6 @@ export class OrcamentosService {
 
   async recalcular(idOrcamento: number, idProduto: number) {
 
-    console.log("Entrou na funçao ", idOrcamento )
     await this.produtoService.recalcularValor(idProduto);
     const produtos = await this.produtoService.findProdutoOrc(idOrcamento);
 

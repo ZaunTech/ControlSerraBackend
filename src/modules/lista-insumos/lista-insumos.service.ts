@@ -154,10 +154,8 @@ export class ListaInsumosService {
   }
 
   async selectCotacao(idItemListaInsumo: number, idCotacao: number) {
-    console.log(idItemListaInsumo, idCotacao);
     const cotacao = await this.cotacaoServices.findOne(idCotacao);
 
-    console.log(idItemListaInsumo, idCotacao);
     if (!cotacao) {
       return { data: { message: 'Essa cotação não existe' } };
     }
